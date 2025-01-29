@@ -1,0 +1,163 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+  }
+  
+  header {
+    background: #ffb703;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: center;
+    background-color: #023047;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s;
+  }
+  
+  .navbar a:hover {
+    background-color: #ffb703;
+  }
+  
+  .hero {
+    text-align: center;
+    background: url('https://swiperjs.com/demos/images/nature-1.jpg') no-repeat center center/cover;
+    height: 50vh;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero a {
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    background: #ffb703;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  
+  .hero a:hover {
+    background: #023047;
+  }
+  
+  .section {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .section h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .benefits {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .benefit {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    width: 30%;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .benefit h4 {
+    font-size: 1.5rem;
+    color: #023047;
+  }
+  
+  .benefit p {
+    margin-top: 0.5rem;
+  }
+  
+  .products {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .product {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    width: 30%;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product h4 {
+    font-size: 1.5rem;
+    color: #023047;
+  }
+  
+  .product a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #ffb703;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  
+  .product a:hover {
+    background: #023047;
+  }
+  
+  footer {
+    background: #023047;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  

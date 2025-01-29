@@ -1,0 +1,208 @@
+<app-nav></app-nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Panel Izquierdo: Selector con Vista Previa -->
+    <div class="col-md-4 col-lg-3">
+      <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+          <h5>Selecciona una Lámpara</h5>
+        </div>
+
+        <div>
+          <select [(ngModel)]="lamparaSeleccionada" (change)="cargarLampara()">
+            <option value="{{i}}" *ngFor="let item of lamparas,index as i"> {{item.nombre}}</option>
+          </select>
+          <button (click)="removeModel()">
+            <i class="fa-solid fa-info-circle"></i>
+            Remover Modelo
+          </button>
+
+        </div>
+
+        <div class="card-body">
+          <cdk-accordion class="example-accordion">
+            <div *ngFor="let item of data,index as indiceColeccion">
+              <cdk-accordion-item #accordionItem="cdkAccordionItem" class="example-accordion-item">
+                <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+                  {{ item.nombre }}
+                  <span>{{ accordionItem.expanded ? 'X' : 'Abrir' }}</span>
+                </div>
+
+
+                <div class="example-accordion-item-body" [style.display]="accordionItem.expanded ? '' : 'none'">
+                  <div class="lampara-list">
+                    <div class="lampara-item" *ngFor="let sub of item.lamparas,index as indiceLampara">
+                      <div class="d-flex align-items-center mb-3">
+                        <!-- Imagen de Vista Previa -->
+                        <img [src]="item.imagen" alt="{{sub.nombre}}" class="img-thumbnail me-2"
+                          style="width: 60px; height: 60px; object-fit: cover;">
+                        <!-- Nombre e Interacción -->
+                        <div class="flex-grow-1">
+                          <p class="mb-1 fw-bold">{{sub.nombre}}</p>
+                          <button class="btn btn-sm btn-primary"
+                            (click)="cargarLampara2(indiceColeccion,indiceLampara)">Seleccionar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </cdk-accordion-item>
+            </div>
+          </cdk-accordion>
+          <!-- <div class="lampara-list">
+            <div class="lampara-item" *ngFor="let item of lamparas; index as i">
+              <div class="d-flex align-items-center mb-3">
+            
+                <img [src]="item.imagen" alt="{{item.nombre}}" class="img-thumbnail me-2"
+                  style="width: 60px; height: 60px; object-fit: cover;">
+              
+                <div class="flex-grow-1">
+                  <p class="mb-1 fw-bold">{{item.nombre}}</p>
+                  <button class="btn btn-sm btn-primary" (click)="cargarLampara()">Seleccionar</button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <button class="btn btn-danger w-100 mt-3" (click)="removeModel()">
+        <i class="fa-solid fa-trash"></i> Remover Modelo
+      </button>
+    </div>
+
+    <!-- Panel Derecho: Canvas -->
+    <div class="col-md-8 col-lg-9">
+      <div class="canvas-container">
+        <div class="model-name">{{NombrelamparaActual}}</div>
+        <canvas id="componente"></canvas>
+        <div class="menu">
+          <div class="menu-item" (click)="moverCamara('plasticoLed')" title="placaLed">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <div class="menu-item" (click)="moverCamara('Bateria')" title="Batería">
+            <i class="fa-solid fa-battery-three-quarters"></i>
+          </div>
+          <div class="menu-item" (click)="moverCamara('panel')" title="Panel Solar">
+            <i class="fa-solid fa-solar-panel"></i>
+          </div>
+          <div class="menu-item" (click)="moverCamara('panel')" title="Especificaciones técnicas">
+            <i class="fa-solid fa-info-circle"></i>
+          </div>
+          <div class="menu-item" (click)="moverCamara('panel')" title="General">
+            <i class="fa-solid fa-cog"></i>
+          </div>
+          <!-- <div class="menu-item" (click)="onOff()" title="OnOff">
+                  <i class="fa-solid fa-power-off"></i>
+                </div> -->
+          <div class="menu-item" (click)="onOff()" title="Dia/Noche">
+            <i [class]="lightState ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"></i>
+          </div>
+
+        </div>
+        <div id="info-box" class="info-box"></div>
+      </div>
+
+<!-- Inicia botones de mas informacion -->
+      <div class="row">
+        <p>
+          <a class="btn btn-primary m-1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
+            aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Ficha Tecnica</a>
+          <button class="btn btn-primary m-1" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2"
+            aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Fotometria</button>
+          <button class="btn btn-primary m-1" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
+            aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Otros</button>
+        </p>
+        <div class="row">
+          <div class="col-12">
+            <div class="collapse multi-collapse" id="multiCollapseExample1">
+              <div class="card card-body">
+                Ventajas de nuestra lámpara solar NSFL02-200W:
+                Sensor de luz + control de tiempo + control remoto
+                Diseño de cuerpo de lámpara Avanzado
+                Chip LED de alto brillo y larga vida útil con chip 2835
+                Gran capacidad de batería de litio ciclo profundo mayor a 1500 ciclos
+                Panel Solar de alta eficiencia con celdas solares de primera calidad ,más pequeñas con mayor velocidad de carga , resistente a PID
+                Control Remoto
+                Función de atenuación de brillo ajustable, función de sincronización.
+                Alta resistencia al agua
+                Rendimiento impermeable superior, altamente resistente al agua y al polvo
+                Especificaciones técnicas:
+                Modelo NSL02-200w
+                Potencia 200w
+                LED de alto brillo y larga vida útil con chip 2835 Flujo luminoso 3.500 Lúmenes
+                Batería LiFePO4 18 AH
+                Panel Solar Monocristalino 20w
+                Tiempo de carga solar 6 a 8 horas con luz solar brillante
+                Tiempo de iluminación en días de lluvia 3 días
+                Modo de iluminación: 3 modos por control remoto
+                Material Aluminio
+                Clase de protección IP66
+                Temperatura de trabajo 0ºC a 50ºC
+                altura de instalación 4 metros, ilumina 12 metros de ancho y 12 de frente
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="collapse multi-collapse" id="multiCollapseExample2">
+              <div class="card card-body">
+                Some placeholder content for the second collapse component of this multi-collapse example. This panel is
+                hidden by default but revealed when the user activates the relevant trigger.
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="collapse multi-collapse" id="multiCollapseExample3">
+              <div class="card card-body">
+               Otros
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </div>
+<!-- Finalizan botones de mas informacion -->
+
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+  <!-- <div class="canvas-container">
+    <div class="model-name">{{NombrelamparaActual}}</div>
+    <canvas id="componente"></canvas>
+    <div class="menu">
+      <div class="menu-item" (click)="moverCamara('plasticoLed')" title="placaLed">
+        <i class="fa-solid fa-lightbulb"></i>
+      </div>
+      <div class="menu-item" (click)="moverCamara('Bateria')" title="Batería">
+        <i class="fa-solid fa-battery-three-quarters"></i>
+      </div>
+      <div class="menu-item" (click)="moverCamara('panel')" title="Panel Solar">
+        <i class="fa-solid fa-solar-panel"></i>
+      </div>
+      <div class="menu-item" (click)="moverCamara('panel')" title="Especificaciones técnicas">
+        <i class="fa-solid fa-info-circle"></i>
+      </div>
+      <div class="menu-item" (click)="moverCamara('panel')" title="General">
+        <i class="fa-solid fa-cog"></i>
+      </div>
+      <div class="menu-item" (click)="onOff()" title="Dia/Noche">
+        <i [class]="lightState ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"></i>
+      </div>
+
+    </div>
+    <div id="info-box" class="info-box"></div>
+  </div>
+</div>
+-->
+
+
+  <app-footer></app-footer>

@@ -1,0 +1,83 @@
+<app-nav></app-nav>
+
+
+<div class="container-fluid">
+  <!-- <iframe 
+src="https://3dwarehouse.sketchup.com/embed/4ca31123-cece-4c2d-97a5-178d6025c3d1?token=CKnEyC8woZ0=&binaryName=s21" 
+frameborder="0"
+ scrolling="no" 
+ marginheight="0"
+  marginwidth="0" 
+  width="580" 
+  height="326" 
+  allowfullscreen>
+</iframe> -->
+</div>
+<div class="container-fluid">
+  <section id="inicio" class="hero">
+    <div class="hero-content">
+      <h2>Bienvenido a SunCodex</h2>
+      <p>Tu aliado en soluciones inteligentes de energía solar.</p>
+      <a href="#productos" class="cta-button">Explorar Productos</a>
+    </div>
+    <div class="hero-image">
+      <!-- <img src="solar_panels.jpg" alt="Paneles solares" /> -->
+    </div>
+  </section>
+</div>
+
+<div class="container-fluid">
+  <div class="alert alert" role="alert">
+    <h4 class="alert-heading">Bienvenido!</h4>
+    <p>Aqui encontraras una util herramienta que te guiara paso a paso para que puedas calcular
+      cada uno de los componentes para tu sistema de energía solar, para eso solo necesitamos que nos indiques unos
+      cuantos datos e inmediatamente podras descubrir
+      que necesitas para sumarte a la ola de la energía Fotovoltaica......</p>
+    <hr>
+  </div>
+
+  <div class="card-group">
+    <div class="card">
+      <img src="assets/img/avanzada.jpg" class="card-img-top"
+        alt="https://www.freepik.es/vector-gratis/documentos-abiertos-plan-negocios-carpetas_1311556.htm#fromView=search&page=1&position=3&uuid=3bb61826-0579-469c-8819-0973cef2e074">
+      <div class="card-body">
+        <h3 class="card-title">Calculadora Avanzada</h3>
+        <!-- <a  [routerLink]="['/calculadora/create']" > -->
+        <a  [routerLink]="['calculo/crear/potencias']">
+          Elige esta opcion de calculo si conoces los consumos de todos
+          los electrodomesticos que deseas alimentar con energia fotovoltaica asi como los tiempos de uso
+
+        </a>
+        <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/img/tax.jpg" class="card-img-top"
+        alt="https://www.freepik.es/vector-gratis/ilustracion-concepto-datos-financieros_9793480.htm#fromView=search&page=1&position=22&uuid=62a375f5-f2f3-4d2f-af0e-3ecfd36f6347">
+      <div class="card-body">
+        <h3 class="card-title">Facturas</h3>
+        <!-- <a [routerLink]="['/calculadora/factura/create']" > -->
+        <a  [routerLink]="['calculo/crear/facturas']">
+          Si no conoces los consumos de todos los equipos pero tienes una factura de energía a
+          la mano esta es la mejor opción para ti...
+        </a>
+        <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+      </div>
+    </div>
+    <div class="card">
+      <img src="assets/img/estandar.jpg" class="card-img-top"
+        alt="https://www.freepik.es/vector-gratis/alternar-ilustracion-concepto_22378319.htm#fromView=search&page=1&position=47&uuid=38836129-21d7-4bd9-9b9e-cd4aef556e63">
+      <div class="card-body">
+        <h3 class="card-title">Estandar</h3>
+        <a  [routerLink]="['calculo/interactiva']"> Aqui nosotros te proporcionaremos diferentes
+          electrodomesticos de uso comun con sus potencias para que diseñes
+          un sistema fotovoltaico a partir de ellos </a>
+        <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<app-footer></app-footer>

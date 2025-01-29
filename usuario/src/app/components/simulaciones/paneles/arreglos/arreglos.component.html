@@ -1,0 +1,50 @@
+
+
+
+
+
+
+  <div class="container">
+    <h1>Configuración de Paneles Solares</h1>
+  
+    <button (click)="addGroup()">Crear Grupo</button>
+  
+    <div *ngFor="let group of groups; let i = index" class="group">
+      <h3>Grupo {{ i + 1 }}</h3>
+      <table>
+        <tr *ngFor="let row of group.panels; let rowIndex = index">
+          <td *ngFor="let panel of row; let panelIndex = index">
+            <div class="panel">
+              <p>V: {{ panel.voltage }}V</p>
+              <p>A: {{ panel.current }}A</p>
+              <p> {{group.panels.length }}</p>
+              <!-- <button *ngIf="group.panels.length==1" (click)="removePanel(i, rowIndex, panelIndex)">Eliminar</button> -->
+              <button 
+              *ngIf="isSingleColumn(group.panels) || group.panels.length==1" 
+              (click)="removePanel(i, rowIndex, panelIndex)">
+              Eliminar
+            </button>
+            </div>
+          </td>
+          <td>
+            <button
+            (click)="removerFila(i, rowIndex)">
+              eliminar fila grupo {{i}},fila: , {{rowIndex}}
+            </button>
+          </td>
+        </tr>
+      </table>
+      <button (click)="addPanelInSeries(i)">+ Serie</button>
+      <button (click)="addPanelInParallel(i)">+ Paralelo</button>
+      <button (click)="removeGroup(i)">Eliminar Grupo</button>
+      <p>Voltaje Grupo: {{ group['totalVoltage'] || 0 }}V</p>
+      <p>Corriente Grupo: {{ group['totalCurrent'] || 0 }}A</p>
+    </div>
+  
+    <div class="summary">
+      <h2>Resumen Total</h2>
+      <p>Voltaje Total: {{ totalVoltage }}V</p>
+      <p>Corriente Total: {{ totalCurrent }}A</p>
+    </div>
+  </div>
+  
