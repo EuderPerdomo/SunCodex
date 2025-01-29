@@ -1,9 +1,4 @@
 
-
-
-
-
-
   <div class="container">
     <h1>Configuración de Paneles Solares</h1>
   
@@ -14,22 +9,30 @@
       <table>
         <tr *ngFor="let row of group.panels; let rowIndex = index">
           <td *ngFor="let panel of row; let panelIndex = index">
-            <div class="panel">
+            <!-- <div class="panel">
               <p>V: {{ panel.voltage }}V</p>
               <p>A: {{ panel.current }}A</p>
-              <p> {{group.panels.length }}</p>
-              <!-- <button *ngIf="group.panels.length==1" (click)="removePanel(i, rowIndex, panelIndex)">Eliminar</button> -->
+              <button 
+              *ngIf="isSingleColumn(group.panels) || group.panels.length==1" 
+              (click)="removePanel(i, rowIndex, panelIndex)">
+              Eliminar
+            </button>
+            </div> -->
+
+            <div class="panel">
+              <img src="assets/solarpanel.jpg" alt="Panel Solar" class="panel-icon" />
               <button 
               *ngIf="isSingleColumn(group.panels) || group.panels.length==1" 
               (click)="removePanel(i, rowIndex, panelIndex)">
               Eliminar
             </button>
             </div>
+
           </td>
           <td>
             <button
             (click)="removerFila(i, rowIndex)">
-              eliminar fila grupo {{i}},fila: , {{rowIndex}}
+              Eliminar fila
             </button>
           </td>
         </tr>
