@@ -190,6 +190,17 @@ addPanelInSeries(groupIndex: number) {
   console.log('Cantidad de paneles',this.cantidadPaneles)
   const group = this.groups[groupIndex];
   console.log('GrupoPaneles',group.panels)
+
+
+
+   // Número de filas y columnas
+   const totalFilas = group.panels.length;
+   const totalColumnas = Math.max(...group.panels.map(row => row.length), 0);
+   const panelesPorFila = group.panels.map(row => row.length);
+
+
+   console.log('Total filas',totalFilas,'Columnas',totalColumnas,'Paneles Por Fila',panelesPorFila)
+
   if(group.panels[0].length>=12){
     iziToast.show({
       title: '⚠️ ALERTA ⚠️',
