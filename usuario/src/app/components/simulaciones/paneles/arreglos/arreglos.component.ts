@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter,Output} from '@angular/core';
 import { FooterComponent } from "../../../footer/footer.component";
 import { NavComponent } from '../../../nav/nav.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SolarPanel } from '../../../../interface/arreglos';
 import { Group } from '../../../../interface/arreglos';
+import { PanelSolarService } from '../../../../services/panel-solar.service';
+
+declare var iziToast: any
+declare var $: any
 
 @Component({
   selector: 'app-arreglos',
@@ -13,13 +17,78 @@ import { Group } from '../../../../interface/arreglos';
   templateUrl: './arreglos.component.html',
   styleUrl: './arreglos.component.css'
 })
-export class ArreglosComponent {
+export class ArreglosComponent implements OnInit{
+
+  @Input() tipoDeConexion: string = ''; // 
+  @Input() cantidadPaneles: number=12;
+  @Input() valorPanel: number = 0; // 
+  @Input() datosPanel: any= {} // 
+  
+  //public paneles_bd: Array<any> = []
+
+  @Output() pruebaViewChildChange = new EventEmitter<number>();
+  pruebaViewChild = 0;
+
+  constructor(
+        //private _panelSolarService: PanelSolarService,
+  ){
+
+  }
+
+  ngOnInit(): void {
+    //this.listar_paneles()
+  }
+
+/*
+  listar_paneles() {
+
+    this._panelSolarService.listar_paneles().subscribe({
+      next: (response) => {
+        this.paneles_bd = response; // Aquí 'response' es el array de paneles
+        if (this.paneles_bd.length == 0 || this.paneles_bd == undefined) {
+          iziToast.show({
+            title: 'ERROR',
+            titleColor: '#FF0000',
+            color: '#FFF',
+            class: 'text-danger',
+            position: 'topRight',
+            message: "No se encontraron Paneles Solares",
+            displayMode: 1
+          });
+        }
+        else {
+          iziToast.show({
+            title: 'OK',
+            titleColor: '#00ff00',
+            color: '#FFF',
+            class: 'text-success',
+            position: 'topRight',
+            message: "Paneles Encontrados",
+            displayMode: 1
+          });
+        }
+      },
+      error: (error) => {
+        console.error("Error al listar paneles:", error);
+      },
+      complete: () => {
+        console.log("Suscripción completada");
+      }
+    });
+  }
+*/
+  public mipanel={
+    voc:45,
+    imp:12,
+    //parametros de seguridad
+    vmp:48,
+    isc:13
+  }
+
+
 /*
 //Inicia Simular arreglos Panel*******************************************************
-public mipanel={
-  voltaje:45,
-  corriente:12
-}
+
 groups: any[] = [];
 totalVoltage = 0;
 totalCurrent = 0;
@@ -93,11 +162,14 @@ calculateTotals() {
 groups: Group[] = [];
 totalVoltage: number = 0;
 totalCurrent: number = 0;
+totalPower:number = 0; // Potencia total instalada
+totalPanels:number = 0; // Total de paneles en todos los grupos
+
+public pruebaViechild =0
 
 isSingleColumn(panels: any[][]): boolean {
   return panels.every(row => row.length === 1);
 }
-
 
 // Crear un nuevo grupo vacío
 addGroup() {
@@ -115,14 +187,22 @@ removeGroup(index: number) {
 // Agregar un panel en serie dentro de un grupo
 
 addPanelInSeries(groupIndex: number) {
+  console.log('Cantidad de paneles',this.cantidadPaneles)
   const group = this.groups[groupIndex];
   console.log('GrupoPaneles',group.panels)
   if(group.panels[0].length>=12){
-    alert('El sistema Solo permite un maximo de 12 Paneles en serie')
+    iziToast.show({
+      title: '⚠️ ALERTA ⚠️',
+      titleColor: '#FF0000',
+      color: '#FFF',
+      class: 'text-danger',
+      position: 'topRight',
+      message: "⚡ El sistema solo permite un máximo de 12 paneles en serie. 🔋"
+    });
   }else{
 
     group.panels.forEach((row: any) => {
-      row.push({ voltage: 24, current: 10 });
+      row.push({ voltage: this.datosPanel.voc, current: this.datosPanel.impp });
     });
     console.log('Grupos',this.groups)
     //this.calculateTotals();
@@ -139,12 +219,12 @@ console.log('indice de grupo',groupIndex,group.panels[0])
 
 if(group.panels[0].length===0){
   group.panels.forEach((row: any) => {
-    row.push({ voltage: 24, current: 10 });
+    row.push({ voltage: this.datosPanel.voc, current: this.datosPanel.impp  });
   });
 }else{
   const newRow = group.panels[0].map(() => ({
-    voltage: 24,
-    current: 10
+    voltage: this.datosPanel.voc, 
+    current: this.datosPanel.impp 
   }));
   
   group.panels.push(newRow);
@@ -190,12 +270,13 @@ const group = this.groups[groupIndex];
      }
   this.calculateGroupTotals(groupIndex);
 }
-
+/*
 // Calcular el voltaje y corriente de un grupo
 calculateGroupTotals(groupIndex: number) {
   const group = this.groups[groupIndex];
   let voltage = 0;
   let maxCurrent = 0;
+  let powerArray=0
 
   group.panels.forEach((row) => {
     if (row.length > 0) {
@@ -208,8 +289,15 @@ calculateGroupTotals(groupIndex: number) {
     }
   });
 console.log('grrupo:',groupIndex,'Voltaje',voltage,'Corriente',maxCurrent)
-  group['totalVoltage'] = voltage;
+group['totalPower'] = voltage;  
+group['totalVoltage'] = voltage;
   group['totalCurrent'] = maxCurrent;
+
+  //Prueba output hacia el padre
+  this.pruebaViewChild = voltage;
+    this.pruebaViewChildChange.emit(this.pruebaViewChild); // Notificar al padre
+ //Fin output hacia el padre
+
 
   this.calculateTotals();
 }
@@ -226,5 +314,77 @@ calculateTotals() {
   });
   
 }
+
+*/
+
+
+// Calcular el voltaje, corriente y potencia de un grupo
+calculateGroupTotals(groupIndex: number) {
+  const group = this.groups[groupIndex];
+  let voltage = 0;
+  let maxCurrent = 0;
+  let totalPanels = 0;
+  let powerArray = 0; // Potencia total del grupo
+
+  group.panels.forEach((row) => {
+    if (row.length > 0) {
+      // Suma voltajes en serie
+      voltage = row.reduce((sum, panel) => sum + panel.voltage, 0);
+
+      // Calcula la corriente total en paralelo (corriente máxima por fila)
+      const rowCurrent = row[0].current; // La corriente es igual en serie
+      maxCurrent += rowCurrent;
+
+      // Contar la cantidad de paneles en el grupo
+      totalPanels += row.length;
+
+      // Calcular potencia individual y sumarla
+      //powerArray += voltage * rowCurrent;
+    }
+  });
+
+  powerArray=totalPanels*this.datosPanel.potencia
+  // Asignar los valores al grupo
+  group['totalPower'] = powerArray;
+  group['totalVoltage'] = voltage;
+  group['totalCurrent'] = maxCurrent;
+  group['totalPanels'] = totalPanels; // Guardar el total de paneles del grupo
+
+  console.log(
+    `Grupo: ${groupIndex} - Paneles: ${totalPanels} - Voltaje: ${voltage}V - Corriente: ${maxCurrent}A - Potencia: ${powerArray}W`
+  );
+
+  // Notificar al padre si es necesario
+  this.pruebaViewChild = voltage;
+  this.pruebaViewChildChange.emit(this.pruebaViewChild);
+
+  // Recalcular los totales generales
+  this.calculateTotals();
+}
+
+// Calcular los totales globales
+calculateTotals() {
+  this.totalVoltage = 0;
+  this.totalCurrent = 0;
+  this.totalPower = 0; // Potencia total instalada
+  this.totalPanels = 0; // Total de paneles en todos los grupos
+
+  this.groups.forEach((group) => {
+    if (group['totalVoltage'] && group['totalCurrent'] && group['totalPower'] && group['totalPanels']) {
+      this.totalVoltage += group['totalVoltage'];
+      this.totalCurrent += group['totalCurrent'];
+      //this.totalPower += group['totalPower']; // Sumar la potencia de cada grupo
+      this.totalPanels += group['totalPanels']; // Contar los paneles en todos los grupos
+    }
+  });
+
+  this.totalPower=this.totalPanels*this.datosPanel.potencia
+  console.log(
+    `Total Global - Paneles: ${this.totalPanels} - Voltaje: ${this.totalVoltage}V - Corriente: ${this.totalCurrent}A - Potencia: ${this.totalPower}W`
+  );
+}
+
+
+
 
 }

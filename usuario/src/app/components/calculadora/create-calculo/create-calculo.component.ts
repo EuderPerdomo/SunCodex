@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet'
 import { Map, tileLayer, icon, Marker } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -44,6 +44,19 @@ declare var $: any
 })
 export class CreateCalculoComponent implements AfterViewInit {
 
+  //Pruebas de Componente Hijo
+  tipoDeConexion: string = 'series';
+  cantidadPaneles: number = 5;
+  valorPanel: number = 300;  // Por ejemplo, 300W por panel
+
+  @ViewChild(ArreglosComponent) arreglos:any;
+
+  public pruebaviewChild=0
+
+  actualizarValorDesdeHijo(valor: number) {
+    this.pruebaviewChild = valor;
+  }
+  
   //public panel2: PanelSolar;
 
   //Ubicacion predefinida donde iniciara el mapa
@@ -502,6 +515,7 @@ this._route.params.subscribe(
    */
 
   ngAfterViewInit(): void {
+    this.pruebaviewChild=this.arreglos.pruebaViechild //Tomo el VALOR DE pruebaViechild DESDE EL hIJO QUE SE LLAMA aRRREGLOS
 
     // Mapa con País (Colombia) resaltado
     const map = L.map('map').setView([4.62111, -74.07317], 6);
@@ -1266,6 +1280,7 @@ this._route.params.subscribe(
 
       const calculoPanel = await this.panel2.calcularPanelesAsync(dataEntrada)
       this._calculadoraService.setPanelResult(calculoPanel);
+      this.cantidadPaneles=calculoPanel.numero_paneles//Asigna la cantidad de paneles calculados
       this.panelDefinido = true
       //Asigno Campos que Son requeridos
       this.camposRequeridos.potencia_arreglo_fv = true

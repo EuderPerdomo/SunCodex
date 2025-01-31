@@ -647,7 +647,16 @@
               </div>
             </div>
 
-            <app-arreglos></app-arreglos>
+            <h1>Prueba de ViewcHILD {{pruebaviewChild}}</h1>
+            <app-arreglos
+            [tipoDeConexion]="tipoDeConexion"
+              [cantidadPaneles]="cantidadPaneles"
+              [valorPanel]="valorPanel"
+              [datosPanel]="panel_seleccionado"
+              (pruebaViewChildChange)="actualizarValorDesdeHijo($event)"
+            >
+              
+            </app-arreglos>
 
           </div>
           <!--Finaliza Controlador  -->

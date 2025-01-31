@@ -63,6 +63,7 @@ const registro_categoriaLampara_admin = async function (req, res) {
 }
 
 const listar_lamparas_guest= async function (req, res) {
+    console.log('listando lamapras')
         let query = { estado: true }
         var lamparas = await Lampara.find(query).populate('categoria');
         res.status(200).send({ data: lamparas });
