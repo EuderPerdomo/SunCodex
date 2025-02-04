@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { GLOBAL } from '../service/global';
+import { GLOBAL } from '../services/global';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 //import { JwtHelperService } from '@auth0/angular-jwt';
 import { RouterLink } from '@angular/router';
 import { map } from 'rxjs';
-import { CalculadoraService } from '../service/calculadora.service';
+import { CalculadoraService } from '../services/calculadora.service';
 
 import { BehaviorSubject } from 'rxjs';
 import { PanelSolarService } from './panel-solar.service';

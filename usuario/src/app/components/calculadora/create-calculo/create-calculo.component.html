@@ -647,13 +647,14 @@
               </div>
             </div>
 
-            <h1>Prueba de ViewcHILD {{pruebaviewChild}}</h1>
+            <h4>Voltaje {{voltajeHijo}}</h4>
+            <h4>Amperaje {{amperajeHijo}}</h4>
+            <h4>Potencia {{potenciaHijo}}</h4>
             <app-arreglos
-            [tipoDeConexion]="tipoDeConexion"
-              [cantidadPaneles]="cantidadPaneles"
-              [valorPanel]="valorPanel"
-              [datosPanel]="panel_seleccionado"
-              (pruebaViewChildChange)="actualizarValorDesdeHijo($event)"
+            [cantidadPaneles]="cantidadPaneles"
+            [valorPanel]="valorPanel"
+            [datosPanel]="panel_seleccionado"
+              (ArrayChange)="cambioArray($event)"
             >
               
             </app-arreglos>

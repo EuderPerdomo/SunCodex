@@ -41,24 +41,23 @@
 <div *ngFor="let group of groups; let i = index" class="container group">
   <h3>Array {{ i + 1 }}</h3>
   <div class="general">
-    <div class="row" *ngFor="let row of group.panels; let rowIndex = index">
-      <div *ngFor="let panel of row; let panelIndex = index" class="panel">
-        <img src="assets/solarpanel.jpg" alt="Panel Solar" class="panel-icon" />
-        <button *ngIf="isSingleColumn(group.panels) || group.panels.length==1"
-          (click)="removePanel(i, rowIndex, panelIndex)">
-          Eliminar
+      <div class="row" *ngFor="let row of group.panels; let rowIndex = index">
+        <div *ngFor="let panel of row; let panelIndex = index" class="panel">
+          <img src="assets/solarpanel.jpg" alt="Panel Solar" class="panel-icon" />
+          <button *ngIf="isSingleColumn(group.panels) || group.panels.length==1"
+            (click)="removePanel(i, rowIndex, panelIndex)">
+            Eliminar
+          </button>
+        </div>
+        <button (click)="removerFila(i, rowIndex)" type="button" class="btn btn-danger btn-sm remove-row-btn" >
+          Eliminar String
         </button>
       </div>
-      <button (click)="removerFila(i, rowIndex)" type="button" class="btn btn-danger btn-sm remove-row-btn" >
-        Eliminar String
-      </button>
+      <!-- Línea de conexión en paralelo en el lado izquierdo -->
+      <div class="parallel-line"></div>
+      <!-- Línea de conexión en paralelo en el lado derecho -->
+      <div class="parallel-line" style="right: -30px; left: auto;"></div>
     </div>
-    <!-- Línea de conexión en paralelo en el lado izquierdo -->
-    <div class="parallel-line"></div>
-    <!-- Línea de conexión en paralelo en el lado derecho -->
-    <div class="parallel-line" style="right: -30px; left: auto;"></div>
-
-  </div>
 
   <button (click)="addPanelInSeries(i)">+ Serie</button>
   <button (click)="addPanelInParallel(i)">+ Paralelo</button>
@@ -109,4 +108,3 @@
   </div>
 
 </div> -->
-

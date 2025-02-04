@@ -22,12 +22,20 @@ export class ArreglosComponent implements OnInit{
   @Input() tipoDeConexion: string = ''; // 
   @Input() cantidadPaneles: number=12;
   @Input() valorPanel: number = 0; // 
-  @Input() datosPanel: any= {} // 
+  @Input() datosPanel: any= {} // En cada cambio debe recalcular el array
   
   //public paneles_bd: Array<any> = []
 
-  @Output() pruebaViewChildChange = new EventEmitter<number>();
-  pruebaViewChild = 0;
+  @Output() voltajeArrayChange = new EventEmitter<number>();
+  @Output() amperajeArrayChange = new EventEmitter<number>();
+  @Output() potenciaArrayChange = new EventEmitter<number>();
+  @Output() cantidadPanelesArrayChange = new EventEmitter<number>();
+
+  @Output() ArrayChange = new EventEmitter<any>();
+  voltajeSalidaArray = 0;
+  potenciaSalidaArray=0
+  corrienteSalidaArray=0
+  cantidadPanelesArray=0
 
   constructor(
         //private _panelSolarService: PanelSolarService,
@@ -365,9 +373,32 @@ calculateGroupTotals(groupIndex: number) {
     `Grupo: ${groupIndex} - Paneles: ${totalPanels} - Voltaje: ${voltage}V - Corriente: ${maxCurrent}A - Potencia: ${powerArray}W`
   );
 
-  // Notificar al padre si es necesario
-  this.pruebaViewChild = voltage;
-  this.pruebaViewChildChange.emit(this.pruebaViewChild);
+  // Notificar al padre Voltaje
+  this.voltajeSalidaArray = voltage;
+  //this.voltajeArrayChange.emit(this.voltajeSalidaArray); //Aqui emito el valor del nuevo voltaje
+
+    // Notificar al padre Amperaje
+  this.corrienteSalidaArray = maxCurrent;
+ // this.amperajeArrayChange.emit(this.corrienteSalidaArray); //Aqui emito el valor del nuevo Amperaje
+
+  // Notificar al padre Potencia
+  this.potenciaSalidaArray= powerArray;
+  //this.potenciaArrayChange.emit(this.potenciaSalidaArray); //Aqui emito el valor del nuevo Potencia
+
+
+    // Notificar al padre Cantidad de PANELES
+    this.cantidadPanelesArray= totalPanels;
+   // this.cantidadPanelesArrayChange.emit(this.cantidadPanelesArray); //Aqui emito el valor del nuevo Potencia
+
+const nuevosValores={
+
+  voltaje:this.voltajeSalidaArray,
+  corriente:this.corrienteSalidaArray,
+  potencia:this.potenciaSalidaArray,
+  cantidadPaneles:this.cantidadPanelesArray,
+
+}
+this.ArrayChange.emit(nuevosValores)
 
   // Recalcular los totales generales
   this.calculateTotals();

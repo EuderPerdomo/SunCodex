@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { PanelSolarService } from '../../services/panel-solar.service';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs';
-import { CalculadoraService } from '../../service/calculadora.service';
+import { CalculadoraService } from '../../services/calculadora.service';
 
 declare var iziToast: any
 

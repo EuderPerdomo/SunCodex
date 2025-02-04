@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Calculo } from '../../../interface/calculo';
 
 import { NgxTinymceModule, TinymceComponent } from 'ngx-tinymce';
-import { CalculadoraService } from '../../../service/calculadora.service';
+import { CalculadoraService } from '../../../services/calculadora.service';
 
 //Llamado de clases
 import { PanelSolar } from '../../paneles/panel';
@@ -38,7 +38,7 @@ declare var $: any
 @Component({
   selector: 'app-create-calculo',
   standalone: true,
-  imports: [FooterComponent, NavComponent, CommonModule, FormsModule, TinymceComponent,ArreglosComponent],
+  imports: [FooterComponent, NavComponent, CommonModule, FormsModule, TinymceComponent, ArreglosComponent],
   templateUrl: './create-calculo.component.html',
   styleUrl: './create-calculo.component.css'
 })
@@ -49,14 +49,40 @@ export class CreateCalculoComponent implements AfterViewInit {
   cantidadPaneles: number = 5;
   valorPanel: number = 300;  // Por ejemplo, 300W por panel
 
-  @ViewChild(ArreglosComponent) arreglos:any;
+  @ViewChild(ArreglosComponent) arreglos: any;
 
-  public pruebaviewChild=0
+  public voltajeHijo = 0
+  public amperajeHijo = 0
+  public potenciaHijo = 0
+  public cantidadPanelesHijo = 0
 
-  actualizarValorDesdeHijo(valor: number) {
-    this.pruebaviewChild = valor;
+
+
+  cambioArray(valores: any) {
+
+    this.cantidadPanelesHijo = valores.cantidadPaneles;
+    this.potenciaHijo = valores.potencia;
+    this.amperajeHijo = valores.corriente
+    this.voltajeHijo = valores.voltaje
+
+    if (this.cantidadPanelesHijo > this.cantidadPaneles) {
+      iziToast.show({
+        title: '⚠️ ALERTA ⚠️',
+        titleColor: '#FF0000',
+        color: '#FFF',
+        class: 'text-danger',
+        position: 'topRight',
+        message: "⚡ Cantidad de paneles en Array supera paneles Calculados. 🔋"
+      });
+    }
+ 
+
+    if(this.controladorDefinido){
+      console.log('El controlador ya esta definido, entonces verifica la compatibilidad')
+   //Verificar la compatibilidad con el Controlador
+   this.validar_array_controlador()
+    }
   }
-  
   //public panel2: PanelSolar;
 
   //Ubicacion predefinida donde iniciara el mapa
@@ -348,7 +374,7 @@ export class CreateCalculoComponent implements AfterViewInit {
     eficiencia: 0,
     modelo: '',
     peso: 0,
-    _id:''
+    _id: ''
   }
 
 
@@ -395,7 +421,7 @@ export class CreateCalculoComponent implements AfterViewInit {
 
     //
     private _router: Router,
-    private _route:ActivatedRoute,
+    private _route: ActivatedRoute,
 
     //private dataService:PanelSolarService,
     private dataService: PanelSolar
@@ -431,13 +457,13 @@ export class CreateCalculoComponent implements AfterViewInit {
 
   ngOnInit() {
 
-//Definiendo el tipo de calculo que sera realizado:
-this._route.params.subscribe(
-  params => {
-    this.calculo.tipo = params['tipo'];
-    console.log('tipo de calculo',params['tipo'])
-  }
-);
+    //Definiendo el tipo de calculo que sera realizado:
+    this._route.params.subscribe(
+      params => {
+        this.calculo.tipo = params['tipo'];
+        console.log('tipo de calculo', params['tipo'])
+      }
+    );
 
     this._panelSolarService.resultadoPanel$.subscribe(res => {
       console.log('Resultados a asignar', res)
@@ -515,7 +541,7 @@ this._route.params.subscribe(
    */
 
   ngAfterViewInit(): void {
-    this.pruebaviewChild=this.arreglos.pruebaViechild //Tomo el VALOR DE pruebaViechild DESDE EL hIJO QUE SE LLAMA aRRREGLOS
+    //this.voltajeHijo=this.arreglos.pruebaViechild //Tomo el VALOR DE pruebaViechild DESDE EL hIJO QUE SE LLAMA aRRREGLOS
 
     // Mapa con País (Colombia) resaltado
     const map = L.map('map').setView([4.62111, -74.07317], 6);
@@ -916,6 +942,26 @@ this._route.params.subscribe(
 
   }
 
+  validar_array_controlador (){
+    var voltaje = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['tension']
+    var potencia = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['max_pv_input_power']
+    var max_pv_input_voltaje = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['max_pv_input_voltaje']
+    var max_current_in_controlador = this.controlador_seleccionado.amperaje
+
+    console.log('Corriente maxima Soportada',max_current_in_controlador)
+    if (max_current_in_controlador <= this.amperajeHijo) { //if (voltaje != this.tension) {
+      iziToast.show({
+        title: 'ALERTA',
+        titleColor: '#FF0000',
+        color: '#FFF',
+        class: 'text-danger',
+        position: 'topRight',
+        message: "La corriente del array es superior a la soportada por el controlador"
+      });
+    }
+
+  }
+
   asignar_voltaje_potencia() {
     var voltaje = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['tension']
     var potencia = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['max_pv_input_power']
@@ -1017,7 +1063,7 @@ this._route.params.subscribe(
         this.inversor_seleccionado.potencia = element.potencia
         this.inversor_seleccionado.potencia_pico = element.potencia_pico
         this.inversor_seleccionado.peso = element.peso
-        this.inversor_seleccionado._id=element._id
+        this.inversor_seleccionado._id = element._id
         //this.imgSelect = element.portada
         //Asignacion de valores a variable de calculo
         //this.calculo.inversor = element._id
@@ -1274,13 +1320,13 @@ this._route.params.subscribe(
         tension: this.panel_seleccionado.tension, //tension del Panel Seleccionado
         vmpp: this.panel_seleccionado.vmpp,
         impp: this.panel_seleccionado.impp,
-        voc:this.panel_seleccionado.voc,
+        voc: this.panel_seleccionado.voc,
         tension_sistema: this.tension_sistema,
       }
 
       const calculoPanel = await this.panel2.calcularPanelesAsync(dataEntrada)
       this._calculadoraService.setPanelResult(calculoPanel);
-      this.cantidadPaneles=calculoPanel.numero_paneles//Asigna la cantidad de paneles calculados
+      this.cantidadPaneles = calculoPanel.numero_paneles//Asigna la cantidad de paneles calculados
       this.panelDefinido = true
       //Asigno Campos que Son requeridos
       this.camposRequeridos.potencia_arreglo_fv = true
@@ -1346,7 +1392,7 @@ this._route.params.subscribe(
   }
 
   async calcularInversor() {
-    console.log('Inversor Seleccionado',this.inversor_seleccionado)
+    console.log('Inversor Seleccionado', this.inversor_seleccionado)
     if (this.tensionDefinida && this.potenciaDefinida) {
       const dataEntrada = {
         tension_sistema: this.tension_sistema,
@@ -1391,7 +1437,7 @@ this._route.params.subscribe(
 
         max_potencia_paneles: this.controlador_seleccionado.max_potencia_paneles,//controlador_max_input_power
         Max_pv_voltaje: this.controlador_seleccionado.Max_pv_voltaje,//controlador_max_pv_input_voltaje
-        controlador_tension:this.controlador_seleccionado.tension, //controlador_tension
+        controlador_tension: this.controlador_seleccionado.tension, //controlador_tension
         amperaje: this.controlador_seleccionado.amperaje,
         numero_paneles: this.panelResult.numero_paneles,
         potencia: this.panel_seleccionado.potencia,
@@ -1485,8 +1531,8 @@ this._route.params.subscribe(
   }
 
   guardarCalculo() {
-    const calculo= this._calculadoraService.obtenerCalculo()
-    console.log('Calculo a ser guardado',calculo)
+    const calculo = this._calculadoraService.obtenerCalculo()
+    console.log('Calculo a ser guardado', calculo)
 
     //Determinar tipo de calculo a guardar
     if (this.calculo.tipo == "potencias") {
@@ -1559,7 +1605,7 @@ this._route.params.subscribe(
       this.calculo.radio_busqueda = this.radio_busqueda
       this.calculo.filtro = this.filtro
 
-      
+
       this._calculadoraService.registro_calculo_usuario(this.calculo, this.token).subscribe(
         response => {
 

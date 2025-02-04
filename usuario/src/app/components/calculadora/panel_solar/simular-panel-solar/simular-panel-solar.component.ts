@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavComponent } from '../../../nav/nav.component';
 import { FooterComponent } from '../../../footer/footer.component';
-import { CalculadoraService } from '../../../../service/calculadora.service';
+import { CalculadoraService } from '../../../../services/calculadora.service';
 
 import Chart from 'chart.js/auto'
 import html2canvas from 'html2canvas';

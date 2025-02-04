@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { GLOBAL } from '../service/global';
+import { GLOBAL } from '../services/global';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';

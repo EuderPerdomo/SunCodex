@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { CalculadoraService } from './service/calculadora.service';
+import { CalculadoraService } from './services/calculadora.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from "rxjs";
-import { GLOBAL } from '../service/global';
+import { GLOBAL } from '../services/global';
 
 
 @Injectable({
