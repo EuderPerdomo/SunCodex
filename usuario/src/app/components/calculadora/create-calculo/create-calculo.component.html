@@ -13,7 +13,7 @@
           </a>
         </div>
       </div>
-  
+
       <!-- Paso 2 -->
       <div class="col-1 col-md-1">
         <div class="step-item" [ngClass]="{'active-step': op == 2}" (click)="changeOp(2)">
@@ -23,7 +23,7 @@
           </a>
         </div>
       </div>
-  
+
       <!-- Paso 3 -->
       <div class="col-1 col-md-1">
         <div class="step-item" [ngClass]="{'active-step': op == 3}" (click)="changeOp(3)">
@@ -33,7 +33,7 @@
           </a>
         </div>
       </div>
-  
+
       <!-- Paso 4 -->
       <div class="col-1 col-md-1">
         <div class="step-item" [ngClass]="{'active-step': op == 4}" (click)="changeOp(4)">
@@ -43,7 +43,7 @@
           </a>
         </div>
       </div>
-  
+
       <!-- Paso 5 -->
       <div class="col-1 col-md-1">
         <div class="step-item" [ngClass]="{'active-step': op == 5}" (click)="changeOp(5)">
@@ -53,7 +53,7 @@
           </a>
         </div>
       </div>
-  
+
       <!-- Paso 6 -->
       <div class="col-1 col-md-1">
         <div class="step-item" [ngClass]="{'active-step': op == 6}" (click)="changeOp(6)">
@@ -63,7 +63,7 @@
           </a>
         </div>
       </div>
-  
+
       <!-- Paso 7 -->
       <div class="col-1 col-md-1">
         <div class="step-item" [ngClass]="{'active-step': op == 8}" (click)="changeOp(8)">
@@ -85,7 +85,7 @@
       </div>
     </div>
   </div>
-  
+
 
 
   <!-- <div class="card-header">
@@ -156,7 +156,8 @@
         <div class="ps-tabs">
 
           <div class="ps-tab" [ngClass]="{'active': op == 1}">
-            <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+            <div class="card-header d-flex align-items-center py-2"
+              style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
               <i class="fa-solid fa-map-location-dot" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
               <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                 Ubicación
@@ -212,7 +213,8 @@
             <ng-container *ngIf="calculo.tipo=='potencias'">
 
               <form #registroForm="ngForm">
-                <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+                <div class="card-header d-flex align-items-center py-2"
+                  style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
                   <i class="fa-solid fa-plug" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
                   <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                     Potencias
@@ -221,7 +223,7 @@
 
                 <div class="card-body">
 
-             
+
 
                   <div class="row">
 
@@ -333,7 +335,7 @@
                       <option value=48> 48V</option>
                     </select>
                   </div>
-                  
+
                 </div>
               </form>
 
@@ -474,7 +476,8 @@
           <!--Inician Paneles  -->
           <div class="ps-tab" [ngClass]="{'active': op == 3}">
 
-            <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+            <div class="card-header d-flex align-items-center py-2"
+              style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
               <i class="fas fa-solar-panel" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
               <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                 Paneles
@@ -496,7 +499,7 @@
               <div class="col-3">
                 <div class="form-group" *ngIf="panelResult">
                   <label for="panelesSerie">Series</label>
-                  <input  type="number" class="form-control" required disabled placeholder="Series" name="panelesSerie"
+                  <input type="number" class="form-control" required disabled placeholder="Series" name="panelesSerie"
                     [(ngModel)]="panelResult.paneles_serie">
                 </div>
               </div>
@@ -593,7 +596,8 @@
 
           <!--Inicia Controlador  -->
           <div class="ps-tab" [ngClass]="{'active': op == 4}">
-            <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+            <div class="card-header d-flex align-items-center py-2"
+              style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
               <i class="fa-solid fa-microchip" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
               <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                 Controlador
@@ -647,16 +651,14 @@
               </div>
             </div>
 
-            <h4>Voltaje {{voltajeHijo}}</h4>
+            <!-- <h4>Voltaje {{voltajeHijo}}</h4>
             <h4>Amperaje {{amperajeHijo}}</h4>
-            <h4>Potencia {{potenciaHijo}}</h4>
-            <app-arreglos
+             <h4>Potencia {{potenciaHijo}}</h4> -->
+            <app-arreglos [valorPanel]="valorPanel" 
             [cantidadPaneles]="cantidadPaneles"
-            [valorPanel]="valorPanel"
-            [datosPanel]="panel_seleccionado"
-              (ArrayChange)="cambioArray($event)"
-            >
-              
+              [datosPanel]="panel_seleccionado" 
+              (ArrayChange)="cambioArray($event)">
+
             </app-arreglos>
 
           </div>
@@ -664,7 +666,8 @@
 
           <!--Inicia Baterias  -->
           <div class="ps-tab" [ngClass]="{'active': op == 5}">
-            <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+            <div class="card-header d-flex align-items-center py-2"
+              style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
               <i class="fa-solid fa-car-batteryt" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
               <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                 Baterias
@@ -759,7 +762,8 @@
 
           <!--Inicia Inversor  -->
           <div class="ps-tab" [ngClass]="{'active': op == 6}">
-            <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+            <div class="card-header d-flex align-items-center py-2"
+              style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
               <i class="fa-solid fa-bolt-lightning" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
               <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                 Inversor
@@ -813,24 +817,25 @@
 
           <!--Inicia Resultados  -->
           <div class="ps-tab" [ngClass]="{'active': op == 7}">
-            <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+            <div class="card-header d-flex align-items-center py-2"
+              style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
               <i class="fas fa-chart-line" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
               <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                 Guardar
               </h4>
             </div>
 
-           
 
-              <!-- <div class="col-6 form-group">
+
+            <!-- <div class="col-6 form-group">
                 <button type="submit" class="btn btn-success" (click)="guardarCalculo()">Guardar Mi
                   Calculo</button>
               </div> -->
 
-              <!-- <button type="submit" class="btn btn-info" [ngClass]="{'active': op == 8}" (click)="changeOp(8)">Simular
+            <!-- <button type="submit" class="btn btn-info" [ngClass]="{'active': op == 8}" (click)="changeOp(8)">Simular
                 Sistema</button> -->
-              
-          
+
+
 
             <label for="">Nombre Calculo</label>
             <input type="text" class="form-control" placeholder="Nombre" required name="nombre_equipo"
@@ -862,7 +867,8 @@
           </div>
 
           <div class="ps-tab" [ngClass]="{'active': op == 8}">
-            <div class="card-header d-flex align-items-center py-2" style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+            <div class="card-header d-flex align-items-center py-2"
+              style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
               <i class="fa-solid fa-floppy-disk" style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
               <h4 class="card-header-title mb-0" style="font-weight: bold; font-size: 1.25em; color: #333;">
                 Evaluación
@@ -877,30 +883,18 @@
                   <!-- Lateral izquierdo -->
                   <div class="col-md-3">
                     <div class="btn-group-vertical w-100" role="group" aria-label="Months">
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(1)">Enero</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(2)">Febrero</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(3)">Marzo</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(4)">Abril</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(5)">Mayo</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(6)">Junio</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(7)">Julio</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(8)">Agosto</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(9)">Septiembre</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(10)">Octubre</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(11)">Noviembre</button>
-                      <button type="button" class="btn btn-secondary"
-                        (click)="simularSistema(12)">Diciembre</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(1)">Enero</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(2)">Febrero</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(3)">Marzo</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(4)">Abril</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(5)">Mayo</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(6)">Junio</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(7)">Julio</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(8)">Agosto</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(9)">Septiembre</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(10)">Octubre</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(11)">Noviembre</button>
+                      <button type="button" class="btn btn-secondary" (click)="simularSistema(12)">Diciembre</button>
                       <!-- Agregar botones para los otros meses -->
                     </div>
                   </div>
@@ -976,7 +970,8 @@
               <i class="fas fa-microchip"></i> Voltaje Mín. Controlador: {{controladorResult.minVoltageControlador}} V
             </div>
             <div class="menu-item">
-              <i class="fas fa-battery-quarter"></i> Amperaje Mín. Controlador: {{controladorResult.minCorrienteControlador}} A
+              <i class="fas fa-battery-quarter"></i> Amperaje Mín. Controlador:
+              {{controladorResult.minCorrienteControlador}} A
             </div>
           </div>
 

@@ -49,6 +49,7 @@ export class CreateCalculoComponent implements AfterViewInit {
   cantidadPaneles: number = 5;
   valorPanel: number = 300;  // Por ejemplo, 300W por panel
 
+  //Cambios esperados desde el Componente Hijo
   @ViewChild(ArreglosComponent) arreglos: any;
 
   public voltajeHijo = 0
@@ -59,7 +60,7 @@ export class CreateCalculoComponent implements AfterViewInit {
 
 
   cambioArray(valores: any) {
-
+//Cuando cambia el array en arreglos components actualizo los valores en el padre
     this.cantidadPanelesHijo = valores.cantidadPaneles;
     this.potenciaHijo = valores.potencia;
     this.amperajeHijo = valores.corriente
@@ -75,12 +76,12 @@ export class CreateCalculoComponent implements AfterViewInit {
         message: "⚡ Cantidad de paneles en Array supera paneles Calculados. 🔋"
       });
     }
- 
 
-    if(this.controladorDefinido){
+
+    if (this.controladorDefinido) {
       console.log('El controlador ya esta definido, entonces verifica la compatibilidad')
-   //Verificar la compatibilidad con el Controlador
-   this.validar_array_controlador()
+      // TO-DO  Verificar la compatibilidad con el Controlador
+      this.validar_array_controlador()
     }
   }
   //public panel2: PanelSolar;
@@ -882,17 +883,41 @@ export class CreateCalculoComponent implements AfterViewInit {
       if (_id == element._id) {
         this.portada_panel = element.portada
         this.descripcion_panel = element.contenido
-        this.panel_seleccionado.voc = element.voc
-        this.panel_seleccionado.isc = element.isc
-        this.panel_seleccionado.impp = element.impp
-        this.panel_seleccionado.isc = element.isc
-        this.panel_seleccionado.vmpp = element.vmpp
-        this.panel_seleccionado.eficiencia = element.eficiencia
-        this.panel_seleccionado.potencia = element.potencia
-        this.panel_seleccionado.tension = element.tension
-        this.panel_seleccionado.tc_of_pmax = element.tc_of_pmax
-        this.panel_seleccionado.tc_of_voc = element.tc_of_voc
-        this.panel_seleccionado.tc_of_isc = element.tc_of_isc
+        /*
+                this.panel_seleccionado.voc = element.voc
+                this.panel_seleccionado.isc = element.isc
+                this.panel_seleccionado.impp = element.impp
+                this.panel_seleccionado.isc = element.isc
+                this.panel_seleccionado.vmpp = element.vmpp
+                this.panel_seleccionado.eficiencia = element.eficiencia
+                this.panel_seleccionado.potencia = element.potencia
+                this.panel_seleccionado.tension = element.tension
+                this.panel_seleccionado.tc_of_pmax = element.tc_of_pmax
+                this.panel_seleccionado.tc_of_voc = element.tc_of_voc
+                this.panel_seleccionado.tc_of_isc = element.tc_of_isc
+        */
+
+        this.panel_seleccionado = {
+          voc: element.voc,
+          isc: element.isc,
+          impp: element.impp,
+          vmpp: element.vmpp,
+          eficiencia: element.eficiencia,
+          potencia: element.potencia,
+          tension: element.tension,
+          tc_of_pmax: element.tc_of_pmax,
+          tc_of_voc: element.tc_of_voc,
+          tc_of_isc: element.tc_of_isc,
+
+          noct: element.noct ?? 0,  // 🔹 Si no existe, asignamos un valor por defecto
+          max_isc: element.max_isc ?? 0,
+          min_isc: element.min_isc ?? 0,
+          max_voc: element.max_voc ?? 0,
+          min_voc: element.min_voc ?? 0
+
+        };
+
+
         //asignar valores a calculo final 
         //this.calculo.panel = element._id
         this._calculadoraService.setPanelId(element._id)
@@ -942,13 +967,13 @@ export class CreateCalculoComponent implements AfterViewInit {
 
   }
 
-  validar_array_controlador (){
+  validar_array_controlador() {
     var voltaje = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['tension']
     var potencia = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['max_pv_input_power']
     var max_pv_input_voltaje = this.controlador_seleccionado.voltaje_potencia[this.voltage_potencia_controlador_seleccion]['max_pv_input_voltaje']
     var max_current_in_controlador = this.controlador_seleccionado.amperaje
 
-    console.log('Corriente maxima Soportada',max_current_in_controlador)
+    console.log('Corriente maxima Soportada', max_current_in_controlador)
     if (max_current_in_controlador <= this.amperajeHijo) { //if (voltaje != this.tension) {
       iziToast.show({
         title: 'ALERTA',

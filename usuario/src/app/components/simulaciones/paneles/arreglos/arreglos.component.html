@@ -5,7 +5,7 @@
   <li class="list-group-item"><strong>ISC:</strong> {{datosPanel.isc}} A</li>
   <li class="list-group-item"><strong>IMPP:</strong> {{datosPanel.impp}} A</li>
   <li class="list-group-item"><strong>VMPP:</strong> {{datosPanel.vmpp}} V</li>
-<button (click)="addGroup()">Crear Array</button>
+<button *ngIf="groups.length ==0 " (click)="addGroup()">Crear Array</button>
 
   <!-- <div *ngFor="let group of groups; let i = index" class="group">
     <h3>Grupo {{ i + 1 }}</h3>
@@ -39,7 +39,7 @@
 
 <!-- Inicia adaptacion -->
 <div *ngFor="let group of groups; let i = index" class="container group">
-  <h3>Array {{ i + 1 }}</h3>
+  <!-- <h3>Array {{ i + 1 }}</h3> -->
   <div class="general">
       <div class="row" *ngFor="let row of group.panels; let rowIndex = index">
         <div *ngFor="let panel of row; let panelIndex = index" class="panel">
