@@ -12,7 +12,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Renderer } from 'three/webgpu';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, NgForm, Validators } from '@angular/forms';
 
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators'
@@ -27,6 +27,7 @@ import { ModelLoader } from '../../../calculadora/panel_solar/simular-panel-sola
 import { TransformControls } from 'three/addons/controls/TransformControls.js'
 
 import { ArreglosComponent } from '../arreglos/arreglos.component';
+import { ProduccionArrayComponent } from '../../produccion-array/produccion-array.component';
 
 import { PanelSolarService } from '../../../../services/panel-solar.service';
 
@@ -41,17 +42,24 @@ declare var iziToast: any
 @Component({
   selector: 'app-simular-panel',
   standalone: true,
-  imports: [NavComponent, FooterComponent, FormsModule,CommonModule,ArreglosComponent],
+  imports: [NavComponent, FooterComponent, FormsModule, CommonModule, ArreglosComponent,ProduccionArrayComponent],
   templateUrl: './simular-panel.component.html',
   styleUrl: './simular-panel.component.css'
 })
 export class SimularPanelComponent implements AfterViewInit, OnInit {
-
+  panelForm!: FormGroup
   constructor(
     private _calculadoraService: CalculadoraService,
-    private _panelSolarService:PanelSolarService,
+    private _panelSolarService: PanelSolarService,
     // private cargarModelo:ModelLoader,
   ) {
+
+    this.panelForm = new FormGroup({
+      potencia: new FormControl(this.panel_seleccionado.potencia, [
+        Validators.required,
+        Validators.min(10)
+      ])
+    })
 
   }
 
@@ -124,6 +132,23 @@ export class SimularPanelComponent implements AfterViewInit, OnInit {
 
   //validación de Variables:
   public panelDefinido: boolean = false;
+  public panelSeleccion: boolean = false;
+  public filtro: boolean = true;
+  //public filtro = 'predefinido'
+
+  changeRadio() {
+    console.log(this.filtro)
+  
+    if (!this.filtro) {
+      this.panel_seleccionado = this.panel_propio
+    } else {
+      if (this.panelDefinido) {
+        this.panel_seleccionado = this.panel_select
+      }
+
+    }
+
+  }
 
   //Inicia Configuracion array Fotovoltaicos
   cantidadPaneles: number = 5;
@@ -132,72 +157,248 @@ export class SimularPanelComponent implements AfterViewInit, OnInit {
   public portada_panel = 'assets/img/01.jpg'
   public descripcion_panel = ''
   public panel_seleccionado = {
-    voc: 0, //Voltaje En cicuito Abierto
-    isc: 0, //Intensidad en corto circuito
-    impp: 0, //Intensidad en maxima potencia
-    vmpp: 0, //Voltaje en maxima potencia
-    eficiencia: 0,//Eficiencia
-    potencia: 0,//Potencia del Panel
-    tc_of_pmax: 0, //Coeficiente de Potencia-Temperatura
-    tc_of_voc: 0,//Coeficiente de Voltage-Temperatura
-    tc_of_isc: 0, //Coeficiente de Corriente-Temperatura
+    voc: '', //Voltaje En cicuito Abierto
+    isc: '', //Intensidad en corto circuito
+    impp: '', //Intensidad en maxima potencia
+    vmpp: '', //Voltaje en maxima potencia
+    eficiencia: '',//Eficiencia
+    potencia: '',//Potencia del Panel
+    tc_of_pmax: '', //Coeficiente de Potencia-Temperatura
+    tc_of_voc: '',//Coeficiente de Voltage-Temperatura
+    tc_of_isc: '', //Coeficiente de Corriente-Temperatura
     noct: 43, //Temperatura de Operacion Nominal de la Celula
-    tension: 0,
+    tension: '',
 
     //Parametros adicionales
-    max_isc: 0,
-    min_isc: 0,
-    max_voc: 0,
-    min_voc: 0,
+    max_isc: '',
+    min_isc: '',
+    max_voc: '',
+    min_voc: '',
+  }
+
+  public panel_propio = {
+    voc: '', //Voltaje En cicuito Abierto
+    isc: '', //Intensidad en corto circuito
+    impp: '', //Intensidad en maxima potencia
+    vmpp: '', //Voltaje en maxima potencia
+    eficiencia: '',//Eficiencia
+    potencia: '',//Potencia del Panel
+    tc_of_pmax: '', //Coeficiente de Potencia-Temperatura
+    tc_of_voc: '',//Coeficiente de Voltage-Temperatura
+    tc_of_isc: '', //Coeficiente de Corriente-Temperatura
+    noct: 43, //Temperatura de Operacion Nominal de la Celula
+    tension: '',
+
+    //Parametros adicionales
+    max_isc: '',
+    min_isc: '',
+    max_voc: '',
+    min_voc: '',
+  }
+
+
+  public panel_select = {
+    voc: '', //Voltaje En cicuito Abierto
+    isc: '', //Intensidad en corto circuito
+    impp: '', //Intensidad en maxima potencia
+    vmpp: '', //Voltaje en maxima potencia
+    eficiencia: '',//Eficiencia
+    potencia: '',//Potencia del Panel
+    tc_of_pmax: '', //Coeficiente de Potencia-Temperatura
+    tc_of_voc: '',//Coeficiente de Voltage-Temperatura
+    tc_of_isc: '', //Coeficiente de Corriente-Temperatura
+    noct: 43, //Temperatura de Operacion Nominal de la Celula
+    tension: '',
+
+    //Parametros adicionales
+    max_isc: '',
+    min_isc: '',
+    max_voc: '',
+    min_voc: '',
   }
 
   public voltajeHijo = 0
   public amperajeHijo = 0
   public potenciaHijo = 0
   public cantidadPanelesHijo = 0
-
+public configuracionArray:any //Union de todos los valores del Array
   //Finaliza Array Fotovoltaicos
 
 
-//menu
-public op = 1
-changeOp(op: any) {
-  this.op = op;
-}
-//Finaliza Menu
-
-cambio(numeroPaneles:any){
-  //Debo emitir el nuevo numero de paneles hacia el Hijo
-  console.log('Cambio el numero de paneles Solares')
-}
+  //menu
+  public op = 1
+  changeOp(op: any) {
+    this.op = op;
+  }
+  //Finaliza Menu
 
 
-cambioArray(valores: any) {
-  //Cuando cambia el array en arreglos components actualizo los valores en el padre
-      this.cantidadPanelesHijo = valores.cantidadPaneles || 0;
-      this.potenciaHijo = valores.potencia || 0;
-      this.amperajeHijo = valores.corriente || 0
-      this.voltajeHijo = valores.voltaje || 0
-      console.log('valores: ',valores)
+  //Inicia crear Panel
+  crearPanelSolar(panelForm: any) {
+    if (panelForm.valid) {
+      this.panelDefinido = true
+      //this.panel_seleccionado=this.panel_propio
+      this.panel_seleccionado = {
+        voc: this.panel_propio.voc,
+        isc: this.panel_propio.isc,
+        impp: this.panel_propio.impp,
+        vmpp: this.panel_propio.vmpp,
+        eficiencia: this.panel_propio.eficiencia,
+        potencia: this.panel_propio.potencia,
+        tension: this.panel_propio.tension,
+        tc_of_pmax: this.panel_propio.tc_of_pmax,
+        tc_of_voc: this.panel_propio.tc_of_voc,
+        tc_of_isc: this.panel_propio.tc_of_isc,
 
-      if (this.cantidadPanelesHijo > this.cantidadPaneles) {
-        iziToast.show({
-          title: '⚠️ ALERTA ⚠️',
-          titleColor: '#FF0000',
-          color: '#FFF',
-          class: 'text-danger',
-          position: 'topRight',
-          message: "⚡ Cantidad de paneles en Array supera paneles Calculados. 🔋"
-        });
-      }
-  
-  /*
-      if (this.controladorDefinido) {
-        console.log('El controlador ya esta definido, entonces verifica la compatibilidad')
-        // TO-DO  Verificar la compatibilidad con el Controlador
-        this.validar_array_controlador()
-      }*/
+        noct: this.panel_propio.noct ?? 0,  // 🔹 Si no existe, asignamos un valor por defecto
+        max_isc: this.panel_propio.max_isc ?? 0,
+        min_isc: this.panel_propio.min_isc ?? 0,
+        max_voc: this.panel_propio.max_voc ?? 0,
+        min_voc: this.panel_propio.min_voc ?? 0
+
+      };
+      this.modoFormulario = 'editar';
+      iziToast.show({
+        title: '✅ ¡Excelente! ✅',
+        titleColor: '#28a745',
+        color: '#FFF',
+        class: 'text-success',
+        position: 'topRight',
+        message: '🌞 Panel creado con éxito. ¡Listo para los cálculos! ⚡🔋'
+      });
+      this.formBloqueado = true;
+
+    } else {
+      iziToast.show({
+        title: '⚠️ Oops... ⚠️',
+        titleColor: '#FF0000',
+        color: '#FFF',
+        class: 'text-danger',
+        position: 'topRight',
+        message: '✏️ Debes completar todos los campos antes de continuar. 📝🚀'
+      });
     }
+
+  }
+
+  desbloquearFormulario() {
+    console.log('Desbloqueo Formulario')
+    this.formBloqueado = false;
+    this.modoFormulario = 'guardar';
+  }
+
+  editarPanelSolar(panelForm: any) {
+    if (panelForm.valid) {
+
+      // this.panel_seleccionado=this.panel_propio
+      this.panel_seleccionado = {
+        voc: this.panel_propio.voc,
+        isc: this.panel_propio.isc,
+        impp: this.panel_propio.impp,
+        vmpp: this.panel_propio.vmpp,
+        eficiencia: this.panel_propio.eficiencia,
+        potencia: this.panel_propio.potencia,
+        tension: this.panel_propio.tension,
+        tc_of_pmax: this.panel_propio.tc_of_pmax,
+        tc_of_voc: this.panel_propio.tc_of_voc,
+        tc_of_isc: this.panel_propio.tc_of_isc,
+
+        noct: this.panel_propio.noct ?? 0,  // 🔹 Si no existe, asignamos un valor por defecto
+        max_isc: this.panel_propio.max_isc ?? 0,
+        min_isc: this.panel_propio.min_isc ?? 0,
+        max_voc: this.panel_propio.max_voc ?? 0,
+        min_voc: this.panel_propio.min_voc ?? 0
+
+      };
+
+      iziToast.show({
+        title: '✅ ¡Excelente! ✅',
+        titleColor: '#28a745',
+        color: '#FFF',
+        class: 'text-success',
+        position: 'topRight',
+        message: '🌞 Panel Actualizado con éxito. ¡Listo para los cálculos! ⚡🔋'
+      });
+      this.panelDefinido = true
+      this.modoFormulario = 'editar';
+      this.formBloqueado = true;
+    }else{
+      iziToast.show({
+        title: '⚠️ Oops... ⚠️',
+        titleColor: '#FF0000',
+        color: '#FFF',
+        class: 'text-danger',
+        position: 'topRight',
+        message: '✏️ Debes completar todos los campos antes de continuar. 📝🚀'
+      });
+    }
+  }
+  //Finaliza Crear Panel
+  modoFormulario: 'crear' | 'editar' | 'guardar' = 'crear';
+  manejarAccion(form: NgForm) {
+    if (this.modoFormulario === 'crear') {
+      this.crearPanelSolar(form);
+    } else if (this.modoFormulario === 'editar') {
+      this.desbloquearFormulario()
+      //this.editarPanelSolar(form);
+    } else {
+      this.editarPanelSolar(form);
+      //this.guardarCambios();
+    }
+  }
+
+  formBloqueado: boolean = false;
+
+  obtenerTextoBoton(): string {
+    return this.modoFormulario === 'crear' ? 'Crear'
+      : this.modoFormulario === 'editar' ? 'Editar'
+        : 'Guardar';
+  }
+
+  cambio(numeroPaneles: any) {
+    //Debo emitir el nuevo numero de paneles hacia el Hijo
+    console.log('Cambio el numero de paneles Solares',numeroPaneles)
+    this.cantidadPaneles=numeroPaneles
+  }
+
+
+  cambioArray(valores: any) {
+    this.configuracionArray=valores//Asigno todos los valores a la configuracion del Array
+    //Cuando cambia el array en arreglos components actualizo los valores en el padre
+    this.cantidadPanelesHijo = valores.cantidadPaneles || 0;
+    this.potenciaHijo = valores.potencia || 0;
+    this.amperajeHijo = valores.corriente || 0
+    this.voltajeHijo = valores.voltaje || 0
+    console.log('valores: ', valores)
+
+    if (this.cantidadPanelesHijo > this.cantidadPaneles) {
+      iziToast.show({
+        title: '⚠️ ALERTA ⚠️',
+        titleColor: '#FF0000',
+        color: '#FFF',
+        class: 'text-danger',
+        position: 'topRight',
+        message: "⚡ Cantidad de paneles en Array supera paneles Definidos. 🔋"
+      });
+    }
+
+    /*
+        if (this.controladorDefinido) {
+          console.log('El controlador ya esta definido, entonces verifica la compatibilidad')
+          // TO-DO  Verificar la compatibilidad con el Controlador
+          this.validar_array_controlador()
+        }*/
+  }
+
+
+//Cambios en el Hijo de Produccion
+
+cambioProduccion(valoresproduccion:any){
+console.log('Cambio en valores de Produccion esto es el papá',valoresproduccion)
+
+
+}
+
 
 
   declinacion(dia: any) {
@@ -277,7 +478,7 @@ cambioArray(valores: any) {
           mc.circulo.setLatLng(latlng);
           this.circul.setRadius(this.radio_busqueda * 1000);
 
-         //To-do llamara a actualizar los valores de latitud y longitud debouncedActualizarInclinacion
+          //To-do llamara a actualizar los valores de latitud y longitud debouncedActualizarInclinacion
 
           this.ubicacionPanel.latitud = e.latlng.lat
           this.ubicacionPanel.longitud = e.latlng.lng
@@ -616,11 +817,11 @@ cambioArray(valores: any) {
         // objetoClase.loadModel('../Modelos/SolarTracker/origenes2/untitled.gltf', scene)
         .then((modelo) => {
           //modelo.rotation.z = THREE.MathUtils.degToRad(-90);// roto el modelo de manera global
-          
+
           modelo.updateMatrixWorld(true)
           this.solarTracker = modelo
 
-          
+
 
           this.azimuthGroup = this.solarTracker.getObjectByName('azimuth');
           this.panelGroup = this.solarTracker.getObjectByName('panel');
@@ -813,7 +1014,7 @@ cambioArray(valores: any) {
       let dayOfYear = 0;
 
       const contenedorGui = document.getElementById('columna3D')
-    
+
       if (contenedorGui) {
         //const gui = new GUI( { container: $('#contenedor') } );
         const gui = new GUI({ container: contenedorGui });
@@ -1106,9 +1307,9 @@ cambioArray(valores: any) {
     const angleoptimo = 3.7 + 0.69 * this.ubicacionPanel.latitud
     const angle = angleoptimo//Tomando en cuenta un angulo optimo calculado de acuerdo a la ubicación
 
-  return this._calculadoraService.consultar_radiacion_diaria_plano_Horizontal(lat, lon, angle).pipe(
-    map(response => response.data.outputs.daily_profile)
-  )
+    return this._calculadoraService.consultar_radiacion_diaria_plano_Horizontal(lat, lon, angle).pipe(
+      map(response => response.data.outputs.daily_profile)
+    )
 
   }
 
@@ -1120,12 +1321,12 @@ cambioArray(valores: any) {
     const angle = angleoptimo//Tomando en cuenta un angulo optimo calculado de acuerdo a la ubicación
 
 
-  return this._calculadoraService.consultar_radiacion_diaria(lat, lon, angle).pipe(
-    map(response => response.data.outputs.daily_profile)
-  )
+    return this._calculadoraService.consultar_radiacion_diaria(lat, lon, angle).pipe(
+      map(response => response.data.outputs.daily_profile)
+    )
 
 
-  
+
   }
 
   calcularNuevosValores(azimuth: any, inclinacion: any) {
@@ -1267,20 +1468,7 @@ cambioArray(valores: any) {
       if (_id == element._id) {
         this.portada_panel = element.portada
         this.descripcion_panel = element.contenido
-        /*
-                this.panel_seleccionado.voc = element.voc
-                this.panel_seleccionado.isc = element.isc
-                this.panel_seleccionado.impp = element.impp
-                this.panel_seleccionado.isc = element.isc
-                this.panel_seleccionado.vmpp = element.vmpp
-                this.panel_seleccionado.eficiencia = element.eficiencia
-                this.panel_seleccionado.potencia = element.potencia
-                this.panel_seleccionado.tension = element.tension
-                this.panel_seleccionado.tc_of_pmax = element.tc_of_pmax
-                this.panel_seleccionado.tc_of_voc = element.tc_of_voc
-                this.panel_seleccionado.tc_of_isc = element.tc_of_isc
-        */
-
+ 
         this.panel_seleccionado = {
           voc: element.voc,
           isc: element.isc,
@@ -1300,8 +1488,7 @@ cambioArray(valores: any) {
           min_voc: element.min_voc ?? 0
 
         };
-
-
+        this.panel_select = this.panel_seleccionado //El panel del SElect es igual al de trabajo
         //asignar valores a calculo final 
         //this.calculo.panel = element._id
         this._calculadoraService.setPanelId(element._id)

@@ -31,14 +31,14 @@ import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArreglosComponent } from '../../simulaciones/paneles/arreglos/arreglos.component';
-
+import { ProduccionArrayComponent } from '../../simulaciones/produccion-array/produccion-array.component';
 declare var iziToast: any
 declare var $: any
 
 @Component({
   selector: 'app-create-calculo',
   standalone: true,
-  imports: [FooterComponent, NavComponent, CommonModule, FormsModule, TinymceComponent, ArreglosComponent],
+  imports: [FooterComponent, NavComponent, CommonModule, FormsModule, TinymceComponent, ArreglosComponent,ProduccionArrayComponent],
   templateUrl: './create-calculo.component.html',
   styleUrl: './create-calculo.component.css'
 })

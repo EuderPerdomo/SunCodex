@@ -195,40 +195,268 @@
 
                     <!-- Opcion 2 -->
                     <div class="ps-tab" [ngClass]="{'active': op == 2}">
-                        <div class="card-header d-flex align-items-center py-2"
-                            style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
-                            <i class="fa-solid fa-map-location-dot"
-                                style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
-                            <h4 class="card-header-title mb-0"
-                                style="font-weight: bold; font-size: 1.25em; color: #333;">
-                                Array Fotovoltaicos
-                            </h4>
+
+                        <div class="card-body">
+                            
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                (change)="changeRadio()" [value]="true" [(ngModel)]="filtro">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Paneles solares predefinidos
+                            </label>
                         </div>
 
-                        <div class="col-lg-12 form-group">
-                            <label for="">Paneles Disponibles</label>
-                            <select class="form-control custom-select" id="select-tension" required name="panel"
-                                [(ngModel)]="panel" (change)="buscar_imagen_panel(panel)">
-                                <option value="0" selected disabled> Seleccionar</option>
-                                <!-- <option value="{{item._id}}" *ngFor="let item of categorias">{{item.titulo}}</option> -->
-                                <option value="{{item._id}}" *ngFor="let item of paneles_bd">
-                                    {{item.modelo}}//{{item.nombreOficina}}</option>
-                            </select>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                [value]="false" (change)="changeRadio()" [(ngModel)]="filtro">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Crear Mi propio Panel Solar
+                            </label>
                         </div>
 
-
-                        <div class="col-lg-12 form-group">
+                        <div class="col-lg-6 form-group">
                             <label for="">Cuantos Paneles Desea</label>
-                            <input type="number" class="form-control" placeholder="Cantidad" required name="cantidadPaneles"
-                              [(ngModel)]="cantidadPaneles" #cantidad0Field="ngModel" [min]="1" (ngModelChange)="cambio(cantidadPaneles)">
+                            <input type="number" class="form-control" placeholder="Cantidad" required
+                                name="cantidadPaneles" [(ngModel)]="cantidadPaneles" #cantidad0Field="ngModel"
+                                [min]="1" (ngModelChange)="cambio(cantidadPaneles)">
+                        </div>
+
+                        </div>
+                        
+
+
+
+                        <div class="row" *ngIf="filtro">
+                            <div class="col-lg-6 form-group">
+                                <label for="">Paneles Disponibles</label>
+                                <select class="form-control custom-select" id="select-tension" required name="panel"
+                                    [(ngModel)]="panel" (change)="buscar_imagen_panel(panel)">
+                                    <option value="0" selected disabled> Seleccionar</option>
+                                    <!-- <option value="{{item._id}}" *ngFor="let item of categorias">{{item.titulo}}</option> -->
+                                    <option value="{{item._id}}" *ngFor="let item of paneles_bd">
+                                        {{item.modelo}}//{{item.nombreOficina}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="row" *ngIf="!filtro">
+                            <!-- Inicio fORMULARIO-->
+                            <div class="card box-shadow-sm">
+                                <div class="card-header d-flex align-items-center py-2"
+                                    style="background-color: #f0f8ff; border-bottom: 2px solid #00aaff;">
+                                    <i class="fa-solid fa-map-location-dot"
+                                        style="font-size: 1.5em; color: #00aaff; margin-right: 8px;"></i>
+                                    <h4 class="card-header-title mb-0"
+                                        style="font-weight: bold; font-size: 1.25em; color: #333;">
+                                        Crear Panel Solar
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <form #panelForm="ngForm" appUnambiguousRole (ngSubmit)="manejarAccion(panelForm)">
+                                        <!-- <form #panelForm="ngForm" appUnambiguousRole (ngSubmit)="crearPanelSolar(panelForm)"> -->
+
+                                        <div class="row">
+
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="potencia" class="form-label">Potencia (W)</label>
+                                                <input type="number" id="potencia" name="potencia" class="form-control"
+                                                    required [(ngModel)]="panel_propio.potencia" #potencia="ngModel"
+                                                    [disabled]="formBloqueado">
+                                                <div *ngIf="potencia.invalid && (potencia.dirty || potencia.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="potencia.hasError('required')">
+                                                        La potencia en Watts es requerida.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="voc" class="form-label">VOC (V)</label>
+                                                <input type="number" id="voc" name="voc" class="form-control" required
+                                                    [(ngModel)]="panel_propio.voc" #voc="ngModel"
+                                                    [disabled]="formBloqueado">
+                                                <div *ngIf="voc.invalid && (voc.dirty || voc.touched)" class="invalido">
+
+                                                    <div *ngIf="voc.hasError('required')">
+                                                        El VOC es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="isc" class="form-label">ISC (I)</label>
+                                                <input type="number" id="isc" name="isc" class="form-control" required
+                                                    [(ngModel)]="panel_propio.isc" #isc="ngModel"
+                                                    [disabled]="formBloqueado">
+                                                <div *ngIf="isc.invalid && (isc.dirty || isc.touched)" class="invalido">
+
+                                                    <div *ngIf="isc.hasError('required')">
+                                                        El ISC es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="eficiencia" class="form-label">Eficiencia (%)</label>
+                                                <input type="number" id="eficiencia" name="eficiencia"
+                                                    class="form-control" required [(ngModel)]="panel_propio.eficiencia"
+                                                    #eficiencia="ngModel" [disabled]="formBloqueado">
+                                                <div *ngIf="eficiencia.invalid && (eficiencia.dirty || eficiencia.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="eficiencia.hasError('required')">
+                                                        El eficiencia es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="tensionNominal" class="form-label">Tensión Nominal
+                                                    (V)</label>
+                                                <input type="number" id="tensionNominal" name="tensionNominal"
+                                                    class="form-control" required [(ngModel)]="panel_propio.tension"
+                                                    #tensionNominal="ngModel" [disabled]="formBloqueado">
+                                                <div *ngIf="tensionNominal.invalid && (tensionNominal.dirty || tensionNominal.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="tensionNominal.hasError('required')">
+                                                        La tension Nominal es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="vmpp" class="form-label">VMPP (V)</label>
+                                                <input type="number" id="vmpp" name="vmpp" class="form-control" required
+                                                    [(ngModel)]="panel_propio.vmpp" #vmpp="ngModel"
+                                                    [disabled]="formBloqueado">
+                                                <div *ngIf="vmpp.invalid && (vmpp.dirty || vmpp.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="vmpp.hasError('required')">
+                                                        El VMPP es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="impp" class="form-label">IMPP (I)</label>
+                                                <input type="number" id="impp" name="impp" class="form-control" required
+                                                    [(ngModel)]="panel_propio.impp" #impp="ngModel"
+                                                    [disabled]="formBloqueado">
+                                                <div *ngIf="impp.invalid && (impp.dirty || impp.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="impp.hasError('required')">
+                                                        El IMPP es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="noct" class="form-label">NOCT (%)</label>
+                                                <input type="number" id="noct" name="noct" class="form-control" required
+                                                    [(ngModel)]="panel_propio.noct" #noct="ngModel"
+                                                    [disabled]="formBloqueado">
+                                                <div *ngIf="noct.invalid && (noct.dirty || noct.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="noct.hasError('required')">
+                                                        El NOCT es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="tc_of_isc" class="form-label">Coeficiente Corriente
+                                                    Temperatura (%)</label>
+                                                <input type="number" id="tc_of_isc" name="tc_of_isc"
+                                                    class="form-control" required [(ngModel)]="panel_propio.tc_of_isc"
+                                                    #tc_of_isc="ngModel" [disabled]="formBloqueado">
+                                                <div *ngIf="tc_of_isc.invalid && (tc_of_isc.dirty || tc_of_isc.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="tc_of_isc.hasError('required')">
+                                                        El Coeficiente Corriente/Temperatura es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="tc_of_voc" class="form-label">Coeficiente Voltaje
+                                                    Temperatura (%)</label>
+                                                <input type="number" id="tc_of_voc" name="tc_of_voc"
+                                                    class="form-control" required [(ngModel)]="panel_propio.tc_of_voc"
+                                                    #tc_of_voc="ngModel" [disabled]="formBloqueado">
+                                                <div *ngIf="tc_of_voc.invalid && (tc_of_voc.dirty || tc_of_voc.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="tc_of_voc.hasError('required')">
+                                                        El Coeficiente Voltaje/Temperatura es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-4  form-group">
+                                                <label for="tc_of_pmax" class="form-label">Coeficiente Potencia
+                                                    Temperatura (%)</label>
+                                                <input type="number" id="tc_of_pmax" name="tc_of_pmax"
+                                                    class="form-control" required [(ngModel)]="panel_propio.tc_of_pmax"
+                                                    #tc_of_pmax="ngModel" [disabled]="formBloqueado">
+                                                <div *ngIf="tc_of_pmax.invalid && (tc_of_pmax.dirty || tc_of_pmax.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="tc_of_pmax.hasError('required')">
+                                                        El Coeficiente Potencia/Temperatura es requerido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- <div class="col-md-4 form-group">
+                                                <label for="cantidadPaneles">Cuantos Paneles Desea</label>
+
+                                                <input type="number" id="cantidadPaneles" name="cantidadPaneles"
+                                                    class="form-control" required [(ngModel)]="cantidadPaneles"
+                                                    #cantidadPaneles="ngModel" [disabled]="formBloqueado">
+
+                                                <div *ngIf="cantidadPaneles.invalid && (cantidadPaneles.dirty || cantidadPaneles.touched)"
+                                                    class="invalido">
+
+                                                    <div *ngIf="cantidadPaneles.hasError('required')">
+                                                        La cantidad de Paneles en el Array es requerido
+                                                    </div>
+                                                </div>
+
+                                                <input type="number" class="form-control" placeholder="Cantidad"
+                                                    required name="cantidadPaneles" [(ngModel)]="cantidadPaneles"
+                                                    #cantidad0Field="ngModel" [min]="1"
+                                                    (ngModelChange)="cambio(cantidadPaneles)">
+                                            </div> -->
+
+                                            <button class="btn btn-primary btn-shadow" type="submit">
+                                                {{ obtenerTextoBoton() }}
+                                            </button>
+
+
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Fin Formulario -->
+
+
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-3 form-group">
+                            <div class="col-3 form-group">
                                 <img [src]="portada_panel" class="img-thumbnail" alt="Rounded image">
                             </div>
 
-                            <div class="col-lg-3 form-group">
+                            <div class="col-3 form-group">
                                 <p class="menu-title">Caracteristicas</p>
                                 <div class="menu-item">
                                     <i class="fa-solid fa-w"></i> Potencia: {{panel_seleccionado.potencia}} W
@@ -248,40 +476,43 @@
                                 </div>
                             </div>
 
-                            <div class="col-3">
-                                <div>
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ficha_tecnica"
-                                        [innerHTML]="descripcion_panel">
-                                    </div>
-                                </div>
+                            <div class="col-3 ficha_tecnica" [innerHTML]="descripcion_panel">
                             </div>
 
-                            <div class="col-lg-3 form-group">
+
+                            <!-- <div class="col-3 form-group">
                                 <div class="menu-item">
                                     <i class="fa-solid fa-w"></i> Potencia Array: {{potenciaHijo | number: '1.2-2'}} W
-                                  </div>
+                                </div>
                                 <div class="menu-item">
                                     <i class="fas fa-grip-lines"></i>Voltaje Array: {{voltajeHijo | number: '1.2-2'}} V
                                 </div>
                                 <div class="menu-item">
-                                    <i class="fas fa-grip-lines"></i>Amperaje Array: {{amperajeHijo | number: '1.2-2'}} I
+                                    <i class="fas fa-bolt"></i>Amperaje Array: {{amperajeHijo | number: '1.2-2'}} I
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
 
                         <app-arreglos 
-                        [datosPanel]="panel_seleccionado"
-                        (ArrayChange)="cambioArray($event)"
-                        >
-
-
+                        *ngIf="panelDefinido" 
+                        [cantidadPaneles]="cantidadPaneles"
+                        [datosPanel]="panel_seleccionado" 
+                        (ArrayChange)="cambioArray($event)">
                         </app-arreglos>
 
 
 
+                        <app-produccion-array
+                       [dataRadiacion]="unionArray"
+                        [fichaTecnicaPanel]="panel_seleccionado"
+                        [configuracionArray]="configuracionArray"
+                        (CambioProduccion)="cambioProduccion($event)"
+                        >
+                        </app-produccion-array>
 
                     </div>
+
 
 
                 </div>
@@ -292,12 +523,5 @@
 
 </div>
 <!-- Finaliza mmenu en Simular Paneles Solares -->
-
-
-
-
-
-
-
 
 <app-footer></app-footer>
