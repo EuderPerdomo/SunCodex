@@ -22,7 +22,7 @@
     "@auth0/angular-jwt": "^5.2.0",
     "chart.js": "^4.4.4",
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2",
+    "jspdf": "^3.0.0",
     "leaflet": "^1.9.4",
     "ngx-tinymce": "^18.0.0",
     "rxjs": "~7.8.0",
@@ -33,7 +33,7 @@
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.0.3",
+    "@angular-devkit/build-angular": "^0.1101.2",
     "@angular/cli": "^18.0.3",
     "@angular/compiler-cli": "^18.0.0",
     "@types/jasmine": "~5.1.0",
