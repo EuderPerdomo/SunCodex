@@ -11,4 +11,6 @@ export interface Group {
   totalPower?: number; // Propiedad opcional
   totalPanels?: number;
   totalCurrent?: number; // Propiedad opcional
+  series?: number; // Propiedad opcional
+  paralelos?: number; // Propiedad opcional
 }

@@ -102,6 +102,7 @@ export class SimularPanelComponent implements AfterViewInit, OnInit {
   //Huron EEUU
 
   public ubicacionPanel = {
+    //Ubicado en Bosnia HERSEGOVINA LATITUD 44.300 Y LONGITUD 16.92
     latitud: 44.300,
     // longitud: -97.945,
     longitud: 16.92,
@@ -226,7 +227,7 @@ public configuracionArray:any //Union de todos los valores del Array
 
 
   //menu
-  public op = 1
+  public op = 2
   changeOp(op: any) {
     this.op = op;
   }
@@ -369,7 +370,7 @@ public configuracionArray:any //Union de todos los valores del Array
     this.potenciaHijo = valores.potencia || 0;
     this.amperajeHijo = valores.corriente || 0
     this.voltajeHijo = valores.voltaje || 0
-    console.log('valores: ', valores)
+    console.log('valores: ', valores,'Comprobacion voltajes hijo',this.voltajeHijo, this.configuracionArray)
 
     if (this.cantidadPanelesHijo > this.cantidadPaneles) {
       iziToast.show({
@@ -433,6 +434,7 @@ console.log('Cambio en valores de Produccion esto es el papá',valoresproduccion
   ngAfterViewInit(): void {
 
     // Mapa con País (Colombia) resaltado
+
     const map = L.map('map').setView([4.62111, -74.07317], 5);
 
     // Añadir una capa de mapas base
@@ -455,9 +457,6 @@ console.log('Cambio en valores de Produccion esto es el papá',valoresproduccion
 
 
     var mc: any
-    //var circul: any
-    //mc = new L.Marker([4.582, -74.22], markerOptions).addTo(map)
-
     map.on('click', (e) => {
       if (mc != undefined) {
         console.log('ya esta definido el Pin')
@@ -482,6 +481,7 @@ console.log('Cambio en valores de Produccion esto es el papá',valoresproduccion
 
           this.ubicacionPanel.latitud = e.latlng.lat
           this.ubicacionPanel.longitud = e.latlng.lng
+          this.ConsultarRadiacionDiaria()
 
         });
 
@@ -502,6 +502,7 @@ console.log('Cambio en valores de Produccion esto es el papá',valoresproduccion
           }
         }).addTo(map);
       });
+
 
     //Finaliza el mapa 
 

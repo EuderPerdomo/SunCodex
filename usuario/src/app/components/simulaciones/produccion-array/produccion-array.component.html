@@ -1,12 +1,9 @@
-<div class="card-body">
-    <h1>Grafico de Producción</h1>
-    <!--Inicia nuevo diseño  -->
-    <div class="container-fluid">
+
         <div class="row">
             <!-- Lateral izquierdo -->
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 <div class="btn-group-vertical w-100" role="group" aria-label="Months">
-                    <!-- <button type="button" class="btn btn-secondary" (click)="simularSistema(1)">Enero</button>
+                    <button type="button" class="btn btn-secondary" (click)="simularSistema(1)">Enero</button>
                     <button type="button" class="btn btn-secondary" (click)="simularSistema(2)">Febrero</button>
                     <button type="button" class="btn btn-secondary" (click)="simularSistema(3)">Marzo</button>
                     <button type="button" class="btn btn-secondary" (click)="simularSistema(4)">Abril</button>
@@ -17,22 +14,21 @@
                     <button type="button" class="btn btn-secondary" (click)="simularSistema(9)">Septiembre</button>
                     <button type="button" class="btn btn-secondary" (click)="simularSistema(10)">Octubre</button>
                     <button type="button" class="btn btn-secondary" (click)="simularSistema(11)">Noviembre</button>
-                    <button type="button" class="btn btn-secondary" (click)="simularSistema(12)">Diciembre</button> -->
-                    <!-- Agregar botones para los otros meses -->
+                    <button type="button" class="btn btn-secondary" (click)="simularSistema(12)">Diciembre</button>
                 </div>
-            </div>
+            </div> -->
             <!-- Lateral derecho -->
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-lg-12"> <canvas id="ChartPrueba"></canvas></div>
+                <div style="position: relative; height: 25%; width: 100%;">
+                    <canvas id="ChartProduccionMediaHorariaMensual"></canvas>
+                    <!-- <p>Este grafico muestra la producción media por horas para el mes seleccionado</p> -->
                 </div>
-            </div>
-        </div>
-    </div>
-    <!--Finaliza Nuevo diseño  -->
-    <div class="row">
-        <div class="col-lg-6"> <canvas id="ChartInversor"></canvas></div>
-        <div class="col-lg-6"> <canvas id="ChartEstadoBateria"></canvas></div>
-    </div>
+                <div style="position: relative; height: 25%; width: 100%;"> 
+                    <canvas id="ChartProduccionMediaMensual"></canvas>
+                </div>
+                <div style="position: relative; height: 25%; width: 100%;"> <canvas id="ChartVocIsc"></canvas></div>
+                
+                <div style="position: relative; height: 25%; width: 100%;"> <canvas id="ChartTemperaturaAmbienteCelula"></canvas></div>
+                
 
-</div>
+        </div>
+

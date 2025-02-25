@@ -1,41 +1,5 @@
-<div class="container">
-  <h4>Diseñe las Conexiones de los Paneles</h4>
-  {{cantidadPaneles}}
-  <!-- <li class="list-group-item"><strong>VOC:</strong> {{datosPanel.voc}} V</li>
-  <li class="list-group-item"><strong>ISC:</strong> {{datosPanel.isc}} A</li>
-  <li class="list-group-item"><strong>IMPP:</strong> {{datosPanel.impp}} A</li>
-  <li class="list-group-item"><strong>VMPP:</strong> {{datosPanel.vmpp}} V</li> -->
-  <button *ngIf="groups.length ==0 " (click)="addGroup()">Crear Array</button>
 
-  <!-- <div *ngFor="let group of groups; let i = index" class="group">
-    <h3>Grupo {{ i + 1 }}</h3>
-    <table>
-      <tr *ngFor="let row of group.panels; let rowIndex = index">
-        <td *ngFor="let panel of row; let panelIndex = index">
-
-          <div class="panel">
-            <img src="assets/solarpanel.jpg" alt="Panel Solar" class="panel-icon" />
-            <button *ngIf="isSingleColumn(group.panels) || group.panels.length==1"
-              (click)="removePanel(i, rowIndex, panelIndex)">
-              Eliminar
-            </button>
-          </div>
-
-        </td>        
-          <button (click)="removerFila(i, rowIndex)">
-            Eliminar fila
-          </button>       
-      </tr>
-    </table>
-    <button (click)="addPanelInSeries(i)">+ Serie</button>
-    <button (click)="addPanelInParallel(i)">+ Paralelo</button>
-    <button (click)="removeGroup(i)">Eliminar Grupo</button>
-    <p>Voltaje Grupo: {{ group['totalVoltage'] || 0 }}V</p>
-    <p>Corriente Grupo: {{ group['totalCurrent'] || 0 }}A</p>
-  </div> -->
-
-</div>
-
+  <button *ngIf="groups.length ==0" (click)="addGroup()" class="mt-3">Crear Array</button>
 
 <!-- Inicia adaptacion -->
 <div *ngFor="let group of groups; let i = index" class="container group">
@@ -79,57 +43,4 @@
     </div>
   </div>
 
-
 </div>
-
-
-
-<!-- <p>Voltaje Grupo: {{ group['totalVoltage'] || 0 }}V</p>
-<p>Corriente Grupo: {{ group['totalCurrent'] || 0 }}A</p>
-<p>Potencia Array: {{ group['totalPower'] || 0 }}W</p> -->
-
-<!-- <div class="summary">
-  <h2>Resumen Total</h2>
-  <p>Voltaje Total: {{ totalVoltage }}V</p>
-  <p>Corriente Total: {{ totalCurrent }}A</p>
-</div> -->
-
-
-<!---->
-
-
-<!-- Finaliza Adaptacion -->
-
-
-<!-- <div class="container">
-  <div class="general">
-
-    <div class="row">
-      <div class="panel">P1</div>
-      <div class="panel">P2</div>
-      <div class="panel">P3</div>
-      <div class="panel">P4</div>
-    </div>
-
-    <div class="row">
-      <div class="panel">P5</div>
-      <div class="panel">P6</div>
-      <div class="panel">P7</div>
-      <div class="panel">P8</div>
-    </div>
-
-    <div class="row">
-      <div class="panel">P9</div>
-      <div class="panel">P10</div>
-      <div class="panel">P11</div>
-      <div class="panel">P12</div>
-    </div>
-
-
-    <div class="parallel-line"></div>
-
-
-    <div class="parallel-line" style="right: -30px; left: auto;"></div>
-  </div>
-
-</div> -->

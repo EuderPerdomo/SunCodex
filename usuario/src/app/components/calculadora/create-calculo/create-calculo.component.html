@@ -166,7 +166,7 @@
 
 
             <!-- Inician Filtros -->
-            <h4>Seleccione con que tipo de productos desea ralizar los calculos</h4>
+            <!-- <h4>Seleccione con que tipo de productos desea ralizar los calculos</h4>
             <div class="form-check">
               <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
                 (change)="changeRadio()" value="favoritos" [(ngModel)]="filtro">
@@ -195,7 +195,7 @@
               <label for="">Ampliar Radio (Radio en Kilometros)</label>
               <input type="number" class="form-control" placeholder="Radio" required name="radio"
                 [(ngModel)]="radio_busqueda" (ngModelChange)="cambioRadio()">
-            </div>
+            </div> -->
 
             <!-- Finalizan los filtros -->
 
@@ -276,6 +276,7 @@
                           horas de uso diario deben estar entre 1 y 24.</div>
                       </div>
                     </div>
+
 
                     <!-- <div class="col-lg-3 form-group">
                                 <label for="">Uso*</label>                
@@ -496,7 +497,7 @@
                 </select>
               </div>
 
-              <div class="col-3">
+              <!-- <div class="col-3">
                 <div class="form-group" *ngIf="panelResult">
                   <label for="panelesSerie">Series</label>
                   <input type="number" class="form-control" required disabled placeholder="Series" name="panelesSerie"
@@ -527,35 +528,36 @@
                   <input type="number" class="form-control" placeholder="Paralelos" name="VoltajeArray" disabled
                     [(ngModel)]="panelResult.tensionMaxiaGenerador">
                 </div>
-              </div>
-            </div>
+              </div> -->
 
+            </div>
+<!-- 
             <div class="col-lg-6 form-group">
               <div class="col-12 col-lg-6 col-xl">
-                <!-- Card -->
+    
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center gx-0">
                       <div class="col">
 
-                        <!-- Title -->
+                   
                         <h6 class="text-uppercase text-body-secondary mb-2">
                           Minimos Paneles
                         </h6>
 
-                        <!-- Heading -->
+                    
                         <span class="h2 mb-0">
                           {{numero_paneles}} Unidades
                         </span>
 
                       </div>
-                    </div> <!-- / .row -->
+                    </div> 
 
                   </div>
                 </div>
 
               </div>
-            </div>
+            </div> -->
 
             <div class="row">
               <div class="col-lg-6 form-group">
@@ -720,7 +722,11 @@
               </select>
             </div>
 
+            <p>La Profundidad de Descarga (DoD) es el porcentaje de la capacidad total de la batería que se utiliza antes de recargarla, por tanto a menor valor se requeriran mas baterias para el sistema,
+              el valor recomendado es de 60% ya que con esto se garantiza que la bateria mantenga un 40% de carga
+            </p>
 
+            <p>Los días de autonomia hace referencia a los días en los cuales el sistema podria llegar a funcionar sin el suministro de energía por parte de los paneles Solares</p>
             <!--  -->
             <div class="row">
               <div class="col-lg-6 form-group">

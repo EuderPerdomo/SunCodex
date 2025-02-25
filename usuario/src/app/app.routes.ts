@@ -8,6 +8,8 @@ import { SimularPanelComponent } from './components/simulaciones/paneles/simular
 import { SimularLamparaComponent } from './components/simulaciones/lamparas/simular-lampara/simular-lampara.component';
 import { EstandarCalculoComponent } from './components/calculadora/estandar-calculo/estandar-calculo/estandar-calculo.component';
 import { ArreglosComponent } from './components/simulaciones/paneles/arreglos/arreglos.component';
+import { PostListComponent } from './components/blog/post-list/post-list.component';
+import { PostSingleComponent } from './components/blog/post-single/post-single.component';
 
 
 export const routes: Routes = [
@@ -77,6 +79,25 @@ export const routes: Routes = [
 
         ]
       },
+
+      {
+        path:'blog',children:[
+          {
+            path: 'post_list',
+            component: PostListComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
+          {
+            path: 'post_single',
+            component: PostSingleComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
+
+        ]
+      },
+
  
           {
             path: 'aboutMe',

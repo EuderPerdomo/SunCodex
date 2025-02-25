@@ -1966,6 +1966,7 @@ export class CreateCalculoComponent implements AfterViewInit {
           let produce_i = (this.panel_seleccionado.isc * (1 + (this.panel_seleccionado.tc_of_isc / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.paneles_paralelo
           isc_t.push(produce_i)//Tomando en cuenta Una irradiancia especifica
           let produce = (this.panel_seleccionado.potencia * (1 + (this.panel_seleccionado.tc_of_pmax / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.numero_paneles
+
           Potencia_t.push(produce)
 
           //Inicia Controlador

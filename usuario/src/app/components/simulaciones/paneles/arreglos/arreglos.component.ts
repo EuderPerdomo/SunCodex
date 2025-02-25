@@ -37,7 +37,9 @@ export class ArreglosComponent implements OnInit, OnChanges {
   potenciaSalidaArray = 0
   corrienteSalidaArray = 0
   cantidadPanelesArray = 0
-  vmppSalidaArray=0
+  vmppSalidaArray = 0
+  seriesArray = 0
+  paralelosArray = 0
 
   constructor(
     //private _panelSolarService: PanelSolarService,
@@ -119,12 +121,15 @@ export class ArreglosComponent implements OnInit, OnChanges {
         corriente: group.totalCurrent,
         potencia: group.totalPower,
         cantidadPaneles: group.totalPanels,
-        totalVmpp:group.totalVmpp,
+        totalVmpp: group.totalVmpp,
+        series: group.panels[0]?.length || 0,
+        paralelos: group.panels.length
       }))
     };
 
-    console.log('Nuevos valores del array.', nuevosValores)
-    this.ArrayChange.emit(nuevosValores);
+
+    console.log('Nuevos valores del array****************************************************.', nuevosValores)
+    this.ArrayChange.emit(nuevosValores.grupos[0]); //Para emitir todos los grupos dejarlo como: nuevosValores
   }
 
   ngOnInit(): void {
@@ -301,7 +306,7 @@ export class ArreglosComponent implements OnInit, OnChanges {
     }
     this.calculateGroupTotals(groupIndex);
   }
-  
+
   // Calcular el voltaje, corriente y potencia de un grupo
   calculateGroupTotals(groupIndex: number) {
     const group = this.groups[groupIndex];
@@ -310,6 +315,8 @@ export class ArreglosComponent implements OnInit, OnChanges {
     let maxCurrent = 0;
     let totalPanels = 0;
     let powerArray = 0; // Potencia total del grupo
+    let series=0
+    let paralelos=0
 
     group.panels.forEach((row) => {
       if (row.length > 0) {
@@ -336,6 +343,9 @@ export class ArreglosComponent implements OnInit, OnChanges {
     group['totalVmpp'] = totalvmpp;
     group['totalCurrent'] = maxCurrent;
     group['totalPanels'] = totalPanels; // Guardar el total de paneles del grupo
+    group['series']=group.panels[0]?.length || 0,
+    group['paralelos']=group.panels.length
+
 
     console.log(
       `Grupo: ${groupIndex} - Paneles: ${totalPanels} - Voltaje: ${voltage}V - Corriente: ${maxCurrent}A - Potencia: ${powerArray}W`
@@ -349,18 +359,23 @@ export class ArreglosComponent implements OnInit, OnChanges {
     this.corrienteSalidaArray = maxCurrent;
     // this.amperajeArrayChange.emit(this.corrienteSalidaArray); //Aqui emito el valor del nuevo Amperaje
 
-//Salida VMPP ARRAY
-this.vmppSalidaArray = totalvmpp;
+    //Salida VMPP ARRAY
+    this.vmppSalidaArray = totalvmpp;
 
     // Notificar al padre Potencia
     this.potenciaSalidaArray = powerArray;
     //this.potenciaArrayChange.emit(this.potenciaSalidaArray); //Aqui emito el valor del nuevo Potencia
-
-
     // Notificar al padre Cantidad de PANELES
     this.cantidadPanelesArray = totalPanels;
     // this.cantidadPanelesArrayChange.emit(this.cantidadPanelesArray); //Aqui emito el valor del nuevo Potencia
     // Recalcular los totales generales
+
+    this.seriesArray = group.panels[0]?.length || 0,
+
+    this.paralelosArray = group.panels.length
+
+
+
     this.calculateTotals();
   }
 
@@ -373,7 +388,7 @@ this.vmppSalidaArray = totalvmpp;
     this.totalPanels = 0; // Total de paneles en todos los grupos
 
     this.groups.forEach((group) => {
-      if (group['totalVoltage'] && group['totalCurrent'] && group['totalPower'] && group['totalPanels']&& group['totalVmpp']) {
+      if (group['totalVoltage'] && group['totalCurrent'] && group['totalPower'] && group['totalPanels'] && group['totalVmpp']) {
         this.totalVoltage += group['totalVoltage'];
         this.totalCurrent += group['totalCurrent'];
         //this.totalPower += group['totalPower']; // Sumar la potencia de cada grupo
@@ -394,6 +409,8 @@ this.vmppSalidaArray = totalvmpp;
       potencia: this.potenciaSalidaArray,
       cantidadPaneles: this.cantidadPanelesArray,
       vmpp: this.totalVmpp,
+      series: this.seriesArray,
+      paralelos: this.paralelosArray
 
     }
     this.ArrayChange.emit(nuevosValores)
