@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import Chart from 'chart.js/auto'
 
 @Component({
-  selector: 'app-produccion-array',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './produccion-array.component.html',
-  styleUrl: './produccion-array.component.css'
+    selector: 'app-produccion-array',
+    imports: [CommonModule],
+    templateUrl: './produccion-array.component.html',
+    styleUrl: './produccion-array.component.css'
 })
 export class ProduccionArrayComponent implements OnChanges, AfterViewInit {
 

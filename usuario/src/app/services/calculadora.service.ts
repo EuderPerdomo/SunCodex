@@ -158,6 +158,7 @@ resultadoInversor$ = this.resultadoInversorSubject.asObservable();
 actualizarResultadoPanel(panelData: any) {
   this.calculo.resultadoCalculoPanel[0] = panelData;
   this.resultadoPanelSubject.next(panelData);
+  console.log('Actualizo el resultado del panel en el calculadora service',panelData)
 }
 
 actualizarResultadoControlador(controladorData: any) {
@@ -177,6 +178,11 @@ actualizarCalculo(parte: string, valor: any) {
 
 setTensionSistema(tension: any) {
   this.calculo.tension_sistema = tension;
+  //this.resultadoPanelSubject.next(tension);
+}
+
+setNombreCalculo(nombre: any) {
+  this.calculo.nombre = nombre;
   //this.resultadoPanelSubject.next(tension);
 }
 
@@ -251,7 +257,7 @@ getPanelResult() {
 
 
   //referente a Guardado y consulta de Calculo
-  registro_calculo_usuario(data: any, token: any): Observable<any> {
+  registro_calculo_usuario_Original(data: any, token: any): Observable<any> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token });
    // return this._http.post(this.url + 'registro_calculo_usuario', data, { headers: headers });
 
@@ -269,8 +275,16 @@ getPanelResult() {
       return of(false);
     }
 
-
   }
+
+//registro calculo usuario sin registrarse
+registro_calculo_usuario(data: any, token: any): Observable<any> {
+
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token });
+    return this._http.post(this.url + 'registro_calculo_usuario', data, { headers: headers });
+ 
+}
+
 
 
   public isAuthenticate(allowedroles: string[]): boolean {
@@ -303,6 +317,14 @@ getPanelResult() {
     }
   
   }
+
+
+//Obtener calculos del cliente
+
+obtener_calculo_cliente(id: any, token: any): Observable<any> {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token });
+  return this._http.get(this.url + 'obtener_calculo_cliente/' + id, { headers: headers });
+}
 
 
 }

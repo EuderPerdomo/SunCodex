@@ -31,22 +31,20 @@ import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArreglosComponent } from '../../simulaciones/paneles/arreglos/arreglos.component';
-import { ProduccionArrayComponent } from '../../simulaciones/produccion-array/produccion-array.component';
 declare var iziToast: any
 declare var $: any
 
 @Component({
-  selector: 'app-create-calculo',
-  standalone: true,
-  imports: [FooterComponent, NavComponent, CommonModule, FormsModule, TinymceComponent, ArreglosComponent,ProduccionArrayComponent],
-  templateUrl: './create-calculo.component.html',
-  styleUrl: './create-calculo.component.css'
+    selector: 'app-create-calculo',
+    imports: [FooterComponent, NavComponent, CommonModule, FormsModule, TinymceComponent, ArreglosComponent],
+    templateUrl: './create-calculo.component.html',
+    styleUrl: './create-calculo.component.css'
 })
 export class CreateCalculoComponent implements AfterViewInit {
 
   //Pruebas de Componente Hijo
   tipoDeConexion: string = 'series';
-  cantidadPaneles: number = 5;
+  cantidadPaneles: number = 0;
   valorPanel: number = 300;  // Por ejemplo, 300W por panel
 
   //Cambios esperados desde el Componente Hijo
@@ -60,11 +58,43 @@ export class CreateCalculoComponent implements AfterViewInit {
 
 
   cambioArray(valores: any) {
+    
 //Cuando cambia el array en arreglos components actualizo los valores en el padre
     this.cantidadPanelesHijo = valores.cantidadPaneles;
     this.potenciaHijo = valores.potencia;
     this.amperajeHijo = valores.corriente
     this.voltajeHijo = valores.voltaje
+    //Asigno los valores que me retorna El diseño del array Fotovoltaico desde el hijo arreglos
+    //TO-DO observar que no seria necesario asignarlom en esta parte
+    this.panelResult.peakpower=valores.potencia || 0
+    this.panelResult.cantidad_paneles=valores.cantidadPaneles
+
+    console.log('Valores en el componnete padre',valores, this.panelResult)
+
+    const calculoPanel = {
+      potencia_arreglo_fv:valores.potencia,
+     peakpower:valores.potencia,
+      cantidad_paneles:valores.cantidadPaneles,
+      paneles_paralelo:valores.paralelos,
+      paneles_serie:valores.series,
+      //PGmax,
+      voltaje_array_fv:valores.voltaje,
+      amperaje_array_fv:valores.corriente,
+      //tensionMaxiaGenerador,
+     // intensidadMaxiaGenerador,
+    }
+    this._calculadoraService.setPanelResult(calculoPanel);
+    //Pongo los datos en el servicio de calculo y pongo los campos requeridos en True
+
+    this.camposRequeridos.potencia_arreglo_fv = true
+    this.camposRequeridos.paneles_serie = true
+    this.camposRequeridos.paneles_paralelo = true
+    this.camposRequeridos.voltaje_array_fv = true
+    this.camposRequeridos.amperaje_array_fv = true
+
+
+    //TO-DO
+    //Cada vez que se presenta un cambio en el array debo de actualizar los valores de resultados del panel calculado
 
     if (this.cantidadPanelesHijo > this.cantidadPaneles) {
       iziToast.show({
@@ -402,7 +432,7 @@ export class CreateCalculoComponent implements AfterViewInit {
   //******************************** InicioPruebas behavorSubject */
   public data: any
   dataService$: Subscription | undefined
-  public panelResult: any;
+  public panelResult: any ={};
   public controladorResult: any;
   public bateriaResult: any;
   public inversorResult: any;
@@ -468,8 +498,8 @@ export class CreateCalculoComponent implements AfterViewInit {
 
     this._panelSolarService.resultadoPanel$.subscribe(res => {
       console.log('Resultados a asignar', res)
-      this.peakpower = res.peakpower;
-      this.numero_paneles = res.numero_paneles;
+      this.peakpower = res.potencia_arreglo_fv;
+      this.numero_paneles = res.cantidad_paneles;
       this.paneles_paralelo = res.paneles_paralelo;
       this.paneles_serie = res.paneles_serie;
       //this.resultadoPanel = res;
@@ -1350,16 +1380,17 @@ export class CreateCalculoComponent implements AfterViewInit {
       }
 
       const calculoPanel = await this.panel2.calcularPanelesAsync(dataEntrada)
-      this._calculadoraService.setPanelResult(calculoPanel);
-      this.cantidadPaneles = calculoPanel.numero_paneles//Asigna la cantidad de paneles calculados
-      this.panelDefinido = true
-      //Asigno Campos que Son requeridos
-      this.camposRequeridos.potencia_arreglo_fv = true
-      this.camposRequeridos.cantidad_paneles = true
-      this.camposRequeridos.paneles_serie = true
-      this.camposRequeridos.paneles_paralelo = true
-      this.camposRequeridos.voltaje_array_fv = true
-      this.camposRequeridos.amperaje_array_fv = true
+      //TO-DO En esta parte ya no se asignarian los resultados del calculo del panel, estos serian asignados una vez que se diseñe el array fotovoltaico
+      //Entonces aqui solo se determinaria la cantidad minima de paneles necesarios para suplir la necesidad usando el panel que haya sido seleccionado
+      //this._calculadoraService.setPanelResult(calculoPanel); //Esta Linea pone los datos Calculados o resultados del calculo del panel ahora se pondra en el array
+
+      if(calculoPanel.cantidad_paneles != undefined){
+        this.cantidadPaneles = calculoPanel.cantidad_paneles//Asigna la cantidad de paneles calculados
+        this.panelDefinido = true
+        //Asigno Campos que Son requeridos
+        this.camposRequeridos.cantidad_paneles = true
+      }
+
 
     } else {
 
@@ -1464,7 +1495,7 @@ export class CreateCalculoComponent implements AfterViewInit {
         Max_pv_voltaje: this.controlador_seleccionado.Max_pv_voltaje,//controlador_max_pv_input_voltaje
         controlador_tension: this.controlador_seleccionado.tension, //controlador_tension
         amperaje: this.controlador_seleccionado.amperaje,
-        numero_paneles: this.panelResult.numero_paneles,
+        numero_paneles: this.panelResult.cantidad_paneles,
         potencia: this.panel_seleccionado.potencia,
 
         //De los paneles
@@ -1555,7 +1586,7 @@ export class CreateCalculoComponent implements AfterViewInit {
 
   }
 
-  guardarCalculo() {
+  guardarCalculo_Version1() {
     const calculo = this._calculadoraService.obtenerCalculo()
     console.log('Calculo a ser guardado', calculo)
 
@@ -1671,6 +1702,124 @@ export class CreateCalculoComponent implements AfterViewInit {
   }
 
 
+  guardarCalculo() {
+    const calculo = this._calculadoraService.obtenerCalculo()
+    console.log('Calculo a ser guardado', calculo)
+
+    //Determinar tipo de calculo a guardar
+    if (calculo.tipo == "potencias") {
+      calculo.potencias = this.valores
+    }
+    else if (calculo.tipo == 'facturas') {
+      let valor_mes = [
+        this.consumos_mes.mes_1,
+        this.consumos_mes.mes_2,
+        this.consumos_mes.mes_3,
+        this.consumos_mes.mes_4,
+        this.consumos_mes.mes_5,
+        this.consumos_mes.mes_6
+      ]
+      for (let i = 1; i < valor_mes.length; i++) {
+        console.log('Valores arreglo', valor_mes[i])
+        const data = {
+          codigo: i,
+          nombre: "mes_" + i,
+          potencia: valor_mes[i],
+          cantidad: 1,
+          w_totales: 1,
+          horas_dia: 1,
+          consumo_diario: 1
+        }
+
+        this.valores_mensuales.push(data)
+      }
+      calculo.potencias = this.valores_mensuales
+    }
+    //Determinamos si hay potencias agregadas
+    if (calculo.potencias.length >= 1) {
+      this.camposRequeridos.potencias = true
+    } else {
+      this.camposRequeridos.potencias = false
+    }
+
+    this.camposRequeridos.descripcion = true
+    this.camposRequeridos.usuario = true
+
+    //Valores que son por defecto
+    this.camposRequeridos.autoriza_correccion = true
+    this.camposRequeridos.tipo = true
+    this.camposRequeridos.filtro = true
+    this.camposRequeridos.latitud = true
+    this.camposRequeridos.longitud = true
+    this.camposRequeridos.radio_busqueda = true
+
+    const pendientes = this.verificarCampos()
+
+    console.log('campos pendientes,', pendientes, pendientes.size)
+
+    if (pendientes.size >= 1) {
+      iziToast.show({
+        title: 'ALERTA',
+        titleColor: '#FF0000',
+        color: '#FFF',
+        class: 'text-danger',
+        position: 'topRight',
+        message: "Debe completar todos los Pasos para guardar El calculo",
+        displayMode: 1,
+      });
+      return
+    } else {
+      //Estan completos todos los campos, envio al servicio
+      calculo.simultaneo = this.simultaneo
+      calculo.total_dia = this.total_dia
+      calculo.latitud = this.latitud
+      calculo.longitud = this.longitud
+      calculo.radio_busqueda = this.radio_busqueda
+      calculo.filtro = this.filtro
+//Actualizo el Nombre
+this._calculadoraService.setNombreCalculo(this.calculo.nombre)
+
+      this._calculadoraService.registro_calculo_usuario(calculo, this.token).subscribe(
+        response => {
+
+          if (response.data == undefined) {
+            iziToast.show({
+              title: 'ERROR',
+              titleColor: '#FF0000',
+              color: '#FFF',
+              class: 'text-danger',
+              position: 'topRight',
+              message: 'Registrese o inicie sesión para guardar su cálculo'
+            });
+
+            // this._router.navigate(['/calculadora/create/', this.calculo.tipo]);
+
+          }
+          //this.load_btn = false;
+          else {
+            iziToast.show({
+              title: 'SUCCESS',
+              titleColor: '#1DC74C',
+              color: '#FFF',
+              class: 'text-success',
+              position: 'topRight',
+              message: 'Se registro correctamente el Calculo.'
+            });
+
+            this._router.navigate(['/summary/', response.data._id]);
+          }
+        },
+        error => {
+          console.log('Error', error)
+        }
+      );
+
+    }
+
+  }
+
+
+
   //Funcion que verifica que todos los campos esten completos
   verificarCampos(): { pendientes: string[]; size: number } {
     const pendientes: string[] = [];
@@ -1685,6 +1834,7 @@ export class CreateCalculoComponent implements AfterViewInit {
 
   cambioNombre(event: Event) {
     this.camposRequeridos.nombre = true;
+
   }
 
 
@@ -1965,7 +2115,7 @@ export class CreateCalculoComponent implements AfterViewInit {
           voc_t.push(produce_v)
           let produce_i = (this.panel_seleccionado.isc * (1 + (this.panel_seleccionado.tc_of_isc / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.paneles_paralelo
           isc_t.push(produce_i)//Tomando en cuenta Una irradiancia especifica
-          let produce = (this.panel_seleccionado.potencia * (1 + (this.panel_seleccionado.tc_of_pmax / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.numero_paneles
+          let produce = (this.panel_seleccionado.potencia * (1 + (this.panel_seleccionado.tc_of_pmax / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.cantidad_paneles
 
           Potencia_t.push(produce)
 

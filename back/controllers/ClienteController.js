@@ -787,7 +787,7 @@ const registro_calculo_usuario = async function (req, res) {
         let data = req.body;
         let usuario = req.user.sub
         data.usuario = usuario
-        console.log('usuario, que guarda',req.user)
+        console.log('usuario, que guarda',req.user,"datos a Guardar", req.body)
 
         //Inicia consulta de cada componente
         var arregloSinDuplicados = []

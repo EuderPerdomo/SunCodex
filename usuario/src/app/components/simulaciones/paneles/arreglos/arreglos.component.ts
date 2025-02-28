@@ -1,6 +1,4 @@
 import { Component, Input, OnInit, EventEmitter, Output, SimpleChanges, OnChanges } from '@angular/core';
-import { FooterComponent } from "../../../footer/footer.component";
-import { NavComponent } from '../../../nav/nav.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SolarPanel } from '../../../../interface/arreglos';
@@ -11,11 +9,10 @@ declare var iziToast: any
 declare var $: any
 
 @Component({
-  selector: 'app-arreglos',
-  standalone: true,
-  imports: [FooterComponent, NavComponent, FormsModule, CommonModule],
-  templateUrl: './arreglos.component.html',
-  styleUrl: './arreglos.component.css'
+    selector: 'app-arreglos',
+    imports: [FormsModule, CommonModule],
+    templateUrl: './arreglos.component.html',
+    styleUrl: './arreglos.component.css'
 })
 export class ArreglosComponent implements OnInit, OnChanges {
 
@@ -129,7 +126,10 @@ export class ArreglosComponent implements OnInit, OnChanges {
 
 
     console.log('Nuevos valores del array****************************************************.', nuevosValores)
-    this.ArrayChange.emit(nuevosValores.grupos[0]); //Para emitir todos los grupos dejarlo como: nuevosValores
+    if (nuevosValores.grupos.length > 0) {
+      this.ArrayChange.emit(nuevosValores.grupos[0]); 
+    } 
+    //this.ArrayChange.emit(nuevosValores.grupos[0]); //Para emitir todos los grupos dejarlo como: nuevosValores
   }
 
   ngOnInit(): void {
@@ -373,9 +373,6 @@ export class ArreglosComponent implements OnInit, OnChanges {
     this.seriesArray = group.panels[0]?.length || 0,
 
     this.paralelosArray = group.panels.length
-
-
-
     this.calculateTotals();
   }
 
@@ -403,8 +400,9 @@ export class ArreglosComponent implements OnInit, OnChanges {
     );
 
     //Aqui esta dado como si fuese el primer array o en dado caso tomaria el ultimo array
-    const nuevosValores = {
-      voltaje: this.voltajeSalidaArray,
+  
+   /* const nuevosValores = {
+      voltaje: this.voltajeSalidaArray ,
       corriente: this.corrienteSalidaArray,
       potencia: this.potenciaSalidaArray,
       cantidadPaneles: this.cantidadPanelesArray,
@@ -413,7 +411,28 @@ export class ArreglosComponent implements OnInit, OnChanges {
       paralelos: this.paralelosArray
 
     }
+    console.log('nuevos Valores a Emitir',nuevosValores)
     this.ArrayChange.emit(nuevosValores)
+*/
+
+const nuevosValores = {
+  voltaje: this.voltajeSalidaArray || 0,
+  corriente: this.corrienteSalidaArray || 0,
+  potencia: this.potenciaSalidaArray || 0,
+  cantidadPaneles: this.cantidadPanelesArray || 0,
+  vmpp: this.totalVmpp || 0,
+  series: this.seriesArray || 0,
+  paralelos: this.paralelosArray || 0
+};
+
+console.log('Nuevos Valores a Emitir:', nuevosValores);
+
+// Emitir solo si hay datos válidos
+if (this.totalPanels > 0) {
+  this.ArrayChange.emit(nuevosValores);
+} else {
+  console.warn('No hay paneles en el array, no se emiten valores.');
+}
 
   }
 

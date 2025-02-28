@@ -102,7 +102,7 @@ console.log('Recibo En baterias:', data)
       //this.bateriaDefinido = true
 
       const batterysize = total_baterias * (data.voltaje * data.amperaje)
-      const cuttoff = data.profundida
+      const cuttoff = parseFloat(data.profundidad)
 
       const resultadoBateria = {
         baterias_serie,

@@ -96,3 +96,15 @@
 .card-header{
   padding: auto;
 }
+
+
+/*textos que cambian de color en la calculadora*/
+
+.text-danger {
+  color: red;
+  font-weight: bold;
+}
+
+.text-default {
+  color: black; /* O cualquier otro color */
+}

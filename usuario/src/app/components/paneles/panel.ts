@@ -62,10 +62,11 @@ export class PanelSolar {
       ////////Inicio
       console.log('datos del panel', datos)
       //Valores para emitir
-      var numero_paneles = 0
+      var cantidad_paneles = 0
       var paneles_paralelo = 0
       var paneles_serie = 0
-      var peakpower = 0
+      var potencia_arreglo_fv
+ = 0
 
 
       //Iniciamos nuevo calculo de paneles ****************************************************************
@@ -82,7 +83,8 @@ export class PanelSolar {
       console.log('porcentaje', porcentaje)
 
       //Calculo numero de modulos
-      var numeropaneles = Math.round(PotenciaMinimaGenerador / datos.potencia)
+      var numeropaneles = Math.round(PotenciaMinimaGenerador / datos.potencia) // Este seria el unico dato retornado, en esta parte ya que los demas deben ser retornados de acuerdo a como se realice la disposicion del array fotovoltaico
+      
       console.log('Numero de apaneles calculados', numeropaneles, datos.potencia)
 
       if (numeropaneles < 1) {
@@ -94,7 +96,7 @@ export class PanelSolar {
       //Potencia resultante del generador
       const PotenciaGenerador = numeropaneles * datos.potencia
       console.log('resultante de potencia generador', PotenciaGenerador)
-      peakpower = PotenciaGenerador //Valor de salida
+      potencia_arreglo_fv= PotenciaGenerador //Valor de salida
 
 
       //Disposicion
@@ -111,13 +113,13 @@ export class PanelSolar {
           message: "Considere Usar un regulador MPPT, cambie la tension en las baterias o use un panel de menor tension",
           displayMode: 1
         });
-        numero_paneles = numeropaneles
+        cantidad_paneles = numeropaneles
         paneles_paralelo = numeropaneles
         paneles_serie = 1
       }
 
       if (Np == 1) {
-        numero_paneles = numeropaneles
+        cantidad_paneles = numeropaneles
         paneles_paralelo = numeropaneles
         paneles_serie = 1
 
@@ -128,14 +130,14 @@ export class PanelSolar {
         if (Np == 2) {
           const panelestotales = this.redondearAlMultiploSuperior(numeropaneles, 2)
 
-          numero_paneles = panelestotales
+          cantidad_paneles = panelestotales
           paneles_paralelo = panelestotales / 2
           paneles_serie = 2
 
         } else { //Deberia ser 4
           const panelestotales = this.redondearAlMultiploSuperior(numeropaneles, 4)
 
-          numero_paneles = panelestotales
+          cantidad_paneles = panelestotales
           paneles_paralelo = panelestotales / 4
           paneles_serie = 4
 
@@ -145,10 +147,10 @@ export class PanelSolar {
 
 
       //Inicia calcular posibles configuraciones serie paralelo
-      console.log('Inicia calcular configuraciones posibles', numero_paneles)
-      for (let i = 1; i <= numero_paneles; i++) {
-        if (numero_paneles % i === 0) {
-          console.log('Configuracion Posible:','paralelo',numero_paneles/i,'serie',i)
+      console.log('Inicia calcular configuraciones posibles', cantidad_paneles)
+      for (let i = 1; i <= cantidad_paneles; i++) {
+        if (cantidad_paneles % i === 0) {
+          console.log('Configuracion Posible:','paralelo',cantidad_paneles/i,'serie',i)
         }
       }
 
@@ -158,7 +160,7 @@ export class PanelSolar {
       const porcentaje2 = 1.2 * PotenciaMinimaGenerador
 
       //Potencia resultante del generador
-      const PGmax = numero_paneles * datos.potencia
+      const PGmax = cantidad_paneles * datos.potencia
 
 
       if (PGmax < 1.2 * PotenciaMinimaGenerador && Np >= 1) {
@@ -193,8 +195,9 @@ export class PanelSolar {
       const intensidadMaxiaGenerador = paneles_paralelo * datos.impp
 
       const resultadoPanel = {
-        peakpower,
-        numero_paneles,
+        potencia_arreglo_fv
+,
+        cantidad_paneles,
         paneles_paralelo,
         paneles_serie,
         PGmax,
@@ -214,10 +217,11 @@ export class PanelSolar {
   calcularPaneles(datos: any) {
     console.log('datos del panel', datos)
     //Valores para emitir
-    var numero_paneles = 0
+    var cantidad_paneles = 0
     var paneles_paralelo = 0
     var paneles_serie = 0
-    var peakpower = 0
+    var potencia_arreglo_fv
+ = 0
 
 
     //Iniciamos nuevo calculo de paneles ****************************************************************
@@ -246,7 +250,8 @@ export class PanelSolar {
     //Potencia resultante del generador
     const PotenciaGenerador = numeropaneles * datos.potencia
     console.log('resultante de potencia generador', PotenciaGenerador)
-    peakpower = PotenciaGenerador //Valor de salida
+    potencia_arreglo_fv
+ = PotenciaGenerador //Valor de salida
 
 
     //Disposicion
@@ -263,13 +268,13 @@ export class PanelSolar {
         message: "Considere Usar un regulador MPPT, cambie la tension en las baterias o use un panel de menor tension",
         displayMode: 1
       });
-      numero_paneles = numeropaneles
+      cantidad_paneles = numeropaneles
       paneles_paralelo = numeropaneles
       paneles_serie = 1
     }
 
     if (Np == 1) {
-      numero_paneles = numeropaneles
+      cantidad_paneles = numeropaneles
       paneles_paralelo = numeropaneles
       paneles_serie = 1
 
@@ -280,14 +285,14 @@ export class PanelSolar {
       if (Np == 2) {
         const panelestotales = this.redondearAlMultiploSuperior(numeropaneles, 2)
 
-        numero_paneles = panelestotales
+        cantidad_paneles = panelestotales
         paneles_paralelo = panelestotales / 2
         paneles_serie = 2
 
       } else { //Deberia ser 4
         const panelestotales = this.redondearAlMultiploSuperior(numeropaneles, 4)
 
-        numero_paneles = panelestotales
+        cantidad_paneles = panelestotales
         paneles_paralelo = panelestotales / 4
         paneles_serie = 4
 
@@ -299,7 +304,7 @@ export class PanelSolar {
     const porcentaje2 = 1.2 * PotenciaMinimaGenerador
 
     //Potencia resultante del generador
-    const PGmax = numero_paneles * datos.potencia
+    const PGmax = cantidad_paneles * datos.potencia
 
 
     if (PGmax < 1.2 * PotenciaMinimaGenerador && Np >= 1) {
@@ -332,8 +337,9 @@ export class PanelSolar {
 
     console.log('Ahora emitir')
     const resultadoPanel = {
-      peakpower,
-      numero_paneles,
+      potencia_arreglo_fv
+,
+      cantidad_paneles,
       paneles_paralelo,
       paneles_serie,
       PGmax,
@@ -346,8 +352,9 @@ export class PanelSolar {
 
     /*
 this.resultadoPanelSubject.next({
- peakpower,
- numero_paneles,
+ potencia_arreglo_fv
+,
+ cantidad_paneles,
  paneles_paralelo,
  paneles_serie,
  PGmax,
@@ -360,8 +367,9 @@ this.resultadoPanelSubject.next({
     
     
           this._calculoService.actualizarResultadoPanel({
-            peakpower,
-            numero_paneles,
+            potencia_arreglo_fv
+,
+            cantidad_paneles,
             paneles_paralelo,
             paneles_serie,
           });

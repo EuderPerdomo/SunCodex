@@ -19,6 +19,10 @@ var bateria_routes=require('./routes/bateria')
 
 var lampara_routes=require('./routes/lampara')
 
+var blog_routes = require('./routes/blog');
+var config_routes = require('./routes/config');
+
+
 //Cambiar la base de datos a   calculadoraSolar 	
 
 //mongoose.connect('mongodb://127.0.0.1:27017/calculadoraSolar',{useUnifiedTopology: true, useNewUrlParser: true}, (err,res)=>{
@@ -57,5 +61,7 @@ app.use('/api',inversor_routes)
 app.use('/api',bateria_routes)
 
 app.use('/api',lampara_routes)
+app.use('/api',blog_routes);
+app.use('/api',config_routes)
 
 module.exports = app;

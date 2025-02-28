@@ -10,17 +10,16 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { CdkAccordionModule, CdkAccordionItem } from '@angular/cdk/accordion';
-import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
+//import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 import { GuestServiceService } from '../../../../services/guest-service.service';
 
 
 @Component({
-  selector: 'app-simular-lampara',
-  standalone: true,
-  imports: [NavComponent, FooterComponent, FormsModule, CommonModule, CdkAccordionItem, CdkDropList, CommonModule, CdkDrag],
-  templateUrl: './simular-lampara.component.html',
-  styleUrl: './simular-lampara.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    selector: 'app-simular-lampara',
+    imports: [NavComponent, FooterComponent, FormsModule, CommonModule, CdkAccordionItem, CommonModule],
+    templateUrl: './simular-lampara.component.html',
+    styleUrl: './simular-lampara.component.css',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SimularLamparaComponent implements AfterViewInit {
 

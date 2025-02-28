@@ -1,0 +1,14 @@
+/*Para realizar los cambios enntre opciones*/
+.ps-tab {
+    display: none;
+  }
+
+  .ps-tab.active {
+    display: block;
+  }
+
+
+  /*campos invalidos en el formulario*/
+  .invalid-field input {
+    border-color: #f44336; 
+  }

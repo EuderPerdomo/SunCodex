@@ -10,10 +10,13 @@ import { EstandarCalculoComponent } from './components/calculadora/estandar-calc
 import { ArreglosComponent } from './components/simulaciones/paneles/arreglos/arreglos.component';
 import { PostListComponent } from './components/blog/post-list/post-list.component';
 import { PostSingleComponent } from './components/blog/post-single/post-single.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 export const routes: Routes = [
 
+  { path: 'login', component:LoginComponent },
+  
     {
         path: '',
         component: InicioComponent,
@@ -89,7 +92,7 @@ export const routes: Routes = [
             //data: { allowedRoles: ['user', 'admin'] }
           },
           {
-            path: 'post_single',
+            path: ':slug',
             component: PostSingleComponent,
             //canActivate: [adminGuard],
             //data: { allowedRoles: ['user', 'admin'] }
@@ -97,6 +100,12 @@ export const routes: Routes = [
 
         ]
       },
+
+      /*
+      { path: 'blog', component:BlogListComponent },
+{ path: 'blog/categoria/:categoria', component:BlogListComponent},
+{ path: 'blog/:slug', component:SingleBlogComponent }
+      */
 
  
           {

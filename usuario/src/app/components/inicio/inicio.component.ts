@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from '../footer/footer.component';
-import { CommonModule, NgStyle } from '@angular/common';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import { RouterModule } from '@angular/router';
@@ -10,12 +10,11 @@ import { RouterModule } from '@angular/router';
 register();
 
 @Component({
-  selector: 'app-inicio',
-  standalone: true,
-  imports: [NavComponent,FooterComponent,NgStyle,RouterModule,CommonModule],
-  templateUrl: './inicio.component.html',
-  styleUrl: './inicio.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    selector: 'app-inicio',
+    imports: [NavComponent, FooterComponent, RouterModule, CommonModule],
+    templateUrl: './inicio.component.html',
+    styleUrl: './inicio.component.css',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class InicioComponent implements OnInit {
 

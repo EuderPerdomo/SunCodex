@@ -28,11 +28,10 @@ import { GeometriaVial } from './crearGeometriaVial';
 import { TransformControls } from 'three/addons/controls/TransformControls.js'
 
 @Component({
-  selector: 'app-simular-panel-solar',
-  standalone: true,
-  imports: [NavComponent, FooterComponent, CommonModule, FormsModule],
-  templateUrl: './simular-panel-solar.component.html',
-  styleUrl: './simular-panel-solar.component.css'
+    selector: 'app-simular-panel-solar',
+    imports: [NavComponent, FooterComponent, CommonModule, FormsModule],
+    templateUrl: './simular-panel-solar.component.html',
+    styleUrl: './simular-panel-solar.component.css'
 })
 export class SimularPanelSolarComponent implements AfterViewInit, OnInit {
 

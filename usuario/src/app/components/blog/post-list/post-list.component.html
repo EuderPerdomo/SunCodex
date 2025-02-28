@@ -25,9 +25,10 @@
         <h1 class="mb-4 pb-1 pb-md-3">SunCodeX Blog</h1>
 
         <!-- Post -->
-        <!-- <article class="image-scale card border-0 mb-5 pb-md-2" *ngFor="let item of posts | slice: (page-1)*pageSize : (page-1) * pageSize + pageSize">
+         <article class="image-scale card border-0 mb-5 pb-md-2" *ngFor="let item of posts | slice: (page-1)*pageSize : (page-1) * pageSize + pageSize">
           <a [routerLink]="['/blog/'+item.slug]" class="image-inner card-header mb-3 p-0 border-0 rounded position-relative">
-            <img [src]="item.portada" alt="Imagen no encontrada"  style="max-width: 1216px; max-height: 540px;">
+            <!-- <img [src]="item.portada" alt="Imagen no encontrada"  style="max-width: 1216px; max-height: 540px;"> -->
+            <img [src]="getCloudinaryImageUrl(item.portada, 400, 90, 'fill')" alt="Product image">
           </a>
           <div class="card-body p-0">
             <ul class="nav nav-muted mb-2 pb-1">
@@ -57,12 +58,12 @@
             </div>
 
           </div>
-        </article> -->
+        </article> 
 
 
         <!-- Pagination -->
 
-        <!-- <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="posts.length"></ngb-pagination>  -->
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="posts.length"></ngb-pagination>
 
       </div>
 

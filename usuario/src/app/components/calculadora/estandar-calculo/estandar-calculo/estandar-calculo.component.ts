@@ -14,12 +14,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-estandar-calculo',
-  standalone: true,
-  imports: [NavComponent, FooterComponent, CdkAccordionItem, CdkDropList, CommonModule, CdkDrag],
-  templateUrl: './estandar-calculo.component.html',
-  styleUrl: './estandar-calculo.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    selector: 'app-estandar-calculo',
+    imports: [NavComponent, FooterComponent, CdkAccordionItem, CdkDropList, CommonModule, CdkDrag],
+    templateUrl: './estandar-calculo.component.html',
+    styleUrl: './estandar-calculo.component.css',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class EstandarCalculoComponent implements AfterViewInit {
 

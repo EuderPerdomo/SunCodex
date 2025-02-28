@@ -40,11 +40,10 @@ declare var iziToast: any
 
 
 @Component({
-  selector: 'app-simular-panel',
-  standalone: true,
-  imports: [NavComponent, FooterComponent, FormsModule, CommonModule, ArreglosComponent,ProduccionArrayComponent],
-  templateUrl: './simular-panel.component.html',
-  styleUrl: './simular-panel.component.css'
+    selector: 'app-simular-panel',
+    imports: [NavComponent, FooterComponent, FormsModule, CommonModule, ArreglosComponent, ProduccionArrayComponent],
+    templateUrl: './simular-panel.component.html',
+    styleUrl: './simular-panel.component.css'
 })
 export class SimularPanelComponent implements AfterViewInit, OnInit {
   panelForm!: FormGroup

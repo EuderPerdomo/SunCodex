@@ -591,6 +591,13 @@
                   </div>
                 </div>
               </div>
+              <h4>Diseñe Aqui su Array Fotovoltaico</h4>
+              <app-arreglos [valorPanel]="valorPanel" 
+              [cantidadPaneles]="cantidadPaneles"
+                [datosPanel]="panel_seleccionado" 
+                (ArrayChange)="cambioArray($event)">
+              </app-arreglos>
+
 
             </div>
           </div>
@@ -656,11 +663,6 @@
             <!-- <h4>Voltaje {{voltajeHijo}}</h4>
             <h4>Amperaje {{amperajeHijo}}</h4>
              <h4>Potencia {{potenciaHijo}}</h4> -->
-            <app-arreglos [valorPanel]="valorPanel" 
-            [cantidadPaneles]="cantidadPaneles"
-              [datosPanel]="panel_seleccionado" 
-              (ArrayChange)="cambioArray($event)">
-            </app-arreglos>
 
           </div>
           <!--Finaliza Controlador  -->
@@ -845,7 +847,6 @@
             <label for="">Nombre Calculo</label>
             <input type="text" class="form-control" placeholder="Nombre" required name="nombre_equipo"
               [(ngModel)]="calculo.nombre" (change)="cambioNombre($event)">
-
             <div class="form-check">
               <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
                 [(ngModel)]="calculo.autoriza_correccion" [value]="true">
@@ -963,11 +964,32 @@
 
           <div class="col-lg-12" *ngIf="panelResult">
             <p class="menu-title">Paneles Fotovoltaicos</p>
+           
+            <div class="menu-item" 
+            [ngClass]="{'text-danger': panelResult?.cantidad_paneles < cantidadPaneles, 'text-default': panelResult?.cantidad_paneles >= cantidadPaneles}">
+         <i class="fas fa-solar-panel"></i> Minimo Paneles Requeridos: {{cantidadPaneles}} Unidades
+       </div>
+       
+       <div class="menu-item" 
+            [ngClass]="{'text-danger': panelResult?.cantidad_paneles < cantidadPaneles, 'text-default': panelResult?.cantidad_paneles >= cantidadPaneles}">
+         <i class="fa-solid fa-circle-nodes"></i> Paneles Array: {{panelResult?.cantidad_paneles}} Unidades
+       </div>
+       
+
             <div class="menu-item">
-              <i class="fas fa-solar-panel"></i> Paneles Requeridos: {{panelResult.numero_paneles}} Unidades
+              <i class="fas fa-solar-panel"></i> Intensidad Salida Array: {{panelResult.amperaje_array_fv}} Ah
             </div>
             <div class="menu-item">
-              <i class="fas fa-solar-panel"></i> Potencia Arreglo FV: {{panelResult.peakpower}} W
+              <i class="fas fa-solar-panel"></i> Voltaje Salida Array: {{panelResult.voltaje_array_fv}} V
+            </div>
+            <div class="menu-item">
+              <i class="fa-solid fa-vector-square"></i>Paneles en Serie: {{panelResult.paneles_serie}} Unidades
+            </div>
+            <div class="menu-item">
+              <i class="fa-solid fa-vector-square"></i> Paneles En Paralelo: {{panelResult.paneles_paralelo}} Unidades
+            </div>
+            <div class="menu-item">
+              <i class="fa-solid fa-dumbbell"></i> Potencia Arreglo FV: {{panelResult.peakpower}} W
             </div>
           </div>
 
