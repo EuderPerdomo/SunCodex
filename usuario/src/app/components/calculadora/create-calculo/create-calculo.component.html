@@ -531,7 +531,7 @@
               </div> -->
 
             </div>
-<!-- 
+            <!-- 
             <div class="col-lg-6 form-group">
               <div class="col-12 col-lg-6 col-xl">
     
@@ -592,10 +592,8 @@
                 </div>
               </div>
               <h4>Diseñe Aqui su Array Fotovoltaico</h4>
-              <app-arreglos [valorPanel]="valorPanel" 
-              [cantidadPaneles]="cantidadPaneles"
-                [datosPanel]="panel_seleccionado" 
-                (ArrayChange)="cambioArray($event)">
+              <app-arreglos [valorPanel]="valorPanel" [cantidadPaneles]="cantidadPaneles"
+                [datosPanel]="panel_seleccionado" (ArrayChange)="cambioArray($event)">
               </app-arreglos>
 
 
@@ -692,16 +690,16 @@
                 name="profundidad" (change)="calcularBaterias()"><!-- -->
                 <option value="0" selected disabled>Seleccionar</option>
                 <!-- <option value="{{item._id}}" *ngFor="let item of categorias">{{item.titulo}}</option> -->
-                <option value=0.10>10% Menor vida Util</option>
-                <option value=0.20>20%</option>
-                <option value=0.30>30%</option>
-                <option value=0.40>40% Recomendada</option>
-                <option value=0.50>50% </option>
-                <option value=0.60>60%</option>
-                <option value=0.70>70%</option>
-                <option value=0.80>80%</option>
-                <option value=0.90>90%</option>
-                <option value=1>100%</option>
+                <option [ngValue]=0.10>10% </option>
+                <option [ngValue]=0.20>20%</option>
+                <option [ngValue]=0.30>30%</option>
+                <option [ngValue]=0.40>40% </option>
+                <option [ngValue]=0.50>50% </option>
+                <option [ngValue]=0.60>60%</option>
+                <option [ngValue]=0.70>70% Recomendada</option>
+                <option [ngValue]=0.80>80%</option>
+                <option [ngValue]=0.90>90% Menor vida Util</option>
+                <option [ngValue]=1>100% No Recomendada</option>
               </select>
             </div>
 
@@ -711,24 +709,26 @@
                 [(ngModel)]="dias_autonomia" (change)="calcularBaterias()">
                 <option value="0" selected disabled>Seleccionar</option>
                 <!-- <option value="{{item._id}}" *ngFor="let item of categorias">{{item.titulo}}</option> -->
-                <option value=1>1 Día Baja cantidad de Baterias</option>
-                <option value=2>2 Días</option>
-                <option value=3>3 Días</option>
-                <option value=4>4 Días</option>
-                <option value=5>5 Días</option>
-                <option value=6>6 Días</option>
-                <option value=7>7 Días</option>
-                <option value=8>8 Días</option>
-                <option value=9>9 Días</option>
-                <option value=10>10 Días Alta Cantidad de Baterias</option>
+                <option [ngValue]=1>1 Día Baja cantidad de Baterias</option>
+                <option [ngValue]=2>2 Días</option>
+                <option [ngValue]=3>3 Días</option>
+                <option [ngValue]=4>4 Días</option>
+                <option [ngValue]=5>5 Días</option>
+                <option [ngValue]=6>6 Días</option>
+                <option [ngValue]=7>7 Días</option>
+                <option [ngValue]=8>8 Días</option>
+                <option [ngValue]=9>9 Días</option>
+                <option [ngValue]=10>10 Días Alta Cantidad de Baterias</option>
               </select>
             </div>
 
-            <p>La Profundidad de Descarga (DoD) es el porcentaje de la capacidad total de la batería que se utiliza antes de recargarla, por tanto a menor valor se requeriran mas baterias para el sistema,
+            <p>La Profundidad de Descarga (DoD) es el porcentaje de la capacidad total de la batería que se utiliza
+              antes de recargarla, por tanto a menor valor se requeriran mas baterias para el sistema,
               el valor recomendado es de 60% ya que con esto se garantiza que la bateria mantenga un 40% de carga
             </p>
 
-            <p>Los días de autonomia hace referencia a los días en los cuales el sistema podria llegar a funcionar sin el suministro de energía por parte de los paneles Solares</p>
+            <p>Los días de autonomia hace referencia a los días en los cuales el sistema podria llegar a funcionar sin
+              el suministro de energía por parte de los paneles Solares</p>
             <!--  -->
             <div class="row">
               <div class="col-lg-6 form-group">
@@ -962,19 +962,19 @@
             </div>
           </div>
 
-          <div class="col-lg-12" *ngIf="panelResult">
+          <div class="col-lg-12" *ngIf="panelDefinido">
             <p class="menu-title">Paneles Fotovoltaicos</p>
-           
-            <div class="menu-item" 
-            [ngClass]="{'text-danger': panelResult?.cantidad_paneles < cantidadPaneles, 'text-default': panelResult?.cantidad_paneles >= cantidadPaneles}">
-         <i class="fas fa-solar-panel"></i> Minimo Paneles Requeridos: {{cantidadPaneles}} Unidades
-       </div>
-       
-       <div class="menu-item" 
-            [ngClass]="{'text-danger': panelResult?.cantidad_paneles < cantidadPaneles, 'text-default': panelResult?.cantidad_paneles >= cantidadPaneles}">
-         <i class="fa-solid fa-circle-nodes"></i> Paneles Array: {{panelResult?.cantidad_paneles}} Unidades
-       </div>
-       
+
+            <div class="menu-item"
+              [ngClass]="{'text-danger': panelResult?.cantidad_paneles < cantidadPaneles, 'text-default': panelResult?.cantidad_paneles >= cantidadPaneles}">
+              <i class="fas fa-solar-panel"></i> Minimo Paneles Requeridos: {{cantidadPaneles}} Unidades
+            </div>
+
+            <div class="menu-item"
+              [ngClass]="{'text-danger': panelResult?.cantidad_paneles < cantidadPaneles, 'text-default': panelResult?.cantidad_paneles >= cantidadPaneles}">
+              <i class="fa-solid fa-circle-nodes"></i> Paneles Array: {{panelResult?.cantidad_paneles}} Unidades
+            </div>
+
 
             <div class="menu-item">
               <i class="fas fa-solar-panel"></i> Intensidad Salida Array: {{panelResult.amperaje_array_fv}} Ah
@@ -993,7 +993,7 @@
             </div>
           </div>
 
-          <div class="col-lg-12" *ngIf="controladorResult">
+          <div class="col-lg-12" *ngIf="panelDefinido">
             <p class="menu-title">Controlador</p>
             <div class="menu-item">
               <i class="fas fa-microchip"></i> Voltaje Mín. Controlador: {{controladorResult.minVoltageControlador}} V
@@ -1006,9 +1006,10 @@
 
 
           <div class="col-lg-12" *ngIf="bateriaResult">
+            <div>Logotipo hecho con <a href="https://www.designevo.com/es/" title="Creador de logotipos gratis online">DesignEvo</a></div>
             <p class="menu-title">Baterías</p>
             <div class="menu-item">
-              <i class="fas fa-battery-full"></i> Baterías Requeridas: {{bateriaResult.baterias}} Unidades
+              <i class="fas fa-battery-full"></i> Baterías Requeridas: {{bateriaResult.total_baterias}} Unidades
             </div>
             <div class="menu-item">
               <i class="fas fa-battery-half"></i> Baterías en Serie: {{bateriaResult.baterias_serie}} Unidades

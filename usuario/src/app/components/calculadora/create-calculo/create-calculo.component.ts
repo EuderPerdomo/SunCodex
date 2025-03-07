@@ -86,11 +86,35 @@ export class CreateCalculoComponent implements AfterViewInit {
     this._calculadoraService.setPanelResult(calculoPanel);
     //Pongo los datos en el servicio de calculo y pongo los campos requeridos en True
 
+//TO-DO Cada vez que se modIFICAN LOS PANELES O EL aRRAY DEBERIA VALIDAR LA CORRIENTE Y VOLTAJE MINIMO DEL CONTROLADOR SOLAR, Y CUANDO SELECCIONE EL CONTROLADOR LO UNICO QUE TENGO QUE HACER ES VALIDAR LA COMPATIBILIDAD
+
+//iNICIA VALIDAR MAX. MINIMO cONTROLADOR
+
+const IGsc = calculoPanel.paneles_paralelo * this.panel_seleccionado.isc//Intensidad corto Circuito del los paneles
+const minCorrienteControlador = 1.25 * IGsc
+//this.camposRequeridos.minCorrienteControlador = true
+
+//Determinar tEnsion minima controlador
+const UGoc = calculoPanel.paneles_serie * this.panel_seleccionado.voc
+
+const minVoltageControlador = UGoc + (this.panel_seleccionado.tc_of_voc) * (-10 - 25)
+
+console.log('estos serian los valores minimos que deberia tener el controlador solar a conecar',minCorrienteControlador,minVoltageControlador)
+
+this.controladorResult.minVoltageControlador=minVoltageControlador,
+this.controladorResult.minCorrienteControlador=minCorrienteControlador,
+//fINALIZA CORRIENTE MAXIMA mINIMA cONTROLADOR
+
+
+
+
+
     this.camposRequeridos.potencia_arreglo_fv = true
     this.camposRequeridos.paneles_serie = true
     this.camposRequeridos.paneles_paralelo = true
     this.camposRequeridos.voltaje_array_fv = true
     this.camposRequeridos.amperaje_array_fv = true
+    
 
 
     //TO-DO
@@ -366,8 +390,8 @@ export class CreateCalculoComponent implements AfterViewInit {
 
   //Calculos baterias
   //Paso 5, Baterias
-  public profundidad = 0.40 //Dejamos por defecto 0.4
-  public dias_autonomia = 1 //Dejamos por defecto 1 día
+  public profundidad:number = 0.40 //Dejamos por defecto 0.4
+  public dias_autonomia:number = 1 //Dejamos por defecto 1 día
   public baterias_bd: Array<any> = []
   public portada_bateria = 'assets/img/01.jpg'
   public descripcion_bateria = ''
@@ -433,7 +457,7 @@ export class CreateCalculoComponent implements AfterViewInit {
   public data: any
   dataService$: Subscription | undefined
   public panelResult: any ={};
-  public controladorResult: any;
+  public controladorResult: any={};
   public bateriaResult: any;
   public inversorResult: any;
   //********************************Fin Pruebas behavorSubject */
@@ -1486,7 +1510,7 @@ export class CreateCalculoComponent implements AfterViewInit {
 
   async calcularControlador() {
     //antes debo validar que  
-    if (this.tensionDefinida && this.panelDefinido) {
+    if (this.tensionDefinida && this.panelDefinido &&  this.panelResult.cantidad_paneles >=1 ) {
 
       console.log('Informacion de los paneles Solares', this.panelResult)
       const data = {
@@ -1527,7 +1551,7 @@ export class CreateCalculoComponent implements AfterViewInit {
         color: '#FFF',
         class: 'text-danger',
         position: 'topRight',
-        message: "Primero debe definir Tension del Sistema y paneles a Emplear"
+        message: "Primero debe definir Tension del Sistema, paneles a Emplear y configuración del Array"
       });
     }
   }

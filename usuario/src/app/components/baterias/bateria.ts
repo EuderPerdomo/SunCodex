@@ -75,7 +75,7 @@ console.log('Recibo En baterias:', data)
           color: '#FFF',
           class: 'text-danger',
           position: 'topRight',
-          message: "Sobredimensionar el modulo de baterias puede ocasionar una carga inadecuada de las mismas.",
+          message: "Sobredimensionar el modulo de baterias puede ocasionar una carga inadecuada de las mismas, pruebe usando baterias de menor capacidad.",
           displayMode: 1,
         });
       }

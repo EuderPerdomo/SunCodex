@@ -40,8 +40,10 @@
                         <!-- Nombre e Interacción -->
                         <div class="flex-grow-1">
                           <p class="mb-1 fw-bold">{{sub.nombre}}</p>
-                          <button class="btn btn-sm btn-primary"
+                          <button class="btn btn-sm btn-primary m-2"
                             (click)="cargarLampara2(indiceColeccion,indiceLampara)">Seleccionar</button>
+
+                            <a href="{{sub.enlaceAR}}" type="button" class="btn btn-sm btn-primary" target="_blank">AR</a>
                         </div>
                       </div>
                     </div>
@@ -105,16 +107,19 @@
         <div id="info-box" class="info-box"></div>
       </div>
 
-<!-- Inicia botones de mas informacion -->
+      <!-- Inicia botones de mas informacion -->
       <div class="row">
         <a href="https://3dwarehouse.sketchup.com/ar-view/bfb074cc-e559-429b-8c90-2e168c4fa53c">Ver en AR</a>
         <p>
           <a class="btn btn-primary m-1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
-            aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Ficha Tecnica</a>
-          <button class="btn btn-primary m-1" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2"
-            aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Fotometria</button>
+            aria-expanded="false"
+            aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Ficha Tecnica</a>
+          <button class="btn btn-primary m-1" type="button" data-bs-toggle="collapse"
+            data-bs-target="#multiCollapseExample2" aria-expanded="false"
+            aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Fotometria</button>
           <button class="btn btn-primary m-1" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
-            aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Otros</button>
+            aria-expanded="false"
+            aria-controls="multiCollapseExample1 multiCollapseExample2 multiCollapseExample3">Otros</button>
         </p>
         <div class="row">
           <div class="col-12">
@@ -125,7 +130,8 @@
                 Diseño de cuerpo de lámpara Avanzado
                 Chip LED de alto brillo y larga vida útil con chip 2835
                 Gran capacidad de batería de litio ciclo profundo mayor a 1500 ciclos
-                Panel Solar de alta eficiencia con celdas solares de primera calidad ,más pequeñas con mayor velocidad de carga , resistente a PID
+                Panel Solar de alta eficiencia con celdas solares de primera calidad ,más pequeñas con mayor velocidad
+                de carga , resistente a PID
                 Control Remoto
                 Función de atenuación de brillo ajustable, función de sincronización.
                 Alta resistencia al agua
@@ -157,14 +163,14 @@
           <div class="col-12">
             <div class="collapse multi-collapse" id="multiCollapseExample3">
               <div class="card card-body">
-               Otros
+                Otros
               </div>
             </div>
           </div>
         </div>
-    
+
       </div>
-<!-- Finalizan botones de mas informacion -->
+      <!-- Finalizan botones de mas informacion -->
 
 
 

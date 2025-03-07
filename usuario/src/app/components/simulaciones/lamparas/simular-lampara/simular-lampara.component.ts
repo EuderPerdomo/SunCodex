@@ -12,11 +12,12 @@ import { CommonModule } from '@angular/common';
 import { CdkAccordionModule, CdkAccordionItem } from '@angular/cdk/accordion';
 //import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 import { GuestServiceService } from '../../../../services/guest-service.service';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
     selector: 'app-simular-lampara',
-    imports: [NavComponent, FooterComponent, FormsModule, CommonModule, CdkAccordionItem, CommonModule],
+    imports: [NavComponent, FooterComponent, FormsModule, CdkAccordionItem, CommonModule,RouterModule],
     templateUrl: './simular-lampara.component.html',
     styleUrl: './simular-lampara.component.css',
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -54,6 +55,20 @@ export class SimularLamparaComponent implements AfterViewInit {
 
         "nombre": 'NSLV_40',
         "path": '../Modelos/Z60/NuevosLed_z60.gltf',
+        "lumens": 6800,
+        "distancia": 10,
+        "anguloApertura": 70,
+        "color": 0xfff5e5,
+        "penumbra": 1//de 0 a 1 
+      },
+      {
+
+        "potencia": 44,
+        "uso_dia": 24,
+        "categoria": "Alumbrado_Publico",
+
+        "nombre": 'NSLV_60W',
+        "path": '../Modelos/NSLV/NSLV_60W_GLTF.gltf',
         "lumens": 11000,
         "distancia": 10,
         "anguloApertura": 70,
@@ -206,7 +221,8 @@ export class SimularLamparaComponent implements AfterViewInit {
               anguloApertura: lampara.anguloApertura,
               anguloInclinacion:lampara.anguloInclinacion,
               color: lampara.temperaturaColor,
-              penumbra: lampara.penumbra
+              penumbra: lampara.penumbra,
+              enlaceAR: lampara.enlaceAR//Validar
             });
           } else {
             // Si la categoría no existe, crear un nuevo objeto con la categoría y el electrodoméstico
@@ -222,7 +238,8 @@ export class SimularLamparaComponent implements AfterViewInit {
                 anguloApertura: lampara.anguloApertura,
                 anguloInclinacion:lampara.anguloInclinacion,
                 color: lampara.temperaturaColor,
-                penumbra: lampara.penumbra
+                penumbra: lampara.penumbra,
+                enlaceAR: lampara.enlaceAR//Validar
               }]
             };
           }

@@ -115,8 +115,9 @@ export class ControladorSolar {
         controlador_max_input_power,
         controlador_tension,
         controlador_cantidad_paralelo,
-
       }
+
+      console.log('Calculos resultantes en calculo Controlador', resultadoControlador)
       ////////Final
       resolve(resultadoControlador);
     })
