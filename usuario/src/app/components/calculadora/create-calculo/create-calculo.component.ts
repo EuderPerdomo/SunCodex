@@ -1,7 +1,13 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+
+/*
 import * as L from 'leaflet'
 import { Map, tileLayer, icon, Marker } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+*/
+
+declare const L: any;
+
 import { FooterComponent } from "../../footer/footer.component";
 import { NavComponent } from '../../nav/nav.component';
 import { CommonModule } from '@angular/common';
@@ -624,7 +630,7 @@ this.controladorResult.minCorrienteControlador=minCorrienteControlador,
     //var circul: any
     //mc = new L.Marker([4.582, -74.22], markerOptions).addTo(map)
 
-    map.on('click', (e) => {
+    map.on('click', (e: { latlng: { lat: number; lng: number; }; }) => {
       if (mc != undefined) {
         console.log('ya esta definido el Pin')
       } else {

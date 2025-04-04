@@ -1,3 +1,4 @@
+'use strict'
 var Cliente = require('../models/Cliente');
 var Cliente_Instalador = require('../models/Cliente_Instalador')
 var Cliente_Empresarial = require('../models/ClienteEmpresarial')
@@ -35,7 +36,7 @@ require('dotenv').config();// Para tarer rlas variables de entorno
 const cloudinary = require('cloudinary').v2
 cloudinary.config(process.env.CLOUDINARY_URL)
 
-registro_cliente_guest = async function (req, res) {
+const registro_cliente_guest = async function (req, res) {
     let data = req.body;
     var clientes_arr = [];
 
@@ -71,7 +72,7 @@ registro_cliente_guest = async function (req, res) {
     
 }
 
-registro_instalador_guest = async function (req, res) {
+const registro_instalador_guest = async function (req, res) {
 
     try {
         let data = req.body;
@@ -107,7 +108,7 @@ registro_instalador_guest = async function (req, res) {
 
 
 
-registro_cliente_empresa_guest = async function (req, res) {
+const registro_cliente_empresa_guest = async function (req, res) {
     let data = req.body;
     var clientes_arr = [];
 
@@ -239,7 +240,7 @@ const login_guest = async function (req, res) {
     }
 }
 
-listar_empresas_usuario = async function (req, res) {
+const listar_empresas_usuario = async function (req, res) {
     if (req.user) {
         let query = { estado: true }; // Query para todas las empresas activas
 
@@ -353,7 +354,7 @@ const anadirEmpresaFavorita_usuario = async function (req, res) {
 }
 
 
-eliminar_empresa_favorita_usuario=async function(req,res){
+const eliminar_empresa_favorita_usuario=async function(req,res){
 
     if (req.user) {
         let id = req.params['id'];
@@ -430,7 +431,7 @@ const obtener_usuario_usuario = async function (req, res) {
 
 
 
-registro_cliente_tienda = async function (req, res) {
+const registro_cliente_tienda = async function (req, res) {
     let data = req.body;
     var clientes_arr = [];
 
@@ -458,7 +459,7 @@ registro_cliente_tienda = async function (req, res) {
     }
 }
 
-listar_clientes_tienda = async function (req, res) {
+const listar_clientes_tienda = async function (req, res) {
     if (req.user) {
         let query = { estado: true }
         var clientes = await Cliente.find(query);
@@ -687,7 +688,7 @@ const registro_inversor_usuario = async function (req, res) {
     }
 }
 //Corregir nombre
-listar_inversores_usuario = async function (req, res) {
+const listar_inversores_usuario = async function (req, res) {
 
     if (req.user) {
 
@@ -837,7 +838,7 @@ const registro_calculo_usuario = async function (req, res) {
     }
 }
 
-listar_calculos_usuario = async function (req, res) {
+const listar_calculos_usuario = async function (req, res) {
 
     if (req.user) {
 
@@ -891,7 +892,7 @@ const actualizar_calculo_usuario = async function (req, res) {
 //Finaliza Calculos Usuario
 
 //Inician Notificaciones
-listar_notificaciones_usuario = async function (req, res) {
+const listar_notificaciones_usuario = async function (req, res) {
     
     if (req.user) {
         let id_usuario = req.user.sub
@@ -911,7 +912,7 @@ listar_notificaciones_usuario = async function (req, res) {
 
 
 //Inicia prueba de consulta por medio de ubicacion y otros parametros
-listar_inversores_usuario_ubicacion = async function (req, res) {
+const listar_inversores_usuario_ubicacion = async function (req, res) {
     if (req.user) {
         
 
@@ -1067,7 +1068,7 @@ listar_inversores_usuario_ubicacion = async function (req, res) {
 //Finaliza prueba de consulta por ubicación
 
 //inicia consulta de inversores no autenticado
-listar_inversores_usuario_guest = async function (req, res) {
+const listar_inversores_usuario_guest = async function (req, res) {
     var latitud = parseFloat(req.params['latitud'])
     let longitud = parseFloat(req.params['longitud'])
     let radio = parseInt(req.params['radio'])
@@ -1136,7 +1137,7 @@ listar_inversores_usuario_guest = async function (req, res) {
 // Finaliza Consulta inversores guest
 
 //Inicia Consulta de controladores con filtros
-listar_cotroladores_usuario_ubicacion = async function (req, res) {
+const listar_cotroladores_usuario_ubicacion = async function (req, res) {
 
 
     if (req.user) {
@@ -1284,7 +1285,7 @@ listar_cotroladores_usuario_ubicacion = async function (req, res) {
 // Finaliza Consulta Controladores con filtros
 
 //inicia consulta de controladores no autenticado
-listar_controladores_usuario_guest = async function (req, res) {
+const listar_controladores_usuario_guest = async function (req, res) {
     var latitud = parseFloat(req.params['latitud'])
     let longitud = parseFloat(req.params['longitud'])
     let radio = parseInt(req.params['radio'])
@@ -1352,7 +1353,7 @@ listar_controladores_usuario_guest = async function (req, res) {
 
 
 //Inicia Consulta de paneles con filtros
-listar_paneles_usuario_ubicacion = async function (req, res) {
+const listar_paneles_usuario_ubicacion = async function (req, res) {
     
     if (req.user) {
         var latitud = parseFloat(req.params['latitud'])
@@ -1523,7 +1524,7 @@ listar_paneles_usuario_ubicacion = async function (req, res) {
 
 
 //Inicia Consulta de paneles con guest
-listar_paneles_usuario_guest = async function (req, res) {
+const listar_paneles_usuario_guest = async function (req, res) {
     var latitud = parseFloat(req.params['latitud'])
     let longitud = parseFloat(req.params['longitud'])
     let radio = parseInt(req.params['radio'])
@@ -1598,7 +1599,7 @@ listar_paneles_usuario_guest = async function (req, res) {
 
 
 //Inicia Consulta de baterias con filtros
-listar_baterias_usuario_ubicacion = async function (req, res) {
+const listar_baterias_usuario_ubicacion = async function (req, res) {
 
     if (req.user) {
         var latitud = parseFloat(req.params['latitud'])
@@ -1744,7 +1745,7 @@ listar_baterias_usuario_ubicacion = async function (req, res) {
 // Finaliza Consulta Baterias con filtros
 
 //inicia consulta de baterias no autenticado
-listar_baterias_usuario_guest = async function (req, res) {
+const listar_baterias_usuario_guest = async function (req, res) {
    
     var latitud = parseFloat(req.params['latitud'])
     let longitud = parseFloat(req.params['longitud'])
@@ -1832,7 +1833,7 @@ const obtener_calculo_cliente = async (req, res = response) => {
 
 //Peticion API PVGIS RENDIMIENTO
 
-consulta_rendimiento_Pvgis = function (req, res) {
+const consulta_rendimiento_Pvgis = function (req, res) {
     console.log('Rendiiento PvGis')
     lat = req.params.lat
     lon = req.params.lon
@@ -1873,7 +1874,7 @@ consulta_rendimiento_Pvgis = function (req, res) {
 }
 
 
-consulta_rendimiento_Pvgis_Original = function (req, res) {
+const consulta_rendimiento_Pvgis_Original = function (req, res) {
     console.log('Rendiiento PvGis')
     lat = req.params.lat
     lon = req.params.lon
@@ -1909,7 +1910,7 @@ consulta_rendimiento_Pvgis_Original = function (req, res) {
 }
 
 //Listado de electrodomesticos
-listar_electrodomesticos_guest= async function (req, res) {
+const listar_electrodomesticos_guest= async function (req, res) {
 
         let query = { estado: true }
         var electrodomesticos = await Electrodomestico.find(query).populate('categoria');

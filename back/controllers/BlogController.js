@@ -91,7 +91,7 @@ const listar_blogs_admin = async function (req, res) {
 }
 
 //Lista todos los post 
-listar_posts_public = async function (req, res) {
+const listar_posts_public = async function (req, res) {
     var filtro = req.params['filtro']
     var blog = await Blog.find({
         titulo: new RegExp(filtro, 'i'),

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,8 @@ import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import { RouterModule } from '@angular/router';
 // register Swiper custom elements
+import { SplineViewer } from '@splinetool/viewer';
+
 register();
 
 @Component({
@@ -17,6 +19,13 @@ register();
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class InicioComponent implements OnInit {
+
+  // @ViewChild('splineContainer') splineContainer!: ElementRef;
+
+  // ngAfterViewInit() {
+  //   const app = new SplineViewer(this.splineContainer.nativeElement);
+  //   app.load('https://prod.spline.design/8JcrspJ6ui5pOo9p/scene.splinecode');
+  // }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);

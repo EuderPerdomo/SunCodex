@@ -1,4 +1,5 @@
 
+'use strict'
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('../helpers/jwt');
 var fs = require('fs');
@@ -69,6 +70,26 @@ const listar_lamparas_guest= async function (req, res) {
         res.status(200).send({ data: lamparas });
    
 }
+//Listado de lamparas cliente
+const listar_lamparas_public= async function (req, res) {
+    console.log('listando lamapras cliente')
+    var filtro=req.params['filtro']
+        let query = { estado: true }
+        var lamparas = await Lampara.find(query).populate('categoria');
+        res.status(200).send({ data: lamparas });
+   
+}
+
+const obtener_lampara_public = async function (req, res) {
+    var slug = req.params['slug'];
+    console.log('buscando',slug)
+    try {
+        var reg = await Lampara.findOne({ slug: slug }).populate('categoria');
+        res.status(200).send({ data: reg });
+    } catch (error) {
+        res.status(200).send({ data: undefined });
+    }
+  }
 /*
 listar_electrodomesticos_admin = async function (req, res) {
     if (req.user) {
@@ -99,4 +120,8 @@ module.exports={
 
     //Categorias Lamparas
     registro_categoriaLampara_admin,
+
+    //Llamado de lamparas cliente
+    listar_lamparas_public,
+    obtener_lampara_public,
 }

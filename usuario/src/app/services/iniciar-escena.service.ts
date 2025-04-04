@@ -100,7 +100,7 @@ moveCameraToTarget2222(targetPosition: THREE.Vector3, duration: number, camera: 
     animate(); 
 }
 
-initScene(canvas: HTMLCanvasElement) {
+initScene_1(canvas: HTMLCanvasElement) {
   const scene = new THREE.Scene();
 /*
   // Fondo HDRI para ambiente nocturno
@@ -169,5 +169,85 @@ initScene(canvas: HTMLCanvasElement) {
 */
   return { scene, camera, renderer };
 }
+
+
+initScene(canvas: HTMLCanvasElement) {
+ const scene = new THREE.Scene();
+   scene.fog = new THREE.Fog(0x000000, 10, 100); // Niebla
+  
+
+
+//Inicia prueba
+
+//Finaliza Prueba
+
+
+
+
+
+
+
+
+
+
+   // Luz ambiental
+  const ambientLight = new THREE.AmbientLight(0x404040, 0.2);
+  scene.add(ambientLight);
+
+  // Luz de la luna
+  const moonLight = new THREE.DirectionalLight(0xb3e5fc, 5);
+  moonLight.position.set(10, 20, -10);
+  moonLight.castShadow = true;
+  moonLight.shadow.mapSize.width = 2048;
+  moonLight.shadow.mapSize.height = 2048;
+  scene.add(moonLight);
+
+  // Luz de la lámpara
+ /* const lampLight = new THREE.PointLight(0xffaa33, 2, 20);
+  lampLight.position.set(0, 5, 0);
+  lampLight.castShadow = true;
+  scene.add(lampLight);
+*/
+  // Suelo
+ /* const groundGeometry = new THREE.PlaneGeometry(50, 50);
+  const groundMaterial = new THREE.MeshStandardMaterial({
+    color: 0x333333,
+    roughness: 0.8,
+    metalness: 0.1,
+  });
+  const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  ground.position.y=-3
+  scene.add(ground);
+  */
+
+  // Cámara
+/*
+  const fov = 45;
+  const aspect = canvas.width / canvas.height;
+  const near = 0.1;
+  const far = 100;
+  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+  camera.position.set(0, 5, -20);
+*/
+
+const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 100 );
+camera.position.x = - 4;
+camera.position.z = 4;
+camera.position.y = 2;
+
+
+  // Renderer
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.5;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  return { scene, camera, renderer };
+}
+
 
 }

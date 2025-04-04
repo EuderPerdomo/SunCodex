@@ -1,8 +1,115 @@
 
 <app-nav></app-nav>
 
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+}
+
+.spline-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.overlay-content {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    /* background: rgba(255, 255, 255, 0.8); */
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 400px;
+    z-index: 10;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+spline-viewer {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.overlay-content h2 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 80px;
+    color: aquamarine;
+}
+
+.highlight {
+    color: #00aaff;
+}
+
+.descripcion {
+    font-size: 1.25rem;
+    color: #555;
+    margin: 20px 0;
+    font-family: "Bebas Neue", sans-serif;
+    color: aquamarine;
+}
+
+.clasex {
+    color: red;
+    font-family: "Bitter", serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+    font-size: 150px;
+}
+
+
+.btn-outline-primary {
+    border-color: #00aaff;
+    color: #00aaff;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #00aaff;
+    color: #fff;
+  }
+
+  
+.cta-button {
+    margin-top: 20px;
+  }
+</style>
+
+  <div class="spline-container">
+      <!-- Contenido superpuesto -->
+      <div class="overlay-content">
+          <h2>Bienvenido a <span class="highlight">SunCode</span><span class="clasex">x</span></h2>
+          <p class="descripcion">Tu aliado en Energía solar.</p>
+          <!-- <a [routerLink]="['/lamparaSolar/lamparasSolares']" class="btn btn-primary btn-lg cta-button">Lamparas Solares</a> -->
+
+      </div>
+      
+      <!-- Visor Spline -->
+     <spline-viewer 
+          url="https://prod.spline.design/8JcrspJ6ui5pOo9p/scene.splinecode"
+          loading-anim-type="spinner-small"
+          events-target="global">
+      </spline-viewer> 
+      <!-- <spline-viewer 
+      url="https://prod.spline.design/NOVySJytRo2aADmt/scene.splinecode"
+      loading-anim-type="spinner-small"
+      events-target="global">
+  </spline-viewer> -->
+  </div>
+
+<!-- <spline-viewer url="https://prod.spline.design/NOVySJytRo2aADmt/scene.splinecode"></spline-viewer> -->
+
 <!-- Hero Section -->
-<div class="container-fluid hero-section">
+<!-- <div class="container-fluid hero-section">
   <div class="row align-items-center">
     <div class="col-md-6 hero-content">
       <h1 class="hero-title">Bienvenido a <span class="highlight">SunCodex</span></h1>
@@ -13,7 +120,7 @@
       <img src="assets/img/Banner.png" alt="Paneles solares" class="img-fluid rounded">
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Alert Section -->
 <div class="container-fluid alert-section">

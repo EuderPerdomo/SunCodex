@@ -476,7 +476,8 @@ export class SimularPanelSolarComponent implements AfterViewInit, OnInit {
       //targetObject.position.set(0, 0, 0);
       //scene.add(targetObject);
 
-      objetoClase.loadModel('../Modelos/LamparaSWL_10/Lampara_SWL_10_2.gltf', scene)
+    //  objetoClase.loadModel('../Modelos/LamparaSWL_10/Lampara_SWL_10_2.gltf', scene)
+    objetoClase.loadModel('../Modelos/NSLV/NSLV_60W.gltf', scene)
       //objetoClase.loadModel('../Modelos/parqueGLTF/parque.gltf', scene)
         .then((modelo) => {
           // Encontrar el grupo de LEDs por su nombre
@@ -526,7 +527,7 @@ export class SimularPanelSolarComponent implements AfterViewInit, OnInit {
         });
 
         //Cargar Ciudad
-
+/*
  
         objetoClase.loadModel('../Modelos/Parque_2/parque.gltf', scene)
           .then((modelo) => {
@@ -537,7 +538,7 @@ export class SimularPanelSolarComponent implements AfterViewInit, OnInit {
           .catch((error) => {
             console.error('Error al cargar el Ciudad:', error);
           });
-  
+  */
 
       controlesMovimiento.showY = false //No muestra movimiento en Y
       controlesMovimiento.attach(grupoLamparas)

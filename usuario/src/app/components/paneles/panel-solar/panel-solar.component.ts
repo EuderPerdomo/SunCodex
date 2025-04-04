@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { PanelSolarService } from '../../../services/panel-solar.service';
+import { NavComponent } from '../../nav/nav.component';
+import { FooterComponent } from '../../footer/footer.component';
 declare var iziToast:any
 declare var $:any
 
 @Component({
   selector: 'app-panel-solar',
   standalone: true,
-  imports: [],
+  imports: [NavComponent,FooterComponent],
   templateUrl: './panel-solar.component.html',
-  styleUrl: './panel-solar.component.css'
+  styleUrl: './panel-solar.component.css',
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PanelSolarComponent {
 
@@ -22,7 +25,7 @@ export class PanelSolarComponent {
   }
 
  //Inicia traer paneles para la calculadora
- listar_paneles() {
+/* listar_paneles() {
 
 
   this._panelSolar.listar_paneles().subscribe({
@@ -59,7 +62,7 @@ export class PanelSolarComponent {
     }
   });
 
-}
+}*/
 //Finaliza  traer paneles para la calculadora
 
 }

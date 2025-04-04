@@ -1,4 +1,4 @@
-
+'use strict'
 var Inversor=require('../models/inversor')
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('../helpers/jwt');
@@ -18,7 +18,7 @@ require('dotenv').config();// Para tarer rlas variables de entorno
 const cloudinary = require('cloudinary').v2
 cloudinary.config(process.env.CLOUDINARY_URL)
 
-listar_inversores = async function (req, res) {
+const listar_inversores = async function (req, res) {
         let query = { estado: true }
         var inversores = await Inversor.find(query);
         res.status(200).send({ data: inversores });

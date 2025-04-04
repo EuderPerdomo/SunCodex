@@ -1,3 +1,4 @@
+'use strict'
 var Admin = require('../models/Admin');
 
 var Categoria = require('../models/Categoria');
@@ -70,7 +71,7 @@ const get_categorias = async function (req, res) {
 }
 /**Finaliza  metodo que lista categorias */
 
-listar_productos_admin = async function (req, res) {
+const listar_productos_admin = async function (req, res) {
     if (req.user) {
         var productos = await Producto.find();
         res.status(200).send({ data: productos });
@@ -366,7 +367,7 @@ const registro_inversor_calculadora_admin = async function (req, res) {
 
 
 //listar_productos_calculadora_admin
-listar_productos_calculadora_admin = async function (req, res) {
+const listar_productos_calculadora_admin = async function (req, res) {
     if (req.user) {
         var productos = await Producto.find({ "usar_en_calculadora": "Si" });
         res.status(200).send({ data: productos });
@@ -376,7 +377,7 @@ listar_productos_calculadora_admin = async function (req, res) {
 }
 
 
-obtener_producto_calculadora_admin = async function (req, res) {
+const obtener_producto_calculadora_admin = async function (req, res) {
     var id = req.params['id'];
     if (req.user) {
         if (req.params.tipo == 'controlador') {
@@ -509,7 +510,7 @@ const actualizar_bateria_calculadora_admin = async function (req, res) {
 }
 
 //Peticiones API
-consulta_Pvgis = function (req, res) {
+const consulta_Pvgis = function (req, res) {
     lat = req.params.lat
     lon = req.params.lon
     peakpower = req.params.peakpower
@@ -543,10 +544,10 @@ consulta_Pvgis = function (req, res) {
 }
 
 //Inicia consulta de HSP
-consulta_hsp = function (req, res) {
-    lat = req.params.lat
-    lon = req.params.lon
-    angle = req.params.angle
+const consulta_hsp = function (req, res) {
+    let lat = req.params.lat
+   let  lon = req.params.lon
+   let angle = req.params.angle
     //Consulta la radiacion Mensual
     //https://re.jrc.ec.europa.eu/api/MRcalc?lat=45&lon=8&horirrad=1&outputformat=json&startyear=2016
     const ruta = 'https://re.jrc.ec.europa.eu/api/MRcalc?lat=' + lat + '&lon=' + lon + '&selectrad=1' + '&angle=' + angle + '&outputformat=json&startyear=2015'
@@ -571,14 +572,11 @@ consulta_hsp = function (req, res) {
 }
 
 
-consultar_radiacion_diaria = function (req, res) {
+const consultar_radiacion_diaria = function (req, res) {
 
-    //Consulta la radiacion Diaria para un plano con inclinacion Optima
-
-    lat = req.params.lat
-    lon = req.params.lon
-    angle = req.params.angle
-    console.log('Consulta radiacion diaria Con inclinacion Optima',lat,lon)
+    let lat = req.params.lat
+   let  lon = req.params.lon
+   let angle = req.params.angle
     //https://re.jrc.ec.europa.eu/api/DRcalc?lat=4.582&lon=-74.22&month=0&global=1&localtime=1&showtemperatures=1
     //const ruta = 'https://re.jrc.ec.europa.eu/api/DRcalc?lat=' + lat + '&lon=' + lon + '&month=0&global=1&localtime=1&showtemperatures=1&outputformat=json'
     const ruta = 'https://re.jrc.ec.europa.eu/api/DRcalc?lat=' + lat + '&lon=' + lon + '&angle=' + angle + '&month=0&global=1&localtime=1&showtemperatures=1&outputformat=json'
@@ -603,12 +601,12 @@ consultar_radiacion_diaria = function (req, res) {
 
 }
 
-consultar_radiacion_diaria_plano_Horizontal = function (req, res) {
-    console.log('Consulta radiacion diaria Con inclinacion Optima')
+const consultar_radiacion_diaria_plano_Horizontal = function (req, res) {
+    console.log('Consulta radiacion diaria Con inclinacion Optima',req.params)
     //Consulta la radiacion Diaria para un plano con inclinacion Optima
 
-    lat = req.params.lat
-    lon = req.params.lon
+    let lat = req.params.lat
+    let lon = req.params.lon
     //angle = req.params.angle
     //https://re.jrc.ec.europa.eu/api/DRcalc?lat=4.582&lon=-74.22&month=0&global=1&localtime=1&showtemperatures=1
     const ruta = 'https://re.jrc.ec.europa.eu/api/DRcalc?lat=' + lat + '&lon=' + lon + '&month=0&global=1&localtime=1&showtemperatures=1&outputformat=json'
@@ -659,7 +657,7 @@ const registro_panel_admin = async function (req, res) {
     }
 }
 
-listar_paneles_admin = async function (req, res) {
+const listar_paneles_admin = async function (req, res) {
 
     if (req.user) {
 
@@ -793,7 +791,7 @@ const registro_bateria_admin = async function (req, res) {
     }
 }
 
-listar_baterias_admin = async function (req, res) {
+const listar_baterias_admin = async function (req, res) {
     if (req.user) {
         let query = { $and: [{ estado: true }, { usuario: req.user.sub }] }
         var baterias = await bateria.find(query);
@@ -903,7 +901,7 @@ const registro_controlador_admin = async function (req, res) {
     }
 }
 
-listar_controladores_admin = async function (req, res) {
+const listar_controladores_admin = async function (req, res) {
     if (req.user) {
 
         let query = { estado: true }
@@ -1014,7 +1012,7 @@ const registro_inversor_admin = async function (req, res) {
     }
 }
 
-listar_inversores_admin = async function (req, res) {
+const listar_inversores_admin = async function (req, res) {
     if (req.user) {
 
         let query = { estado: true }
@@ -1136,7 +1134,7 @@ const registro_empresa_admin = async function (req, res) {
     }
 }
 
-listar_empresas_admin = async function (req, res) {
+const listar_empresas_admin = async function (req, res) {
     if (req.user) {
         let query = { estado: true }
         var empresas = await Empresa.find(query);
@@ -1253,7 +1251,7 @@ const registro_electrodomestico_admin = async function (req, res) {
     }
 }
 
-listar_electrodomesticos_admin = async function (req, res) {
+const listar_electrodomesticos_admin = async function (req, res) {
     if (req.user) {
         let query = { estado: true }
         var electrodomesticos = await Electrodomestico.find(query).populate('categoria');

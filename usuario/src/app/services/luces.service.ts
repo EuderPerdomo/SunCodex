@@ -47,9 +47,9 @@ export class LucesService {
     spotLight.angle = lampara.anguloApertura * Math.PI / 180;
     spotLight.castShadow = true;
 
-    // Opcional: Añadir helper
-    const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-    scene.add(spotLightHelper);
+    // Opcional: Añadir helper muestra las lineas del cubrimiento de la luz
+    /*const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+    scene.add(spotLightHelper);*/
 
     //Iniciar añadir target a luz
 
@@ -86,7 +86,7 @@ export class LucesService {
     scene.add(targetObject)
     spotLight.target = targetObject
     spotLight.target.updateMatrixWorld();
-    spotLightHelper.update();
+    //spotLightHelper.update(); actualiza el spotlight helper
     //Finaliza añadir target a la luz
 
     // Añadir la luz a la escena
@@ -101,6 +101,9 @@ export class LucesService {
   toggleLight(state: boolean, spotLight: THREE.SpotLight) {
     if (spotLight) {
       spotLight.visible = state; // Apagar si state es false, encender si es true
+
+
+      
     }
   }
 

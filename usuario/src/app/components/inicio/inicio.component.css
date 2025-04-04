@@ -52,6 +52,7 @@
   border: none;
   border-radius: 10px;
   transition: transform 0.3s ease;
+  margin: 10px;
 }
 
 .card:hover {
@@ -81,4 +82,24 @@
 .btn-outline-primary:hover {
   background-color: #00aaff;
   color: #fff;
+}
+.card-body h3 {
+  color: aquamarine;
+  font-family: "Bitter", serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+  
+}
+
+
+.card-body {
+margin: 5px;
+}
+
+.card-body p {
+  font-size: 1.25rem;
+  color: #555;
+  margin: 20px 0;
+  font-family: "Bebas Neue", sans-serif;
 }

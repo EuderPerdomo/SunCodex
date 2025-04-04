@@ -1,0 +1,305 @@
+<app-nav></app-nav>
+<!--
+<nav class="bg-secondary mb-3" aria-label="breadcrumb">
+  <div class="container d-sm-flex align-items-center">
+    <ol class="breadcrumb breadcrumb-alt mb-0">
+      <li class="breadcrumb-item">
+        <a href="index.html"><i class="ci-home"></i></a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Tienda</li>
+    </ol>
+    <hr class="d-sm-none">
+
+  </div>
+</nav>
+
+<section class="container pt-3 pb-5 pb-md-6 mb-2 mb-lg-0">
+
+  <div class="row mb-4 pb-2">
+    <div class="col-md-3 pe-lg-4 mb-3 mb-md-0">
+
+      <div class="d-none d-lg-block">
+        <button type="button" class="btn btn-primary w-100 d-none d-lg-block" data-filters-hide="#filtersSidebar">
+          <i class="ci-filter-1 me-1"></i>
+          Ocultar Filtros
+        </button>
+        <button type="button" class="btn btn-primary w-100 mt-0 d-lg-none" data-filters-show="#filtersSidebar">
+          <i class="ci-filter-2 me-1"></i>
+          Mostrar Filtros
+        </button>
+      </div>
+
+      <button type="button" class="btn btn-primary w-100 mt-0 d-lg-none" data-bs-toggle="offcanvas"
+        data-bs-target="#filtersOffcanvas">
+        <i class="ci-filter-2 me-1"></i>
+        Mostrar Filtros
+      </button>
+    </div>
+
+    <div class="col-md-9">
+      <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center flex-nowrap me-3 me-xl-5">
+          <label for="sorting-top" class="fw-bold text-nowrap me-2 pe-1 d-none d-lg-block">Ordenar Por</label>
+          <select id="sorting-top" class="form-select" name="sort_by" [(ngModel)]="sort_by" (click)="ordenar_por()">
+            <option value="Defecto">Defecto</option>
+            <option value="Popularidad">Popularidad</option>
+            <option value="+-precio">Bajo - Alto Precio</option>
+            <option value="-+precio">Alto - Bajo Precio</option>
+            <option value="az">A - Z Orden</option>
+            <option value="za">Z - A Orden</option>
+          </select>
+        </div>
+        <div class="d-flex align-items-center flex-nowrap d-none d-sm-flex me-3 me-xl-5">
+          <label for="pager-top" class="fw-bold text-nowrap me-2 pe-1 d-none d-lg-block">Show</label>
+          <select id="pager-top" class="form-select" name="pageSize" [(ngModel)]="pageSize">
+            <option value="15">15</option>
+            <option value="21">21</option>
+            <option value="28">28</option>
+          </select>
+          <span class="fs-sm text-muted text-nowrap ms-2 d-none d-lg-block">Lamparas por Pagina</span>
+        </div>
+
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="lamparas.length"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+
+  <div class="row flex-lg-nowrap">
+    <div id="filtersSidebar" class="col-lg-3 pe-lg-4">
+      <div id="filtersOffcanvas" class="offcanvas-lg offcanvas-start">
+        <div class="offcanvas-header align-items-center border-bottom mb-3">
+          <h2 class="h5 mb-0">Mostrar Filtros</h2>
+          <button class="btn-close me-n1" type="button" data-bs-dismiss="offcanvas" data-bs-target="#filtersOffcanvas"
+            aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body pb-4">
+
+          <div class="accordion accordion-alt w-100" id="sidebarAccordion">
+            <div class="accordion-item">
+              <h6 class="accordion-header" id="filtro_lampara_2">
+                <button class="accordion-button border-bottom-0 collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#BusquedaProducto" aria-expanded="false" aria-controls="BusquedaProducto">Buscar
+                  Producto</button>
+              </h6>
+              <div class="accordion-collapse collapse" id="BusquedaProducto" aria-labelledby="filtro_lampara_2"
+                data-bs-parent="#sidebarAccordion">
+                <div class="accordion-body pt-0">
+                  <div class="widget ps-1  pb-4 mt-n3">
+
+
+                    <div class="input-group d-lg-block d-none order-lg-3 mt-3">
+                      <input class="form-control w-100 " type="text" placeholder="Buscar Producto"
+                        name="filtro_lampara" [(ngModel)]="filtro_lampara">
+                      <i class="ci-search lead position-absolute end-0 top-50 translate-middle-y me-3 zindex-5"
+                        style="cursor:pointer;" (click)="buscar_lampara()"></i>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h6 class="accordion-header" id="sidebarAccordionHeading-1">
+                <button class="accordion-button border-bottom-0" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#sidebarAccordionCollapse-1" aria-expanded="true"
+                  aria-controls="sidebarAccordionCollapse-1">Categorias</button>
+              </h6>
+              <div class="accordion-collapse collapse show" id="sidebarAccordionCollapse-1"
+                aria-labelledby="sidebarAccordionHeading-1" data-bs-parent="#sidebarAccordion">
+                <div class="accordion-body pt-0">
+                  <div class="widget-data-list filter">
+                    <div class="position-relative mb-3">
+                      <input class="filter-search form-control form-control-sm pe-5" type="text"
+                        placeholder="Buscar Categoria" name="filtrar_categoria" [(ngModel)]="filtrar_categoria"
+                        (keyup)="buscar_categoria()">
+                      <i class="ci-search fs-sm position-absolute top-50 end-0 translate-middle-y me-3 zindex-5"></i>
+                    </div>
+                    <ul class="filter-list list-unstyled pe-3" style="height: 12rem;" data-simplebar
+                      data-simplebar-auto-hide="false">
+
+                      <li class="filter-item">
+                        <div class="form-check">
+                          <input type="radio" name="group1" class="form-check-input" id="categorias-todos" value="todos"
+                            [(ngModel)]="filtro_categoria_lampara" (change)="buscar_por_categoria()">
+
+                          <label for="categorias-todos" class="form-check-label">
+                            <span class="filter-item-text">Todos</span>
+                          </label>
+                        </div>
+                      </li>
+
+                      <li class="filter-item" *ngFor="let item of categorias; let indice=index">
+                        <div class="form-check">
+                          <input type="radio" name="group1" class="form-check-input" id="categorias-{{indice}}"
+                            value="{{item.titulo}}" [(ngModel)]="filtro_categoria_lampara"
+                            (change)="buscar_por_categoria()">
+                          <label for="categorias-{{indice}}" class="form-check-label">
+                            <span class="filter-item-text">{{item.titulo}} </span>
+                          </label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h6 class="accordion-header" id="sidebarAccordionHeading-2">
+                <button class="accordion-button border-bottom-0 collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#sidebarAccordionCollapse-2" aria-expanded="false"
+                  aria-controls="sidebarAccordionCollapse-2">Precio</button>
+              </h6>
+              <div class="accordion-collapse collapse" id="sidebarAccordionCollapse-2"
+                aria-labelledby="sidebarAccordionHeading-2" data-bs-parent="#sidebarAccordion">
+                <div class="accordion-body pt-0">
+                  <div class="widget ps-1 pe-3 pb-4 mt-n3">
+                    <div class="range-slider" data-start-min="250" data-start-max="680" data-min="0" data-max="1000"
+                      data-step="1">
+                      <div class="cs-range-slider-ui" id="slider"></div>
+                      <div class="d-flex align-items-center mt-3">
+                        <div class="w-50">
+                          <div class="form-group position-relative mb-0">
+                            <input type="number" class="form-control form-control-sm range-slider-value-min">
+                          </div>
+                        </div>
+                        <div class="mx-1 px-2 fs-xs">—</div>
+                        <div class="w-50">
+                          <div class="form-group position-relative mb-0">
+                            <input type="number" class="form-control form-control-sm range-slider-value-max">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-12">
+                          <button class="btn btn-primary btn-sm btn-block" (click)="buscar_precios()">Filtrar</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row" *ngIf="load_data">
+        <div class="col-12 text-center">
+          <div class="spinner-border " style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only"> loading....</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3" data-filters-columns *ngIf="!load_data">
+
+        <ng-container *ngIf="lamparas.length ==0">
+          <div class="col-1g-12 col-md-5">
+            <h3 class="h6 mb-2 text-uppercase"> "¡Oops! No encontramos nada!, ¿y si intentas con otro término?....</h3>
+            <a style="clip-rule: pointer;" class="btn btn-gradient btn-hover-shadow" (click)="reset_lampara()">Mostrar
+              Todos</a>
+
+          </div>
+        </ng-container>
+        <ng-container *ngIf="lamparas.length >=1">
+          <div class="col pb-sm-2 mb-grid-gutter"
+            *ngFor="let item of lamparas | slice: (page-1)*pageSize : (page-1) * pageSize + pageSize">
+            <div class="card card-product mx-auto">
+              <div class="card-product-img">
+                <a  [routerLink]="['/lamparaSolar/lampara/'+item.slug]" class="card-img-top">
+                  <img [src]="getCloudinaryImageUrl(item.portada, 570, 640, 'fill')" alt="Product image">
+
+                </a>
+                <div class="card-product-widgets-top">
+                  <div class="star-rating ms-auto">
+                    <i class="sr-star ci-star-filled active"></i>
+                    <i class="sr-star ci-star-filled active"></i>
+                    <i class="sr-star ci-star-filled active"></i>
+                    <i class="sr-star ci-star-filled active"></i>
+                    <i class="sr-star ci-star-filled active"></i>
+                  </div>
+                </div>
+                <div class="card-product-widgets-bottom">
+                  <a href="#" class="btn-wishlist ms-auto" data-bs-toggle="tooltip" data-bs-placement="left"
+                    title="Add to wishlist"></a>
+                </div>
+              </div>
+              <div class="card-body pb-2">
+                <h3 class="card-product-title text-truncate mb-2">
+                  <a [routerLink]="['/lamparaSolar/lampara/'+item.slug]" class="nav-link">{{item.nombre}}</a>
+                </h3>
+                <div class="d-flex align-items-center">
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="d-flex align-items-center mb-2 pb-1">
+                  <div class="mt-n2">
+                    <div class="form-check form-option form-option-sm form-option-size form-check-inline">
+                      <a href="https://wa.me/573216966553?text=Hola,%20quiero%20realizar%20un%20pedido%20del%20carrito%20de%20compras"
+                      target="_blank" class="btn-whatsapp">
+                      <i class="ci-whatsapp"></i> 
+                      ¡Info por WhatsApp! 📲
+                    </a>
+                    </div>
+                  </div>
+              
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+
+      <div class="d-flex align-items-center pt-md-4">
+        <div class="d-flex align-items-center flex-nowrap me-3 me-xl-5 pt-1">
+          <label for="sorting-bottom" class="fw-bold text-nowrap me-2 pe-1 d-none d-md-block">Ordenar Por</label>
+          <select id="sorting-bottom" class="form-select" name="sort_by" [(ngModel)]="sort_by" (click)="ordenar_por()">
+            <option value="Defecto">Defecto</option>
+            <option value="Popularidad">Popularidad</option>
+            <option value="+-precio">Bajo - Alto Precio</option>
+            <option value="-+precio">Alto - Bajo Precio</option>
+            <option value="az">A - Z Orden</option>
+            <option value="za">Z - A Orden</option>
+          </select>
+        </div>
+        <div class="d-flex align-items-center flex-nowrap d-none d-sm-flex me-3 me-xl-5 pt-1">
+          <label for="pager-bottom" class="fw-bold text-nowrap me-2 pe-1 d-none d-md-block">Mostrar</label>
+          <select id="pager-bottom" class="form-select" name="pageSize" [(ngModel)]="pageSize">
+            <option value="15">15</option>
+            <option value="21">21</option>
+            <option value="28">28</option>
+          </select>
+          <span class="fs-sm text-muted text-nowrap ms-2 d-none d-md-block">lamparas Por Pagina</span>
+        </div>
+
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="lamparas.length"></ngb-pagination>
+
+      </div>
+    </div>
+  </div>
+</section>
+-->
+
+  <div class="spline-container">
+      <!-- Contenido superpuesto -->
+      <div class="overlay-content">
+          <h2>Lamparas Solares</h2>
+          <!-- <a [routerLink]="['/lamparaSolar/lamparasSolares']" class="btn btn-primary btn-lg cta-button">Lamparas Solares</a> -->
+      </div>
+      
+      <!-- Visor Spline -->
+     <spline-viewer 
+          url="https://prod.spline.design/8JcrspJ6ui5pOo9p/scene.splinecode"
+          loading-anim-type="spinner-small"
+          events-target="global">
+      </spline-viewer> 
+  </div>
+
+
+<app-footer></app-footer>

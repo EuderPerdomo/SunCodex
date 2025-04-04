@@ -1,4 +1,4 @@
-
+'use strict'
 var Bateria =require('../models/bateria')
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('../helpers/jwt');
@@ -18,7 +18,7 @@ require('dotenv').config();// Para tarer rlas variables de entorno
 const cloudinary = require('cloudinary').v2
 cloudinary.config(process.env.CLOUDINARY_URL)
 
-listar_baterias = async function (req, res) {
+const listar_baterias = async function (req, res) {
         let query = { estado: true }
         var baterias = await Bateria.find(query);
         res.status(200).send({ data: baterias });

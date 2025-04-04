@@ -1,3 +1,4 @@
+'use strict'
 var PanelSolar = require('../models/panel_solar');
 
 var Categoria = require('../models/Categoria');
@@ -20,7 +21,7 @@ require('dotenv').config();// Para tarer rlas variables de entorno
 const cloudinary = require('cloudinary').v2
 cloudinary.config(process.env.CLOUDINARY_URL)
 
-listar_paneles = async function (req, res) {
+const listar_paneles = async function (req, res) {
         let query = { estado: true }
         var paneles = await PanelSolar.find(query);
         console.log('listado de paneles')

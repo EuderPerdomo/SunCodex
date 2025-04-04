@@ -11,6 +11,12 @@ import { ArreglosComponent } from './components/simulaciones/paneles/arreglos/ar
 import { PostListComponent } from './components/blog/post-list/post-list.component';
 import { PostSingleComponent } from './components/blog/post-single/post-single.component';
 import { LoginComponent } from './components/login/login.component';
+import { IndexLamparasComponent } from './components/lamparas/index-lamparas/index-lamparas.component';
+import { ShowLamparaComponent } from './components/lamparas/show-lampara/show-lampara.component';
+import { InversorComponent } from './components/inversores/inversor/inversor.component';
+import { ControladorComponent } from './components/controladores/controlador/controlador.component';
+import { BateriaComponent } from './components/baterias/bateria/bateria.component';
+import { PanelSolarComponent } from './components/paneles/panel-solar/panel-solar.component';
 
 
 export const routes: Routes = [
@@ -48,6 +54,13 @@ export const routes: Routes = [
       {
         path:'panelSolar',children:[
           {
+            path: 'paneles',
+            component: PanelSolarComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
+
+          {
             path: 'simular',
             component: SimularPanelSolarComponent,
             //canActivate: [adminGuard],
@@ -80,6 +93,19 @@ export const routes: Routes = [
             //data: { allowedRoles: ['user', 'admin'] }
           },
 
+          {
+            path: 'lamparasSolares',
+            component: IndexLamparasComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
+
+          {
+            path: 'lampara/:slug',
+            component: ShowLamparaComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
         ]
       },
 
@@ -98,6 +124,41 @@ export const routes: Routes = [
             //data: { allowedRoles: ['user', 'admin'] }
           },
 
+        ]
+      },
+
+      {
+        path:'inversor',children:[
+          {
+            path: 'inversores',
+            component: InversorComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
+      
+        ]
+      },
+
+      {
+        path:'controlador',children:[
+          {
+            path: 'controladores',
+            component: ControladorComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
+      
+        ]
+      },
+      {
+        path:'bateria',children:[
+          {
+            path: 'baterias',
+            component: BateriaComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+          },
+      
         ]
       },
 

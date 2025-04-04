@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Inicia diseño de la animación 3d lamapra solar*/
+.container {
+    position: relative;
+    width: 100%;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+}
+
+.spline-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.overlay-content {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    /* background: rgba(255, 255, 255, 0.8); */
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 400px;
+    z-index: 10;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+spline-viewer {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.overlay-content h2 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 80px;
+    color: aquamarine;
+}
+
+.highlight {
+    color: #00aaff;
+}
+
+.descripcion {
+    font-size: 1.25rem;
+    color: #555;
+    margin: 20px 0;
+    font-family: "Bebas Neue", sans-serif;
+    color: aquamarine;
+}
+
+.clasex {
+    color: red;
+    font-family: "Bitter", serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+    font-size: 150px;
+}
+
+
+.btn-outline-primary {
+    border-color: #00aaff;
+    color: #00aaff;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #00aaff;
+    color: #fff;
+  }
+
+  
+.cta-button {
+    margin-top: 20px;
+  }
+
+/*Finaliza diseño de la animación 3d lamapra solar*/

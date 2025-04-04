@@ -32,8 +32,10 @@ import { ProduccionArrayComponent } from '../../produccion-array/produccion-arra
 import { PanelSolarService } from '../../../../services/panel-solar.service';
 
 //Mapa de Leaflet
-import { Map, tileLayer, icon, Marker } from 'leaflet'
-import * as L from 'leaflet'
+//import { Map, tileLayer, icon, Marker } from 'leaflet'
+//import * as L from 'leaflet'
+
+declare const L: any;
 
 declare var $: any
 declare var iziToast: any
@@ -456,7 +458,7 @@ console.log('Cambio en valores de Produccion esto es el papá',valoresproduccion
 
 
     var mc: any
-    map.on('click', (e) => {
+    map.on('click', (e: { latlng: { lat: number; lng: number; }; }) => {
       if (mc != undefined) {
         console.log('ya esta definido el Pin')
       } else {

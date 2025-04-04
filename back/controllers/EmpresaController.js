@@ -1,3 +1,4 @@
+'use strict'
 var fs = require('fs');
 var handlebars = require('handlebars');
 var ejs = require('ejs');
@@ -48,7 +49,7 @@ const create_empresa_empresa = async function (req, res) {
     }
 }
 
-listar_empresas_empresa = async function (req, res) {
+const listar_empresas_empresa = async function (req, res) {
     if (req.user) {
         id = new mongoose.Types.ObjectId(req.user.sub)
         //let query={ $and: [ { estado: true }, { propietario: id}]}
@@ -170,7 +171,7 @@ const create_sucursal_empresa = async function (req, res) {
     }
 }
 
-listar_sucursales_empresa = async function (req, res) {
+const listar_sucursales_empresa = async function (req, res) {
     if (req.user) {
         var id = req.params['id']; //Id de la empresa a la que le estoy buscando sus sucursales
 
@@ -373,7 +374,7 @@ const registro_panel_empresa = async function (req, res) {
 }
 
 
-listar_paneles_empresa = async function (req, res) {
+const listar_paneles_empresa = async function (req, res) {
     if (req.user) {
         id = new mongoose.Types.ObjectId(req.user.sub)
         let query={ $and: [ { estado: true }, { propietario: id}]}
@@ -497,7 +498,7 @@ const registro_bateria_empresa = async function (req, res) {
     }
 }
 
-listar_baterias_empresa = async function (req, res) {
+const listar_baterias_empresa = async function (req, res) {
     if (req.user) {
         id = new mongoose.Types.ObjectId(req.user.sub)
         let query={ $and: [ { estado: true }, { propietario: id}]}
@@ -607,7 +608,7 @@ const registro_controlador_empresa = async function (req, res) {
     }
 }
 
-listar_controladores_empresa = async function (req, res) {
+const listar_controladores_empresa = async function (req, res) {
     if (req.user) {
         id = new mongoose.Types.ObjectId(req.user.sub)
         let query={ $and: [ { estado: true }, { propietario: id}]}
@@ -720,7 +721,7 @@ const registro_inversor_empresa = async function (req, res) {
     }
 }
 
-listar_inversores_empresa = async function (req, res) {
+const listar_inversores_empresa = async function (req, res) {
     if (req.user) {
 
         id = new mongoose.Types.ObjectId(req.user.sub)

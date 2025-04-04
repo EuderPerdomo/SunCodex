@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>SunCodeX</title>
-    
+
+<head>
+  <meta charset="utf-8">
+  <title>SunCodeX</title>
+
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="icono_transparent.ico">
@@ -20,181 +21,210 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
 
   <!-- Vendor Styles-->
-  <link rel="stylesheet" media="screen" href="../assets/vendor/tiny-slider/dist/tiny-slider.css"/>
+  <link rel="stylesheet" media="screen" href="../assets/vendor/tiny-slider/dist/tiny-slider.css" />
 
   <!-- Main Theme Styles + Bootstrap-->
   <link rel="stylesheet" media="screen" href="../assets/css/theme.min.css">
   <link rel="stylesheet" href="assets/css/iziToast.min.css">
-   <link rel="stylesheet" href="assets/css/simplebar.min.css">
+  <link rel="stylesheet" href="assets/css/simplebar.min.css">
   <link rel="stylesheet" href="assets/css/nouislider.min.css">
-  
+
   <!-- Detalles de los productos -->
   <link rel="stylesheet" href="assets/css/tiny-slider.css">
   <link rel="stylesheet" href="assets/vendor/lightgallery.js/dist/css/lightgallery.min.css">
 
-    <!-- Demo Specific Styles -->
-    <style>
-      :root {
-        --cx-primary: #f52f6e;
-        --cx-primary-rgb: 245,47,110;
-        --cx-gradient-from-color: #f52f6e;
-        --cx-gradient-to-color: #f42aa3;
-        --cx-link-color: #f52f6e;
-        --cx-link-hover-color: #e60b51;
-      }
-      .btn-primary {
-        --cx-btn-bg: #f52f6e;
-        --cx-btn-border-color: #f52f6e;
-        --cx-btn-hover-bg: #f20c55;
-        --cx-btn-active-bg: #f20c55;
-        --cx-btn-hover-border-color: #f20c55;
-        --cx-btn-active-border-color: #f20c55;
-      }
-      .btn-outline-primary {
-        --cx-btn-color: #f52f6e;
-        --cx-btn-border-color: rgba(245,47,110, .4);
-        --cx-btn-hover-bg: #f52f6e;
-        --cx-btn-active-bg: #f52f6e;
-        --cx-btn-hover-border-color: #f52f6e;
-        --cx-btn-active-border-color: #f52f6e;
-      }
-      .btn-translucent-primary {
-        --cx-btn-color: #f52f6e;
-        --cx-btn-bg: rgba(245,47,110, .2);
-        --cx-btn-hover-bg: #f52f6e;
-        --cx-btn-active-bg: #f52f6e;
-      }
-      .btn-hover-shadow:hover.btn-primary,
-      .btn-hover-shadow:hover.btn-outline-primary,
-      .btn-hover-shadow:hover.btn-translucent-primary,
-      .btn-hover-shadow:hover.btn-gradient {
-        --cx-btn-hover-shadow-color: rgba(245,47,110, .92);
-      }
-      .btn-scroll-top {
-        --cx-btn-scroll-top-bg: #f52f6e;
-        --cx-btn-scroll-top-hover-bg: #f20c55;
-      }
-      .accordion {
-        --cx-accordion-active-color: #f52f6e;
-        --cx-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none'%3e%3cpath fill-rule='evenodd' d='M7.999.667c.368 0 .667.298.667.667v6h6c.368 0 .667.298.667.667s-.299.667-.667.667h-6v6c0 .368-.298.667-.667.667s-.667-.299-.667-.667v-6h-6C.964 8.667.666 8.369.666 8s.298-.667.667-.667h6v-6c0-.368.298-.667.667-.667z' fill='%23f52f6e'/%3e%3c/svg%3e");
-        --cx-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none'%3e%3cpath fill-rule='evenodd' d='M.666 8c0-.368.298-.667.667-.667v1.333C.964 8.666.666 8.368.666 8zm14 0v.667H1.333V7.333h13.333V8zm0 0v.667c.368 0 .667-.298.667-.667s-.299-.667-.667-.667V8z' fill='%23f52f6e'/%3e%3c/svg%3e");
-      }
-    </style>
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-    <!-- Page loading styles-->
-    <style>
-      .page-loading {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        -webkit-transition: all .4s .2s ease-in-out;
-        transition: all .4s .2s ease-in-out;
-        background-color: #fff;
-        opacity: 0;
-        visibility: hidden;
-        z-index: 9999;
+  <!-- Fuentes de Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+
+  <!-- Demo Specific Styles -->
+  <style>
+    :root {
+      --cx-primary: #f52f6e;
+      --cx-primary-rgb: 245, 47, 110;
+      --cx-gradient-from-color: #f52f6e;
+      --cx-gradient-to-color: #f42aa3;
+      --cx-link-color: #f52f6e;
+      --cx-link-hover-color: #e60b51;
+    }
+
+    .btn-primary {
+      --cx-btn-bg: #f52f6e;
+      --cx-btn-border-color: #f52f6e;
+      --cx-btn-hover-bg: #f20c55;
+      --cx-btn-active-bg: #f20c55;
+      --cx-btn-hover-border-color: #f20c55;
+      --cx-btn-active-border-color: #f20c55;
+    }
+
+    .btn-outline-primary {
+      --cx-btn-color: #f52f6e;
+      --cx-btn-border-color: rgba(245, 47, 110, .4);
+      --cx-btn-hover-bg: #f52f6e;
+      --cx-btn-active-bg: #f52f6e;
+      --cx-btn-hover-border-color: #f52f6e;
+      --cx-btn-active-border-color: #f52f6e;
+    }
+
+    .btn-translucent-primary {
+      --cx-btn-color: #f52f6e;
+      --cx-btn-bg: rgba(245, 47, 110, .2);
+      --cx-btn-hover-bg: #f52f6e;
+      --cx-btn-active-bg: #f52f6e;
+    }
+
+    .btn-hover-shadow:hover.btn-primary,
+    .btn-hover-shadow:hover.btn-outline-primary,
+    .btn-hover-shadow:hover.btn-translucent-primary,
+    .btn-hover-shadow:hover.btn-gradient {
+      --cx-btn-hover-shadow-color: rgba(245, 47, 110, .92);
+    }
+
+    .btn-scroll-top {
+      --cx-btn-scroll-top-bg: #f52f6e;
+      --cx-btn-scroll-top-hover-bg: #f20c55;
+    }
+
+    .accordion {
+      --cx-accordion-active-color: #f52f6e;
+      --cx-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none'%3e%3cpath fill-rule='evenodd' d='M7.999.667c.368 0 .667.298.667.667v6h6c.368 0 .667.298.667.667s-.299.667-.667.667h-6v6c0 .368-.298.667-.667.667s-.667-.299-.667-.667v-6h-6C.964 8.667.666 8.369.666 8s.298-.667.667-.667h6v-6c0-.368.298-.667.667-.667z' fill='%23f52f6e'/%3e%3c/svg%3e");
+      --cx-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none'%3e%3cpath fill-rule='evenodd' d='M.666 8c0-.368.298-.667.667-.667v1.333C.964 8.666.666 8.368.666 8zm14 0v.667H1.333V7.333h13.333V8zm0 0v.667c.368 0 .667-.298.667-.667s-.299-.667-.667-.667V8z' fill='%23f52f6e'/%3e%3c/svg%3e");
+    }
+  </style>
+
+  <!-- Page loading styles-->
+  <style>
+    .page-loading {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-transition: all .4s .2s ease-in-out;
+      transition: all .4s .2s ease-in-out;
+      background-color: #fff;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 9999;
+    }
+
+    .page-loading.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .page-loading-inner {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      -webkit-transition: opacity .2s ease-in-out;
+      transition: opacity .2s ease-in-out;
+      opacity: 0;
+    }
+
+    .page-loading.active>.page-loading-inner {
+      opacity: 1;
+    }
+
+    .page-loading-inner>span {
+      display: block;
+      font-size: 1rem;
+      font-weight: normal;
+      color: #787a80;
+    }
+
+    .page-spinner {
+      display: inline-block;
+      width: 2.75rem;
+      height: 2.75rem;
+      margin-bottom: .75rem;
+      vertical-align: text-bottom;
+      background-color: #cfcfd1;
+      border-radius: 50%;
+      opacity: 0;
+      -webkit-animation: spinner .75s linear infinite;
+      animation: spinner .75s linear infinite;
+    }
+
+    @-webkit-keyframes spinner {
+      0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
       }
-      .page-loading.active {
+
+      50% {
         opacity: 1;
-        visibility: visible;
+        -webkit-transform: none;
+        transform: none;
       }
-      .page-loading-inner {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
-        -webkit-transition: opacity .2s ease-in-out;
-        transition: opacity .2s ease-in-out;
-        opacity: 0;
+    }
+
+    @keyframes spinner {
+      0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
       }
-      .page-loading.active > .page-loading-inner {
+
+      50% {
         opacity: 1;
+        -webkit-transform: none;
+        transform: none;
       }
-      .page-loading-inner > span {
-        display: block;
-        font-size: 1rem;
-        font-weight: normal;
-        color: #787a80;
-      }
-      .page-spinner {
-        display: inline-block;
-        width: 2.75rem;
-        height: 2.75rem;
-        margin-bottom: .75rem;
-        vertical-align: text-bottom;
-        background-color: #cfcfd1;
-        border-radius: 50%;
-        opacity: 0;
-        -webkit-animation: spinner .75s linear infinite;
-        animation: spinner .75s linear infinite;
-      }
-      @-webkit-keyframes spinner {
-        0% {
-          -webkit-transform: scale(0);
-          transform: scale(0);
-        }
-        50% {
-          opacity: 1;
-          -webkit-transform: none;
-          transform: none;
-        }
-      }
-      @keyframes spinner {
-        0% {
-          -webkit-transform: scale(0);
-          transform: scale(0);
-        }
-        50% {
-          opacity: 1;
-          -webkit-transform: none;
-          transform: none;
-        }
-      }
-    </style>
+    }
+  </style>
 
-    <!-- Page loading scripts-->
-    <script>
-      (function () {
-        window.onload = function () {
-          var preloader = document.querySelector('.page-loading');
-          preloader.classList.remove('active');
-          setTimeout(function () {
-            preloader.remove();
-          }, 2000);
-        };
-      })();
-    </script>
-  </head>
+  <!-- Page loading scripts-->
+  <script>
+    (function () {
+      window.onload = function () {
+        var preloader = document.querySelector('.page-loading');
+        preloader.classList.remove('active');
+        setTimeout(function () {
+          preloader.remove();
+        }, 2000);
+      };
+    })();
+  </script>
+</head>
 
 
-  <!-- Body-->
-  <body>
+<!-- Body-->
 
-    <!-- Page loading spinner-->
-    <div class="page-loading active">
-      <div class="page-loading-inner">
-        <div class="page-spinner"></div><span>Loading...</span>
-      </div>
+<body>
+
+  <!-- Page loading spinner-->
+  <div class="page-loading active">
+    <div class="page-loading-inner">
+      <div class="page-spinner"></div><span>Loading...</span>
     </div>
+  </div>
 
-    <!-- Main content-->
-    <!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
-    <main class="page-wrapper position-relative">
+  <!-- Main content-->
+  <!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
+  <main class="page-wrapper position-relative">
 
-  <app-root></app-root>
+    <app-root></app-root>
 
-    </main><!-- / Main content: .page-wrapper -->
+  </main><!-- / Main content: .page-wrapper -->
 
 
-    <!-- Footer -->
-    <!-- <footer class="footer pt-3 bg-dark">
+  <!-- Footer -->
+  <!-- <footer class="footer pt-3 bg-dark">
       <div class="container py-lg-5 py-4">
         <div class="row">
           <div class="col-lg-2 col-md-3 col-12 order-md-1 order-2 mb-md-0 mb-4">
@@ -286,37 +316,41 @@
     </footer> -->
 
 
-    <!-- Vendor scripts: js libraries and plugins-->
-    <!-- <script src="../assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script> -->
-    <!-- <script src="../assets/vendor/jarallax/dist/jarallax.min.js"></script> -->
-  <script src="../assets/vendor/lightgallery/lightgallery.min.js"></script> 
-    <!-- <script src="../assets/vendor/lightgallery/plugins/video/lg-video.min.js"></script> -->
-    <!-- <script src="../assets/vendor/parallax-js/dist/parallax.min.js"></script> -->
-   
+  <!-- Vendor scripts: js libraries and plugins-->
+  <!-- <script src="../assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script> -->
+  <!-- <script src="../assets/vendor/jarallax/dist/jarallax.min.js"></script> -->
+  <script src="../assets/vendor/lightgallery/lightgallery.min.js"></script>
+  <!-- <script src="../assets/vendor/lightgallery/plugins/video/lg-video.min.js"></script> -->
+  <!-- <script src="../assets/vendor/parallax-js/dist/parallax.min.js"></script> -->
 
 
 
-    <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-    <script src="../assets/vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+
+  <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+  <script src="../assets/vendor/tiny-slider/dist/min/tiny-slider.js"></script>
 
 
-    <script src="https://kit.fontawesome.com/4b793fdcfb.js" crossorigin="anonymous"></script>
-    <script src="../assets/vendor/jquery/dist/jquery.slim.min.js"></script>
-    <script src="assets/vendor/simplebar/dist/simplebar.min.js"></script>
+  <script src="https://kit.fontawesome.com/4b793fdcfb.js" crossorigin="anonymous"></script>
+  <script src="../assets/vendor/jquery/dist/jquery.slim.min.js"></script>
+  <script src="assets/vendor/simplebar/dist/simplebar.min.js"></script>
 
 
-    <!-- Main theme script-->
-    <script src="../assets/js/theme.min.js"></script>
-    <script src="assets/js/iziToast.min.js"></script>
+  <!-- Main theme script-->
+  <script src="../assets/js/theme.min.js"></script>
+  <script src="assets/js/iziToast.min.js"></script>
 
-    <script src="assets/js/simplebar.min.js"></script>
-    <script src="assets/js/nouislider.min.js"></script>
-    <script src="assets/js/smooth-scroll.polyfills.min.js"></script>
-    <script src="assets/vendor/lightgallery.js/dist/js/lightgallery.min.js"></script>
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.23/build/spline-viewer.js"></script>
+  <script src="assets/js/simplebar.min.js"></script>
+  <script src="assets/js/nouislider.min.js"></script>
+  <script src="assets/js/smooth-scroll.polyfills.min.js"></script>
+  <script src="assets/vendor/lightgallery.js/dist/js/lightgallery.min.js"></script>
+  <!-- <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.23/build/spline-viewer.js"></script> -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
 
-    <!-- Main theme script-->
-    <script src="../assets/js/theme.min.js"></script> 
-  </body>
+  <!-- Main theme script-->
+  <script src="../assets/js/theme.min.js"></script>
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+
 </html>
