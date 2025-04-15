@@ -573,7 +573,7 @@ const consulta_hsp = function (req, res) {
 
 
 const consultar_radiacion_diaria = function (req, res) {
-
+    console.log('esta',req.params)
     let lat = req.params.lat
    let  lon = req.params.lon
    let angle = req.params.angle

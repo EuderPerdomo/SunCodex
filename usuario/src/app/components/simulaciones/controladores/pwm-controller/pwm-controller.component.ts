@@ -17,41 +17,20 @@ declare var iziToast: any
 export class PwmControllerComponent implements OnInit, AfterViewInit {
 
   public radiacion_horaria = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.5, 1.2, 1.8, 2.0, 2.1, 2.0, 1.8, 1.2, 0.5, 0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
- // public panel = { "Vmp": 38.30, "Imp": 9.14, "eficiencia": 0.22 }
+  // public panel = { "Vmp": 38.30, "Imp": 9.14, "eficiencia": 0.22 }
 
-  /*public panel_seleccionado = {
-    voc: 47.60, //Voltaje En cicuito Abierto
-    isc: 9.42, //Intensidad en corto circuito
-    impp: 9.14, //Intensidad en maxima potencia
-    vmpp: 38.30, //Voltaje en maxima potencia
-    eficiencia: 22,//Eficiencia
-    potencia: 350,//Potencia del Panel
-    tc_of_pmax: -0.40, //Coeficiente de Potencia-Temperatura
-    tc_of_voc: -0.31,//Coeficiente de Voltage-Temperatura
-    tc_of_isc: 0.06, //Coeficiente de Corriente-Temperatura
-    noct: 43, //Temperatura de Operacion Nominal de la Celula
-    tension: 24,
 
-    //Parametros adicionales
-    max_isc: '',
-    min_isc: '',
-    max_voc: '',
-    min_voc: '',
-  }
-  */
-
-  
   public panel_seleccionado = {
-    voc: '47.60', //Voltaje En cicuito Abierto
-    isc: '9.42', //Intensidad en corto circuito
-    impp: '9.14', //Intensidad en maxima potencia
-    vmpp: '38.30', //Voltaje en maxima potencia
-    eficiencia: '22',//Eficiencia
+    voc: '46.68', //Voltaje En cicuito Abierto
+    isc: '9.45', //Intensidad en corto circuito
+    impp: '9.00', //Intensidad en maxima potencia
+    vmpp: '38.90', //Voltaje en maxima potencia
+    eficiencia: '18.04',//Eficiencia del Modulo
     potencia: '350',//Potencia del Panel
-    tc_of_pmax: '-0.40', //Coeficiente de Potencia-Temperatura
-    tc_of_voc: '-0.31',//Coeficiente de Voltage-Temperatura
-    tc_of_isc: '0.06', //Coeficiente de Corriente-Temperatura
-    noct: 43, //Temperatura de Operacion Nominal de la Celula
+    tc_of_pmax: '-0.408', //Coeficiente de Potencia-Temperatura
+    tc_of_voc: '-0.292',//Coeficiente de Voltage-Temperatura
+    tc_of_isc: '0.045', //Coeficiente de Corriente-Temperatura
+    noct: 45, //Temperatura de Operacion Nominal de la Celula
     tension: '24',
 
     //Parametros adicionales
@@ -167,7 +146,8 @@ export class PwmControllerComponent implements OnInit, AfterViewInit {
 
         }
 
-        this.calcular_valores()//Una ves tenemos la radiacion entonces calculo los valores
+        //this.calcular_valores()//Una ves tenemos la radiacion entonces calculo los valores
+        this.simularSistema(1)
 
         //Añadir informacion de minutos
         //const data_minutos: any = []
@@ -214,7 +194,6 @@ export class PwmControllerComponent implements OnInit, AfterViewInit {
 
 
   mapear_soc_a_voltaje(soc: any, tipo_bateria: any) {
-
     if (tipo_bateria === 'plomo-acido') {
       if (soc >= 90) { return 12.7 }
       else if (soc >= 70) { return 12.5 }
@@ -246,33 +225,46 @@ export class PwmControllerComponent implements OnInit, AfterViewInit {
 
 
   calcular_duty_cycle(voltaje_panel: number, voltaje_bateria: number): number {
+//    console.log('duty cicle',voltaje_panel,voltaje_bateria)
     if (voltaje_panel <= 0) {
       return 0;
     }
     return Math.min((voltaje_bateria / voltaje_panel) * 100, 100); // math.min para no sobreasar el 100%
   }
 
-
-  corriente_real_panel(voltaje: number, radiacion: number, temp: number) {
+  corriente_real_panel(voltaje: number, radiacion_wm2: number, temp: number) {
+    // 1. Ajuste de temperatura de la célula (NOCT)
+    // Dividimos la radiación por 800 para normalizar (NOCT se mide a ~800 W/m²)
+    let temperatura_celula = temp + (this.panel_seleccionado.noct - 20) * (radiacion_wm2 / 800);
     
-//Inicia implementacion corriente panel
-let temperatura_celula = temp + (this.panel_seleccionado.noct - 20) * radiacion
-        //console.log('Temperaturas de a celula',temperatura_celula)
- let produce_v = (parseFloat(this.panel_seleccionado.voc) * (1 + (parseFloat(this.panel_seleccionado.tc_of_voc) / 100) * (temperatura_celula - 25))) * this.panelResult.paneles_serie
-let produce_i = (parseFloat(this.panel_seleccionado.isc) * (1 + (parseFloat(this.panel_seleccionado.tc_of_isc) / 100) * (temperatura_celula - 25)) * radiacion ) * this.panelResult.paneles_paralelo
-let produce = (parseFloat(this.panel_seleccionado.potencia) * (1 + (parseFloat(this.panel_seleccionado.tc_of_pmax) / 100) * (temperatura_celula - 25)) * radiacion ) * this.panelResult.cantidad_paneles
+    // 2. Cálculo de parámetros del panel ajustados por temperatura y radiación
+    // Voltaje de circuito abierto ajustado
+    let produce_v = (parseFloat(this.panel_seleccionado.voc) * 
+                   (1 + (parseFloat(this.panel_seleccionado.tc_of_voc) / 100) * 
+                   (temperatura_celula - 25))) * this.panelResult.paneles_serie;
+    
+    // Corriente de cortocircuito ajustada (dividimos radiación por 1000 para normalizar a STC)
+    let produce_i = (parseFloat(this.panel_seleccionado.isc) * 
+                   (1 + (parseFloat(this.panel_seleccionado.tc_of_isc) / 100) * 
+                   (temperatura_celula - 25)) * (radiacion_wm2 / 1000)) * 
+                   this.panelResult.paneles_paralelo;
+    
+    let produce = (parseFloat(this.panel_seleccionado.potencia) * 
+                   (1 + (parseFloat(this.panel_seleccionado.tc_of_pmax) / 100) * (temperatura_celula - 25)) * 
+                   radiacion_wm2 / 1000) * this.panelResult.cantidad_paneles    
+                   
 
-//Finaliza mi implementacion corriente panel
+    // 3. Modelado de la curva I-V
+    if (voltaje >= produce_v) { 
+        return [0.0,produce]; // Si el voltaje es mayor o igual a Voc, corriente es cero
+    }
+    
+    // Fórmula de la curva I-V aproximada
+    return [ produce_i * (1 - (voltaje / produce_v) ** 3),produce];
+}
 
 
 
-
-    let Isc = parseFloat(this.panel_seleccionado.impp) * (radiacion / 1.0)  // Corriente depende de radiación
-    let Voc = parseFloat( this.panel_seleccionado.vmpp) * 1.2 + (temp - 25) * -0.003  // Voc ajustado
-    if (voltaje >= Voc) { return 0.0 }
-    console.log('parametros calculo corriente',Isc,produce_i)
-    return Isc * (1 - (voltaje / Voc) ** 3)  //Curva I - V más realista
-  }
 
   public resultados_pwm: any = []
   public resultados_mppt: any = []
@@ -280,38 +272,17 @@ let produce = (parseFloat(this.panel_seleccionado.potencia) * (1 + (parseFloat(t
   public panelResult: any = { "paneles_serie": 1, 'paneles_paralelo': 1, 'cantidad_paneles': 1 };
   public socgrafico_mppt: any = []
   public socgrafico_pwm: any = []
-  public amperios_descarga=0
+  public amperios_descarga = 0
 
 
   simularSistema(mes: any) {
-    this.resultados_mppt=[]
-    this.resultados_pwm=[]
-    this.socgrafico_mppt=[]
-    this.socgrafico_pwm=[]
+    this.resultados_mppt = []
+    this.resultados_pwm = []
+    this.socgrafico_mppt = []
+    this.socgrafico_pwm = []
     //ESTE APARATDO LO QUE BUSCA ES MOSTRAR LAS DIFERENCIAS DE EFICIENCIA BAJO DIFERENTES CONDICIONES DE RADIACION Y TEMPERATURA DE UN CONTROLADOR PWM Y UN CONTROLADOR MPPT
 
-    //La radiacion horaria deberia cambiarse a la radiacion media del mes seleccionado
-    //Que parametros deberia recibir:
-    // el arreglo de paneles solares, series, paralelos, cantidad corrientes, Etc
-    //La ubicacion (latitud, longitud)
-    //Los datos de los dos controladores
-    //El estado de carga inicial de la bateria o SOC
-    //Corriente de descarga de la bateria como parametro opcional apra mostrar descarga en las horas de la noche
-    //Los valores de la temperatura para calcular como influye esta en la produccion del panel solar y por ende en los controladores
-    //Reflejar la curva de SOC respecto a usar un controlador u otro
-
-    /* 
-    Secuencia logica: 
-    1. Busco los parametros de radiacion y temperaturas apra la ubicacion elegida
-    2. Recibo los datos del panel
-    3. elijo un mes 
-    4. Muestro la grafica de rendimiento para ese mes en especifico
-    */
-
-    //1. TEXTRAER LOS DATOS DE RADIACION Y TEMPERATURA PARA EL MES ESPECIFICO
-    //console.log(this.DataRadiacion)
     const datos = this.DataRadiacion.filter((item: { mes: number; }) => item.mes === parseInt(mes))
-   
     var soc_pwm = this.bateria["soc_inicial"]
     var soc_mppt = this.bateria["soc_inicial"]
     //var voltaje_bateria = this.mapear_soc_a_voltaje(soc, "plomo-acido")
@@ -319,44 +290,54 @@ let produce = (parseFloat(this.panel_seleccionado.potencia) * (1 + (parseFloat(t
 
     for (let i = 0; i < datos.length; i++) {
 
-      let radiacion = datos[i].irradiacion/1000
+      let radiacion = datos[i].irradiacion
       let temp = datos[i].temperatura
 
+
       //Ajuste de Vmp por temperatura (para ambos métodos)
       let vmp_ajustado = parseFloat(this.panel_seleccionado.vmpp) + (temp - 25) * -0.003
 
       // 1. Calcular producción del panel (considerando radiación)
-      let corriente_panel = this.corriente_real_panel(vmp_ajustado, radiacion, temp)
+      let [corriente_panel,potencia_estimada] = this.corriente_real_panel(vmp_ajustado, radiacion, temp)
       let potencia_panel = vmp_ajustado * corriente_panel  // Potencia real
-console.log('corriente panel', corriente_panel)
+      //console.log('Coorriente', corriente_panel, potencia_panel)
 
       // 2. Calcular Duty Cycle del PWM
 
       let duty_pwm = this.calcular_duty_cycle(vmp_ajustado, this.mapear_soc_a_voltaje(soc_pwm, "plomo-acido"))
       let corriente_efectiva_pwm = corriente_panel * (duty_pwm / 100) * 0.85  //considerando que el pwm tenga un 85% eficiencia
+     
+
 
       //MPPT
       let potencia_actual = vmp_ajustado * corriente_panel
+
+    
+ 
+
       if (i > 0) {
         voltaje_mppt = this.mppt(
           this.resultados_mppt[i - 1]["voltaje_mppt"],
           this.resultados_mppt[i - 1]["potencia"],
           vmp_ajustado,
-          potencia_actual
+          potencia_estimada
         )
       }
       let duty_mppt = this.calcular_duty_cycle(voltaje_mppt, this.mapear_soc_a_voltaje(soc_mppt, "plomo-acido"))
       //corriente_efectiva_mppt = (potencia_actual / voltaje_mppt) * (duty_mppt / 100) * 0.85 if voltaje_mppt > 0 else 0
-      let corriente_efectiva_mppt = (potencia_actual / voltaje_mppt) * (duty_mppt / 100) * 0.95  //considerando que el MPPT tenga un 95% eficiencia
+      //let corriente_efectiva_mppt = (potencia_actual / voltaje_mppt) * (duty_mppt / 100) * 0.95  //considerando que el MPPT tenga un 95% eficiencia
 
-      // Actualización SOC MPPT Y PWM Tomando en cuenta que la descarga solo se realice en la noche
-     // let delta_ah_pwm = corriente_efectiva_pwm * 1 - (radiacion <= 0 ? 2 : 0)
-      //let delta_ah_mppt = corriente_efectiva_mppt * 1 - (radiacion <= 0 ? 2 : 0)
+      let voltaje_bateria = this.mapear_soc_a_voltaje(soc_mppt, "plomo-acido");
+      let corriente_efectiva_mppt = (potencia_estimada / voltaje_bateria) * 0.95;
 
-            // Actualización SOC MPPT Y PWM Tomando en cuenta que la descarga sea de manera constante
-            let delta_ah_pwm = (corriente_efectiva_pwm - this.amperios_descarga) * 1;
-            let delta_ah_mppt = (corriente_efectiva_mppt - this.amperios_descarga) * 1;
-            console.log('Corrientes de carga',delta_ah_mppt,delta_ah_pwm)
+      console.log('VMP_AJUSTADO',vmp_ajustado,'Corriente PANEL',corriente_panel,'cORRIENTE EFECTIVA pwm',corriente_efectiva_pwm,'Corriente efectiva mppt:',corriente_efectiva_mppt,'Potencia_actual',potencia_actual)
+
+      // Actualización SOC MPPT Y PWM Tomando en cuenta que la descarga sea de manera constante
+      let delta_ah_pwm = (corriente_efectiva_pwm - this.amperios_descarga) * 1;
+      let delta_ah_mppt = (corriente_efectiva_mppt - this.amperios_descarga) * 1;
+
+      //console.log(corriente_efectiva_mppt,delta_ah_mppt,corriente_efectiva_pwm, delta_ah_pwm)
+      //console.log('Corrientes de carga', delta_ah_mppt, delta_ah_pwm)
 
       soc_pwm = Math.max(0, Math.min(soc_pwm + (delta_ah_pwm / this.bateria["capacidad_ah"]) * 100, 100))
       soc_mppt = Math.max(0, Math.min(soc_mppt + (delta_ah_mppt / this.bateria["capacidad_ah"]) * 100, 100))
@@ -385,168 +366,7 @@ console.log('corriente panel', corriente_panel)
     this.ChartcomparativaPwmMppt.data.datasets[0].data = this.socgrafico_mppt
     this.ChartcomparativaPwmMppt.data.datasets[1].data = this.socgrafico_pwm
     this.ChartcomparativaPwmMppt.update()
-
-
-/*
-    /////iNICIA pRUEBA
-    //Produccion deacuerdo a temperatura
-    var Tcell = []
-    var voc_t = []
-    var isc_t = []
-    var Potencia_t = [] //Potencia total producida en cada Hora
-    //Datos para el grafico
-    var label = []
-    var sumas = []
-    var temperaturas = []
-
-    var mes_selecionado = mes
-
-    for (let clave of this.DataRadiacion) {
-      if (clave.mes == parseInt(mes_selecionado)) {
-
-        //if (clave.mes == 10) {
-        label.push(clave.hora)
-        sumas.push(clave.irradiacion)
-        temperaturas.push(clave.temperatura)
-        //Calculamos los valores de produccion
-        let temperatura_celula = clave.temperatura + (this.panel_seleccionado.noct - 20) * clave.irradiacion / 800
-        //console.log('Temperaturas de a celula',temperatura_celula)
-        Tcell.push(temperatura_celula)
-        let produce_v = (this.panel_seleccionado.voc * (1 + (this.panel_seleccionado.tc_of_voc / 100) * (temperatura_celula - 25))) * this.panelResult.paneles_serie
-        voc_t.push(produce_v)
-        let produce_i = (this.panel_seleccionado.isc * (1 + (this.panel_seleccionado.tc_of_isc / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.paneles_paralelo
-        isc_t.push(produce_i)//Tomando en cuenta Una irradiancia especifica
-        let produce = (this.panel_seleccionado.potencia * (1 + (this.panel_seleccionado.tc_of_pmax / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.cantidad_paneles
-        Potencia_t.push(produce)
-      }
-    }
-    console.log('Potencia de Salida Obtenida', Potencia_t)*/
-
   }
-
-
-
-  calcular_valores() {
-    //TO-DO CAMBIAR POR VALLORES REALES DE RADIACION
-
-    var soc_pwm = this.bateria["soc_inicial"]
-    var soc_mppt = this.bateria["soc_inicial"]
-    //var voltaje_bateria = this.mapear_soc_a_voltaje(soc, "plomo-acido")
-    var voltaje_mppt = parseFloat(this.panel_seleccionado.vmpp)
-
-    for (let i = 0; i < this.radiacion_horaria.length; i++) {
-
-      let radiacionn = this.radiacion_horaria[i]
-      let temp = this.temperaturas[i]
-
-      //Ajuste de Vmp por temperatura (para ambos métodos)
-      let vmp_ajustado = parseFloat(this.panel_seleccionado.vmpp) + (temp - 25) * -0.003
-
-      // 1. Calcular producción del panel (considerando radiación)
-      let corriente_panel = this.corriente_real_panel(vmp_ajustado, radiacionn, temp)
-      let potencia_panel = vmp_ajustado * corriente_panel  // Potencia real
-
-
-      // 2. Calcular Duty Cycle del PWM
-
-      let duty_pwm = this.calcular_duty_cycle(vmp_ajustado, this.mapear_soc_a_voltaje(soc_pwm, "plomo-acido"))
-      let corriente_efectiva_pwm = corriente_panel * (duty_pwm / 100) * 0.85  //considerando que el pwm tenga un 85% eficiencia
-
-
-      //MPPT
-      let potencia_actual = vmp_ajustado * corriente_panel
-      if (i > 0) {
-        voltaje_mppt = this.mppt(
-          this.resultados_mppt[i - 1]["voltaje_mppt"],
-          this.resultados_mppt[i - 1]["potencia"],
-          vmp_ajustado,
-          potencia_actual
-        )
-      }
-      let duty_mppt = this.calcular_duty_cycle(voltaje_mppt, this.mapear_soc_a_voltaje(soc_mppt, "plomo-acido"))
-      //corriente_efectiva_mppt = (potencia_actual / voltaje_mppt) * (duty_mppt / 100) * 0.85 if voltaje_mppt > 0 else 0
-      let corriente_efectiva_mppt = (potencia_actual / voltaje_mppt) * (duty_mppt / 100) * 0.95  //considerando que el MPPT tenga un 95% eficiencia
-
-      // Actualización SOC MPPT Y PWM
-      let delta_ah_pwm = corriente_efectiva_pwm * 1 - (radiacionn <= 0 ? 2 : 0)
-      let delta_ah_mppt = corriente_efectiva_mppt * 1 - (radiacionn <= 0 ? 2 : 0)
-
-      soc_pwm = Math.max(0, Math.min(soc_pwm + (delta_ah_pwm / this.bateria["capacidad_ah"]) * 100, 100))
-      soc_mppt = Math.max(0, Math.min(soc_mppt + (delta_ah_mppt / this.bateria["capacidad_ah"]) * 100, 100))
-      this.socgrafico_mppt.push(soc_mppt)
-      this.socgrafico_pwm.push(soc_pwm)
-
-      // Guardar resultados
-      this.resultados_pwm.push({
-        hora: i,
-        soc: soc_pwm,
-        potencia: potencia_panel,
-        duty: duty_pwm,
-        corriente: corriente_efectiva_pwm
-      })
-      this.resultados_mppt.push({
-        hora: i,
-        soc: soc_mppt,
-        potencia: potencia_panel,
-        duty: duty_mppt,
-        corriente: corriente_efectiva_mppt,
-        voltaje_mppt: voltaje_mppt  //Solo debug
-      })
-
-    }
-
-    console.log('estos son los resultados', this.resultados_mppt, this.resultados_pwm)
-
-    this.ChartcomparativaPwmMppt.data.datasets[0].data = this.socgrafico_mppt
-    this.ChartcomparativaPwmMppt.data.datasets[1].data = this.socgrafico_pwm
-    this.ChartcomparativaPwmMppt.update()
-
-
-    //this.simularSistema(1)
-
-    /*
-        /////iNICIA pRUEBA
-        //Produccion deacuerdo a temperatura
-        var Tcell = []
-        var voc_t = []
-        var isc_t = []
-        var Potencia_t = [] //Potencia total producida en cada Hora
-        //Datos para el grafico
-        var label = []
-        var sumas = []
-        var temperaturas = []
-    
-        var mes_selecionado = '10'
-    
-        for (let clave of this.DataRadiacion) {
-          //if (clave.mes == parseInt(mes_selecionado)) {
-    
-            if (clave.mes == 10) {
-            label.push(clave.hora)
-            sumas.push(clave.irradiacion)
-            temperaturas.push(clave.temperatura)
-            //Calculamos los valores de produccion
-            let temperatura_celula = clave.temperatura + (this.panel_seleccionado.noct - 20) * clave.irradiacion / 800
-            //console.log('Temperaturas de a celula',temperatura_celula)
-            Tcell.push(temperatura_celula)
-            let produce_v = (this.panel_seleccionado.voc * (1 + (this.panel_seleccionado.tc_of_voc / 100) * (temperatura_celula - 25))) * this.panelResult.paneles_serie
-            voc_t.push(produce_v)
-            let produce_i = (this.panel_seleccionado.isc * (1 + (this.panel_seleccionado.tc_of_isc / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.paneles_paralelo
-            isc_t.push(produce_i)//Tomando en cuenta Una irradiancia especifica
-            let produce = (this.panel_seleccionado.potencia * (1 + (this.panel_seleccionado.tc_of_pmax / 100) * (temperatura_celula - 25)) * clave.irradiacion / 1000) * this.panelResult.cantidad_paneles
-            Potencia_t.push(produce)
-          }
-        }
-        ///fINALIZA pRUEBA
-    
-        console.log('estos son la produccion', Potencia_t)
-    */
-
-
-
-
-  }
-
 
 
   //Creacion del panel Solar inicia **********************************************************************************
@@ -570,7 +390,7 @@ console.log('corriente panel', corriente_panel)
     min_voc: '',
   }
   public filtro: boolean = false;
-  public panelDefinido= false
+  public panelDefinido = false
 
 
   //Inicia crear Panel
@@ -662,7 +482,7 @@ console.log('corriente panel', corriente_panel)
       this.panelDefinido = true
       this.modoFormulario = 'editar';
       this.formBloqueado = true;
-    }else{
+    } else {
       iziToast.show({
         title: '⚠️ Oops... ⚠️',
         titleColor: '#FF0000',
@@ -689,7 +509,6 @@ console.log('corriente panel', corriente_panel)
   }
 
   formBloqueado: boolean = false;
-
   obtenerTextoBoton(): string {
     return this.modoFormulario === 'crear' ? 'Crear'
       : this.modoFormulario === 'editar' ? 'Editar'
