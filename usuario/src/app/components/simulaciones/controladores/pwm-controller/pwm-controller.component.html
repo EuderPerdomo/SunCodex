@@ -73,6 +73,20 @@
                                       El ISC es requerido.
                                   </div>
                               </div>
+
+                              <div class="form-group">
+                                <label for="tc_of_voc" class="form-label">Coeficiente
+                                    VOC/Temperatura (%)</label>
+                                <input type="number" id="tc_of_voc" name="tc_of_voc"
+                                    class="form-control" required
+                                    [(ngModel)]="panel_propio.tc_of_voc"
+                                    #tc_of_voc="ngModel" [disabled]="formBloqueado">
+                                <div *ngIf="tc_of_voc.invalid && (tc_of_voc.dirty || tc_of_voc.touched)"
+                                    class="text-danger">
+                                    El coeficiente VOC/temperatura es requerido.
+                                </div>
+                            </div>
+
                           </div>
 
                           <!-- Columna 2 -->
@@ -112,6 +126,21 @@
                                       El VMPP es requerido.
                                   </div>
                               </div>
+
+                              
+                            <div class="form-group">
+                                <label for="tc_of_pmax" class="form-label">Coeficiente
+                                    Potencia/Temperatura (%)</label>
+                                <input type="number" id="tc_of_pmax" name="tc_of_pmax"
+                                    class="form-control" required
+                                    [(ngModel)]="panel_propio.tc_of_pmax"
+                                    #tc_of_pmax="ngModel" [disabled]="formBloqueado">
+                                <div *ngIf="tc_of_pmax.invalid && (tc_of_pmax.dirty || tc_of_pmax.touched)"
+                                    class="text-danger">
+                                    El coeficiente Potencia/temperatura es requerido.
+                                </div>
+                            </div>
+                            
                           </div>
 
                           <!-- Columna 3 -->
@@ -140,16 +169,17 @@
                               </div>
                               <div class="form-group">
                                   <label for="tc_of_isc" class="form-label">Coeficiente
-                                      Corriente/Temperatura (%)</label>
+                                      ISC/Temperatura (%)</label>
                                   <input type="number" id="tc_of_isc" name="tc_of_isc"
                                       class="form-control" required
                                       [(ngModel)]="panel_propio.tc_of_isc"
                                       #tc_of_isc="ngModel" [disabled]="formBloqueado">
                                   <div *ngIf="tc_of_isc.invalid && (tc_of_isc.dirty || tc_of_isc.touched)"
                                       class="text-danger">
-                                      El coeficiente corriente/temperatura es requerido.
+                                      El coeficiente ISC/temperatura es requerido.
                                   </div>
                               </div>
+
                           </div>
                       </div>
 
@@ -200,6 +230,9 @@
   </div>
   <!--Finaliza Nuevo diseño  -->
 
-
-
 </div>
+
+<h4>panel Solar</h4>
+<div>{{panel_propio.voc}}</div>
+<h4>panel Solar seleccioando</h4>
+<div>{{panel_seleccionado.voc}}</div>

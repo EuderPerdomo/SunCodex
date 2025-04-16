@@ -307,13 +307,9 @@ export class PwmControllerComponent implements OnInit, AfterViewInit {
       let duty_pwm = this.calcular_duty_cycle(vmp_ajustado, this.mapear_soc_a_voltaje(soc_pwm, "plomo-acido"))
       let corriente_efectiva_pwm = corriente_panel * (duty_pwm / 100) * 0.85  //considerando que el pwm tenga un 85% eficiencia
      
-
+console.log('corriente efectiva pwm',corriente_efectiva_pwm)
 
       //MPPT
-      let potencia_actual = vmp_ajustado * corriente_panel
-
-    
- 
 
       if (i > 0) {
         voltaje_mppt = this.mppt(
@@ -323,14 +319,11 @@ export class PwmControllerComponent implements OnInit, AfterViewInit {
           potencia_estimada
         )
       }
-      let duty_mppt = this.calcular_duty_cycle(voltaje_mppt, this.mapear_soc_a_voltaje(soc_mppt, "plomo-acido"))
-      //corriente_efectiva_mppt = (potencia_actual / voltaje_mppt) * (duty_mppt / 100) * 0.85 if voltaje_mppt > 0 else 0
-      //let corriente_efectiva_mppt = (potencia_actual / voltaje_mppt) * (duty_mppt / 100) * 0.95  //considerando que el MPPT tenga un 95% eficiencia
-
+      //let duty_mppt = this.calcular_duty_cycle(voltaje_mppt, this.mapear_soc_a_voltaje(soc_mppt, "plomo-acido"))
       let voltaje_bateria = this.mapear_soc_a_voltaje(soc_mppt, "plomo-acido");
       let corriente_efectiva_mppt = (potencia_estimada / voltaje_bateria) * 0.95;
 
-      console.log('VMP_AJUSTADO',vmp_ajustado,'Corriente PANEL',corriente_panel,'cORRIENTE EFECTIVA pwm',corriente_efectiva_pwm,'Corriente efectiva mppt:',corriente_efectiva_mppt,'Potencia_actual',potencia_actual)
+      //console.log('VMP_AJUSTADO',vmp_ajustado,'Corriente PANEL',corriente_panel,'cORRIENTE EFECTIVA pwm',corriente_efectiva_pwm,'Corriente efectiva mppt:',corriente_efectiva_mppt,'Potencia_actual',potencia_estimada)
 
       // Actualización SOC MPPT Y PWM Tomando en cuenta que la descarga sea de manera constante
       let delta_ah_pwm = (corriente_efectiva_pwm - this.amperios_descarga) * 1;
@@ -356,7 +349,7 @@ export class PwmControllerComponent implements OnInit, AfterViewInit {
         hora: i,
         soc: soc_mppt,
         potencia: potencia_panel,
-        duty: duty_mppt,
+        //duty: duty_mppt,
         corriente: corriente_efectiva_mppt,
         voltaje_mppt: voltaje_mppt  //Solo debug
       })
