@@ -1,4 +1,9 @@
-  /* Estilo para el texto del logo */
+ .header{
+  position:fixed;
+  width: 100%;
+ }
+ 
+ /* Estilo para el texto del logo */
   .brand-text {
     font-size: 1.2rem;
     font-weight: bold;

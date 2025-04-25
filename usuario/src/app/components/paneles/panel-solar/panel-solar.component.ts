@@ -2,13 +2,14 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { PanelSolarService } from '../../../services/panel-solar.service';
 import { NavComponent } from '../../nav/nav.component';
 import { FooterComponent } from '../../footer/footer.component';
+import { RouterModule } from '@angular/router';
 declare var iziToast:any
 declare var $:any
 
 @Component({
   selector: 'app-panel-solar',
   standalone: true,
-  imports: [NavComponent,FooterComponent],
+  imports: [NavComponent,FooterComponent,RouterModule],
   templateUrl: './panel-solar.component.html',
   styleUrl: './panel-solar.component.css',
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

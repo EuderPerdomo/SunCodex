@@ -17,6 +17,8 @@ import { InversorComponent } from './components/inversores/inversor/inversor.com
 import { ControladorComponent } from './components/controladores/controlador/controlador.component';
 import { BateriaComponent } from './components/baterias/bateria/bateria.component';
 import { PanelSolarComponent } from './components/paneles/panel-solar/panel-solar.component';
+import { PadreControladorComponent } from './components/controladores/padre-controlador/padre-controlador.component';
+import { PwmControllerComponent } from './components/simulaciones/controladores/pwm-controller/pwm-controller.component';
 
 
 export const routes: Routes = [
@@ -140,9 +142,19 @@ export const routes: Routes = [
       },
 
       {
+     
+            path: 'controladores', //Dashboard
+            component: ControladorComponent,
+            //canActivate: [adminGuard],
+            //data: { allowedRoles: ['user', 'admin'] }
+        
+      },
+
+      /**
+       *       {
         path:'controlador',children:[
           {
-            path: 'controladores',
+            path: 'controladores', //Dashboard
             component: ControladorComponent,
             //canActivate: [adminGuard],
             //data: { allowedRoles: ['user', 'admin'] }
@@ -150,6 +162,70 @@ export const routes: Routes = [
       
         ]
       },
+       */
+
+
+
+/*
+{
+  path: 'controlador',
+  component: ControladorComponent,  // Dashboard que lista funcionalidades
+  children: [
+    {
+      path: 'funcionalidades',  // Ruta contenedora (layout con menú lateral)
+      component: PadreControladorComponent,
+      children: [               // Hijos que se renderizan en el router-outlet del padre
+        {
+          path: 'pwmVSmppt',  // /controlador/funcionalidades/pwm-vs-mppt
+          component: BateriaComponent,
+        //  outlet:'prueba'
+        },
+    
+      ]
+    }
+  ]
+},
+*/
+////////
+/*
+{
+  path: 'controlador',
+  component: ControladorComponent,  // Dashboard (ruta inicial) //Muestra un listado de funcionalidades y llevan a controladoresfuncionalidades
+  children: [
+    {
+      path: 'controladoresfuncionalidades',  // tiene un menu lateral con las funcionalidades
+      component: PadreControladorComponent,
+    },
+    {
+      path: 'pwm-vs-mppt',   // Ruta para comparación
+      component: PwmVsMpptComponent,
+    },
+    {
+      path: 'mppt-curvas',    // Ruta para curvas
+      component: MpptCurvasComponent,
+    },
+    // Ruta por defecto (opcional)
+    { path: '', redirectTo: 'controladores', pathMatch: 'full' }
+  ]
+}
+*/
+///////
+
+
+
+      {
+        path:'controladorFuncionalidades',
+        component: PadreControladorComponent,  // Este es el contenedor padre
+        children:[
+              {
+                path: 'pwmVSmppt',   // Ruta para comparación
+                component: PwmControllerComponent,
+              },
+        ]
+      },
+      
+
+
       {
         path:'bateria',children:[
           {

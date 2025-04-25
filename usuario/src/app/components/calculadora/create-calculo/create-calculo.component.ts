@@ -1,13 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-
-/*
-import * as L from 'leaflet'
-import { Map, tileLayer, icon, Marker } from 'leaflet'
-import 'leaflet/dist/leaflet.css'
-*/
-
 declare const L: any;
-
 import { FooterComponent } from "../../footer/footer.component";
 import { NavComponent } from '../../nav/nav.component';
 import { CommonModule } from '@angular/common';

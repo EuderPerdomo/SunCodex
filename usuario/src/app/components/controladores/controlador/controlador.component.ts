@@ -7,7 +7,7 @@ import { PwmControllerComponent } from '../../simulaciones/controladores/pwm-con
 @Component({
   selector: 'app-controlador',
   standalone: true,
-  imports: [NavComponent, FooterComponent,RouterModule,PwmControllerComponent],
+  imports: [NavComponent, FooterComponent,RouterModule],
   templateUrl: './controlador.component.html',
   styleUrl: './controlador.component.css',
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

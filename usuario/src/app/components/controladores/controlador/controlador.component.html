@@ -1,4 +1,5 @@
 <app-nav></app-nav>
+
 <div class="spline-container">
 
     <div class="overlay-content">
@@ -20,12 +21,12 @@
         <div class="card h-100 shadow-sm">
           <img src="assets/img/avanzada.jpg" class="card-img-top" alt="Calculadora Avanzada">
           <div class="card-body">
-            <h3 class="card-title">Entrada Paneles</h3>
+            <h3 class="card-title">PWM/MPPT</h3>
             <p class="card-text">
-              Elige esta opción de cálculo si conoces los consumos de todos
-              los electrodomésticos que deseas alimentar con energía fotovoltaica, así como los tiempos de uso.
+         Compara los comportamientos de carga entre un controlador PWM vs Un mppt
             </p>
-            <a [routerLink]="['calculo/crear/potencias']" class="btn btn-outline-primary">Comenzar</a>
+            <!-- <a [routerLink]="['/controladorFuncionalidades/pwmVSmppt']" class="btn btn-outline-primary">PWM/MPPT</a> -->
+            <a [routerLink]="['/controladorFuncionalidades/pwmVSmppt']" class="btn btn-outline-primary">PWM/MPPT</a>
           </div>
         </div>
       </div>
@@ -59,13 +60,6 @@
         </div>
       </div>
     </div>
-
-
-    <h4>Inicia Simulación</h4>
-
-    <app-pwm-controller>
-    
-    </app-pwm-controller>
 
   </div>
 
