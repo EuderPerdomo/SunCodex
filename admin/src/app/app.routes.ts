@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
 import { InicioComponent } from './components/inicio/inicio.component';
-// import { LoginComponent } from './components/login/login.component';
-// import { adminGuard } from './guards/admin.guard';
+import { LoginComponent } from './components/login/login.component';
+import { adminGuard } from './guards/admin.guard';
 // import { IndexClienteComponent } from './components/clientes/index-cliente/index-cliente.component';
 // import { CreateClienteComponent } from './components/clientes/create-cliente/create-cliente.component';
 // import { EditClienteComponent } from './components/clientes/edit-cliente/edit-cliente.component';
@@ -26,13 +26,13 @@ export const routes: Routes = [
   {
     path: '',
     component: InicioComponent,
-    //canActivate: [adminGuard],
-   // data: { allowedRoles: ['user', 'admin'] }  // Definiendo roles permitidos
+    canActivate: [adminGuard],
+   data: { allowedRoles: ['user', 'Admin'] }  // Definiendo roles permitidos
   },
 
 
 
-  //{ path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
 
 {
     path: 'panel', children: [
@@ -41,21 +41,21 @@ export const routes: Routes = [
         {
             path:'blog',
             component:IndexBlogComponent,
-           // canActivate:[adminGuard],
-            //data:{allowedRoles:['admin']}
+           canActivate:[adminGuard],
+            data:{allowedRoles:['Admin']}
           },
           {
             path: 'blog/create',
             component: CreateBlogComponent,
-            //canActivate: [adminGuard],
-            //data: { allowedRoles: ['admin'] }
+            canActivate: [adminGuard],
+            data: { allowedRoles: ['Admin'] }
           },
     
           {
             path: 'blog/edit/:id',
             component: EditBlogComponent,
-            //canActivate: [adminGuard],
-            //data: { allowedRoles: ['user', 'admin'] }
+            canActivate: [adminGuard],
+            data: { allowedRoles: ['user', 'Admin'] }
           },
         //********************************************************** Finalizan Rutas Blog
         /*
