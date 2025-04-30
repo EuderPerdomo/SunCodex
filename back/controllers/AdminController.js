@@ -37,7 +37,6 @@ const login_admin = async function (req, res) {
     var admin_arr = [];
 
     admin_arr = await Admin.find({ email: data.email });
-console.log('datos encontrados',admin_arr)
     if (admin_arr.length == 0) {
         res.status(200).send({ message: 'El correo electrónico no existe', data: undefined });
     } else {

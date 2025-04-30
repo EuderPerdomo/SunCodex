@@ -58,7 +58,7 @@ export class EditBlogComponent implements OnInit {
       this.config = {
         height: 400,
         license_key: 'gpl',   
-        plugins:'link,image, media',
+        plugins:'link,image, media, code, emoticons,fullscreen,importcss,preview',
       }
   
       this.configCorta = {

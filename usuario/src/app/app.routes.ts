@@ -119,6 +119,8 @@ export const routes: Routes = [
             //canActivate: [adminGuard],
             //data: { allowedRoles: ['user', 'admin'] }
           },
+
+          { path: 'categoria/:categoria', component:PostListComponent},
           {
             path: ':slug',
             component: PostSingleComponent,

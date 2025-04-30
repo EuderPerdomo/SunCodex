@@ -16,6 +16,7 @@ import { GuestServiceService } from '../../../services/guest-service.service';
 export class PostListComponent {
 
   public categorias: Array<any> = [];
+  public tags: Array<any> = [];
   public filtrar_categoria = ''
   public posts: Array<any> = []
   public filtro_producto = ''
@@ -34,6 +35,7 @@ export class PostListComponent {
   public pageSize = 5
 
   public sort_by = 'Defecto'
+
 
   constructor(
     private _guestService:GuestServiceService,
@@ -56,7 +58,6 @@ export class PostListComponent {
           )
 
         } else {
-          console.log('Post buscar no categoria')
           this._guestService.listar_posts_public('').subscribe(
             response => {
               this.posts = response.data
@@ -77,6 +78,12 @@ export class PostListComponent {
         this.categorias = response.data;
       }
     );
+    this._guestService.get_tags_guest().subscribe(
+      response => {
+        this.tags = response.data;
+      }
+    );
+
   }
 
 

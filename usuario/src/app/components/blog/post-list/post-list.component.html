@@ -90,7 +90,7 @@
               <h3 class="h4">Categorias</h3>
               <ul class="nav nav-dark">
                 <li>
-                  <a class="nav-link" [routerLink]="['/blog']">
+                  <a class="nav-link" [routerLink]="['/blog/post_list']">
                     <span>Todos</span>
                     <!-- <span class="ps-2 fw-normal text-muted">{{posts.length}}</span> -->
                   </a>
@@ -161,12 +161,7 @@
             <!-- Tags -->
             <div class="widget pt-1 pb-2 mb-4">
               <h3 class="h4">Tags</h3>
-              <a href="#" class="btn-tag me-2 mb-2">#trends</a>
-              <a href="#" class="btn-tag me-2 mb-2">#inspiration</a>
-              <a href="#" class="btn-tag me-2 mb-2">#designers</a>
-              <a href="#" class="btn-tag me-2 mb-2">#kidsfashion</a>
-              <a href="#" class="btn-tag me-2 mb-2">#streetstyle</a>
-              <a href="#" class="btn-tag me-2 mb-2">#models</a>
+              <a *ngFor="let item of tags" class="btn-tag me-2 mb-2">#{{item.slug}}</a>
             </div>
           </div>
         </div>
